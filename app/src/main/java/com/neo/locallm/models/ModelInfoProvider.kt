@@ -71,6 +71,15 @@ object ModelInfoProvider {
             supportedLanguages = LFM_LANGS
         ),
         ModelInfo(
+            name = "LFM2.5 1.2B Thinking F16",
+            filename = "LFM2.5-1.2B-Thinking-F16.gguf",
+            remoteUri = Uri.parse("https://huggingface.co/LiquidAI/LFM2.5-1.2B-Thinking-GGUF/resolve/main/LFM2.5-1.2B-Thinking-F16.gguf"),
+            releaseDate = LocalDate.parse("2025-01-09"),
+            description = "Liquid AI - full precision thinking model - F16",
+            logoRes = R.drawable.logo_liquid,
+            supportedLanguages = LFM_LANGS
+        ),
+        ModelInfo(
             name = "Ministral 3 8B Instruct",
             filename = "Ministral-3-8B-Instruct-2512-Q4_K_M.gguf",
             remoteUri = Uri.parse("https://huggingface.co/lmstudio-community/Ministral-3-8B-Instruct-2512-GGUF/resolve/main/Ministral-3-8B-Instruct-2512-Q4_K_M.gguf"),

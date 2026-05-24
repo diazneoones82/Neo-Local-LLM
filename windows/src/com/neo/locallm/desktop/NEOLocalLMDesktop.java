@@ -86,6 +86,7 @@ public final class NEOLocalLMDesktop extends JFrame {
         new ModelItem("DeepSeek R1 Distill", "DeepSeek-R1-Distill-Qwen-1.5B-Q4_K_M.gguf", "https://huggingface.co/lmstudio-community/DeepSeek-R1-Distill-Qwen-1.5B-GGUF/resolve/main/DeepSeek-R1-Distill-Qwen-1.5B-Q4_K_M.gguf", null, false),
         new ModelItem("Gemma 3 1B", "gemma-3-1b-it-Q4_K_M.gguf", "https://huggingface.co/lmstudio-community/gemma-3-1b-it-GGUF/resolve/main/gemma-3-1b-it-Q4_K_M.gguf", null, false),
         new ModelItem("LFM2.5 1.2B Thinking", "LFM2.5-1.2B-Thinking-Q4_K_M.gguf", "https://huggingface.co/lmstudio-community/LFM2.5-1.2B-Thinking-GGUF/resolve/main/LFM2.5-1.2B-Thinking-Q4_K_M.gguf", null, false),
+        new ModelItem("LFM2.5 1.2B Thinking F16", "LFM2.5-1.2B-Thinking-F16.gguf", "https://huggingface.co/LiquidAI/LFM2.5-1.2B-Thinking-GGUF/resolve/main/LFM2.5-1.2B-Thinking-F16.gguf", null, false),
         new ModelItem("Ministral 3 8B Instruct", "Ministral-3-8B-Instruct-2512-Q4_K_M.gguf", "https://huggingface.co/lmstudio-community/Ministral-3-8B-Instruct-2512-GGUF/resolve/main/Ministral-3-8B-Instruct-2512-Q4_K_M.gguf", null, false),
         new ModelItem("Ministral 3 8B Reasoning", "Ministral-3-8B-Reasoning-2512-Q4_K_M.gguf", "https://huggingface.co/lmstudio-community/Ministral-3-8B-Reasoning-2512-GGUF/resolve/main/Ministral-3-8B-Reasoning-2512-Q4_K_M.gguf", null, false),
         new ModelItem("Gemma 3n 4B", "gemma-3n-E4B-it-Q4_K_M.gguf", "https://huggingface.co/lmstudio-community/gemma-3n-E4B-it-text-GGUF/resolve/main/gemma-3n-E4B-it-Q4_K_M.gguf", null, false),
