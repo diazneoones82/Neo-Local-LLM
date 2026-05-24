@@ -7,7 +7,7 @@
 
 NEO Local LM is a local-first chat app for Android, Windows, iOS, and Mac. Download GGUF models, load them in one tap, and chat privately with llama.cpp inference. If you choose an OpenRouter model, the app can switch cleanly between online and local mode.
 
-![preview](art/Preview.png)
+![preview](art/neo-local-lm-cherry-preview.png)
 
 ## Features
 
