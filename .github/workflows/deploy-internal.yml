@@ -1,0 +1,81 @@
+name: Deploy to Google Play Internal
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+      with:
+        submodules: recursive
+
+    - name: Setup Java
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'zulu'
+        java-version: '21'
+        cache: 'gradle'
+
+    - name: Setup Android SDK
+      uses: android-actions/setup-android@v3
+
+    - name: Setup Ruby (for fastlane)
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: '3.3'
+        bundler-cache: true
+
+    - name: Decode keystore
+      run: |
+        mkdir -p ~/.android
+        echo "${{ secrets.RELEASE_KEYSTORE_BASE64 }}" | base64 -d > ~/.android/keystore.jks
+
+    - name: Build release bundle
+      run: ./gradlew bundleRelease
+      env:
+        STORE_PASSWORD: ${{ secrets.STORE_PASSWORD }}
+        NEO_LOCAL_LM_KEY_ALIAS: ${{ secrets.NEO_LOCAL_LM_KEY_ALIAS }}
+        NEO_LOCAL_LM_KEY_PASSWORD: ${{ secrets.NEO_LOCAL_LM_KEY_PASSWORD }}
+
+    - name: Write service account JSON
+      run: echo '${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}' > "$RUNNER_TEMP/play-sa.json"
+
+    # Fastlane looks for fastlane/metadata/android/*/changelogs/{versionCode}.txt.
+    # We keep one file per versionName (e.g. 10500.txt for 1.5.0) and copy it
+    # to the exact versionCode filename so every deploy ships release notes.
+    # If a release has no version-specific changelog, fall back to the
+    # locale's default.txt ("performance and stability improvements") so
+    # internal-only patches still ship localized notes.
+    # Version is the single source of truth in version.properties (shared with gradle).
+    - name: Stage changelog for build
+      run: |
+        source version.properties
+        BASE=$((major * 10000 + minor * 100 + patch))
+        VERSION_CODE=$((BASE * 1000 + GITHUB_RUN_NUMBER))
+        SOURCE_NAME="${BASE}.txt"
+        echo "version=$major.$minor.$patch, versionCode=$VERSION_CODE, source=$SOURCE_NAME"
+        for dir in fastlane/metadata/android/*/changelogs; do
+          if [ -f "$dir/$SOURCE_NAME" ]; then
+            cp "$dir/$SOURCE_NAME" "$dir/${VERSION_CODE}.txt"
+          elif [ -f "$dir/default.txt" ]; then
+            cp "$dir/default.txt" "$dir/${VERSION_CODE}.txt"
+          fi
+        done
+
+    - name: Upload AAB + changelog to Play Store
+      env:
+        GOOGLE_PLAY_SERVICE_ACCOUNT_JSON_PATH: ${{ runner.temp }}/play-sa.json
+      run: bundle exec fastlane deploy_internal
+
+    - name: Cleanup secrets
+      if: always()
+      run: |
+        rm -f ~/.android/keystore.jks
+        rm -f "$RUNNER_TEMP/play-sa.json"

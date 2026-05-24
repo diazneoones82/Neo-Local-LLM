@@ -1,0 +1,276 @@
+﻿<resources>
+    <string name="app_name" translatable="false">NEO Local LM</string>
+
+    <string name="navigation_drawer_open">Ã…bn navigationsskuffe</string>
+    <string name="navigation_drawer_close">Luk navigationsskuffe</string>
+    <string name="nav_header_title" translatable="false">Composer</string>
+    <string name="nav_header_subtitle" translatable="false">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigationsoverskrift</string>
+    <string name="action_settings">Indstillinger</string>
+
+    <string name="menu_home">Hjem</string>
+    <string name="menu_gallery">Galleri</string>
+    <string name="menu_slideshow">Diasshow</string>
+    <string name="conversations">Samtaler</string>
+    <string name="profile">Profil</string>
+    <string name="jumpBottom">Spring til bunden</string>
+    <string name="send">Send</string>
+    <string name="author_me">mig</string>
+    <string name="members">%d medlemmer</string>
+    <string name="textfield_hint">Besked</string>
+    <string name="swipe_to_cancel_recording">&#x25C0; Stryg for at annullere</string>
+    <string name="emojis_label">Emojis</string>
+    <string name="stickers_label">KlistermÃ¦rker</string>
+
+    <string name="message">Besked</string>
+    <string name="edit_profile">Rediger profil</string>
+    <string name="profile_error">Der opstod en fejl under indlÃ¦sning af profilen</string>
+    <string name="bio">Bio</string>
+    <string name="display_name">Visningsnavn</string>
+    <string name="status">Status</string>
+    <string name="timezone">Tidszone</string>
+    <string name="twitter">Twitter</string>
+    <string name="common_channels">FÃ¦lles kanaler</string>
+    <string name="lorem" translatable="false">Lorem or Ipsum</string>
+
+    <!-- Accessibility descriptions -->
+
+    <string name="emoji_selector_desc">Emoji-vÃ¦lger</string>
+    <string name="emoji_selector_bt_desc">Vis emoji-vÃ¦lger</string>
+    <string name="dm_desc">Direkte besked</string>
+    <string name="attach_photo_desc">VedhÃ¦ft foto</string>
+    <string name="map_selector_desc">StedsvÃ¦lger</string>
+    <string name="videochat_desc">Start videochat</string>
+    <string name="textfield_desc">Tekstindtastning</string>
+    <string name="not_available">Funktionalitet er i Ã¸jeblikket ikke tilgÃ¦ngelig</string>
+    <string name="not_available_subtitle">Tag en drink og kig tilbage senere!</string>
+    <string name="attached_image">VedhÃ¦ftet billede</string>
+    <string name="search">SÃ¸g</string>
+    <string name="info">Information</string>
+    <string name="more_options">Flere muligheder</string>
+    <string name="touch_and_hold_to_record">Tryk og hold for at optage</string>
+    <string name="record_message">Optag talebesked</string>
+    <string name="stop">Stop</string>
+
+    <string name="copy">Kopier</string>
+    <string name="upvote">Stem op</string>
+    <string name="downvote">Stem ned</string>
+    <string name="rating_question">Hvorfor valgte du denne bedÃ¸mmelse?</string>
+    <string name="offensive_unsafe">StÃ¸dende/utrygt</string>
+    <string name="not_correct">Ikke korrekt</string>
+    <string name="didnt_follow_instructions">Fulgte ikke instruktionerne</string>
+    <string name="wrong_language">Forkert sprog</string>
+    <string name="other">Andet</string>
+
+    <!-- Settings -->
+    <string name="settings">Indstillinger</string>
+    <string name="back">Tilbage</string>
+    <string name="version">Version %s</string>
+    <string name="models_subtitle">Download og administrer modeller</string>
+    <string name="privacy_policy">Privatlivspolitik</string>
+    <string name="privacy_policy_effective_date">IkrafttrÃ¦delsesdato: 16. marts 2024</string>
+    <string name="privacy_policy_intro">Velkommen til NEO Local LM! Jeg er forpligtet til at opretholde tilliden og fortroligheden hos alle brugere af min app. I denne privatlivspolitik giver jeg detaljerede oplysninger om, hvornÃ¥r og hvorfor jeg ikke indsamler personlige data, hvordan jeg bruger den eneste tilladelse, der krÃ¦ves (Internettilladelse), og hvordan jeg sikrer, at dit privatliv er beskyttet.</string>
+    <string name="privacy_policy_s1_title">1. Ingen indsamling af personlige oplysninger</string>
+    <string name="privacy_policy_s1_body">Jeg, NEO Local LM, udvikleren af NEO Local LM, indsamler, opbevarer, bruger eller deler ikke personlige oplysninger fra brugerne af min app. Min app er designet med dit privatliv som prioritet og sikrer, at du kan bruge den uden at kompromittere dine personlige data.</string>
+    <string name="privacy_policy_s2_title">2. Ikke-personlige oplysninger</string>
+    <string name="privacy_policy_s2_body">NEO Local LM er designet pÃ¥ en sÃ¥dan mÃ¥de, at den ikke indsamler eller bruger nogen ikke-personlige oplysninger fra sine brugere. Appen fungerer uafhÃ¦ngigt uden at spore eller analysere brugerdata, adfÃ¦rd eller prÃ¦ferencer.</string>
+    <string name="privacy_policy_s3_title">3. Brug af internettilladelse</string>
+    <string name="privacy_policy_s3_body">Den eneste tilladelse, der krÃ¦ves af NEO Local LM, er til internetadgang. Denne tilladelse er nÃ¸dvendig for at gÃ¸re det muligt for DownloadManager at downloade filer direkte til appen. VÃ¦r sikker pÃ¥, at denne funktion ikke involverer at sende data fra din enhed til nogen servere eller at indsamle oplysninger om dine browsingvaner.</string>
+    <string name="privacy_policy_s4_title">4. Opdateringer af privatlivspolitikken</string>
+    <string name="privacy_policy_s4_body">Som udvikler af NEO Local LM forbeholder jeg mig retten til at opdatere denne privatlivspolitik til enhver tid. Eventuelle Ã¦ndringer vil trÃ¦de i kraft umiddelbart efter offentliggÃ¸relsen af den opdaterede politik pÃ¥ denne side. Brugere opfordres til ofte at tjekke denne side for eventuelle Ã¦ndringer og holde sig informeret om, hvordan jeg hjÃ¦lper med at beskytte de personlige oplysninger, jeg ikke indsamler.</string>
+    <string name="privacy_policy_s5_title">5. Accept af denne politik</string>
+    <string name="privacy_policy_s5_body">Ved at bruge NEO Local LM anerkender og accepterer du denne privatlivspolitik. Hvis du ikke er enig i politikken, bedes du afholde dig fra at bruge appen. Din fortsatte brug af appen efter offentliggÃ¸relsen af eventuelle opdateringer eller Ã¦ndringer i denne politik vil blive anset som din accept af disse Ã¦ndringer.</string>
+    <string name="privacy_policy_s6_title">6. Kontakt mig</string>
+    <string name="privacy_policy_s6_body">Hvis du har spÃ¸rgsmÃ¥l eller forslag til min privatlivspolitik, tÃ¸v ikke med at kontakte mig.</string>
+    <string name="privacy_policy_contact_email" translatable="false">support@neolocallm.local</string>
+    <string name="send_feedback">Send feedback</string>
+    <string name="faq">FAQ</string>
+    <string name="faq_subtitle">Ofte stillede spÃ¸rgsmÃ¥l</string>
+
+    <!-- FAQ -->
+    <string name="faq_q1">Hvad er NEO Local LM?</string>
+    <string name="faq_a1">NEO Local LM lader dig kÃ¸re store sprogmodeller direkte pÃ¥ din Android-enhed. Al behandling foregÃ¥r lokalt \u2013 ingen cloud-servere nÃ¸dvendige.</string>
+    <string name="faq_q2">Hvilke modeller understÃ¸ttes?</string>
+    <string name="faq_a2">Appen understÃ¸tter modeller i GGUF-format med Q4_K_M-kvantisering, herunder Qwen 3, Gemma 3, Llama 3.2, Phi\u20114 mini og DeepSeek R1 Distill i forskellige stÃ¸rrelser.</string>
+    <string name="faq_q3">Hvor meget lagerplads har jeg brug for?</string>
+    <string name="faq_a3">ModelstÃ¸rrelser varierer fra cirka 500 MB (smÃ¥ modeller som Qwen 3 0.6B) til flere GB (stÃ¸rre modeller som DeepSeek R1 7B). SÃ¸rg for, at du har nok ledig plads fÃ¸r download.</string>
+    <string name="faq_q4">KrÃ¦ver appen en internetforbindelse?</string>
+    <string name="faq_a4">Internet er kun nÃ¸dvendigt for at downloade modeller. NÃ¥r de er downloadet, kÃ¸rer modellerne helt offline pÃ¥ din enhed.</string>
+    <string name="faq_q5">Er mine data private?</string>
+    <string name="faq_a5">Ja. Alle samtaler behandles lokalt pÃ¥ din enhed. Ingen data sendes til eksterne servere. Se privatlivspolitikken for detaljer.</string>
+    <string name="faq_q6">Hvorfor er modelindlÃ¦sning langsom?</string>
+    <string name="faq_a6">StÃ¸rre modeller tager lÃ¦ngere tid at indlÃ¦se i hukommelsen. IndlÃ¦sningstider afhÃ¦nger af din enheds hardware. NÃ¥r den er indlÃ¦st, forbliver modellen i hukommelsen, indtil du fjerner den.</string>
+    <string name="faq_q7">Hvilke enheder fungerer bedst?</string>
+    <string name="faq_a7">Enheder med mere RAM kan kÃ¸re stÃ¸rre modeller. For den bedste ydelse skal du bruge en enhed med mindst 6 GB RAM til smÃ¥ modeller og 8+ GB til stÃ¸rre modeller.</string>
+    <string name="faq_q8">Kan jeg indlÃ¦se en brugerdefineret GGUF-model?</string>
+    <string name="faq_a8">Ja. LÃ¦g din .gguf-fil i den lagringsmappe, der er valgt under Indstillinger â†’ Modeller (den samme mappe, der bruges til downloads). Appen finder den automatisk og viser den i modelvÃ¦lgeren ved siden af det indbyggede katalog. Chatskabelon og tokenizer-indstillinger lÃ¦ses fra GGUF-metadataene. Hvis en bestemt model ikke virker, sÃ¥ opret venligst et issue pÃ¥ GitHub.</string>
+    <string name="faq_q9">Kan jeg Ã¦ndre, hvor modeller er gemt?</string>
+    <string name="faq_a9">Ja. GÃ¥ til Indstillinger, derefter Modeller, og brug indstillingen \u201CSkift mappe\u201D for at vÃ¦lge en anden lagerplacering.</string>
+    <string name="faq_q10">Hvordan sletter jeg en model?</string>
+    <string name="faq_a10">GÃ¥ til Indstillinger, derefter Modeller. I afsnittet \u201CDownloadet\u201D skal du trykke pÃ¥ sletteikonet ved siden af den model, du vil fjerne.</string>
+
+    <!-- Models Screen -->
+    <string name="models">Modeller</string>
+    <string name="change_folder">Skift mappe</string>
+    <string name="delete_model">Slet</string>
+    <string name="download_model">Download</string>
+    <string name="storage_used_models">Modeller: %s</string>
+    <string name="storage_available">%s tilgÃ¦ngelig</string>
+    <string name="downloads_folder">Downloadmappe</string>
+    <string name="custom_folder">Brugerdefineret mappe</string>
+    <string name="delete_model_confirm">Slet %s?</string>
+    <string name="delete_model_message">Dette vil permanent fjerne modelfilen.</string>
+    <string name="downloaded_models">Downloadet</string>
+    <string name="available_models">TilgÃ¦ngelig til download</string>
+    <string name="no_downloaded_models">Ingen modeller downloadet endnu</string>
+    <string name="browse_more_models">Gennemse modeller</string>
+    <string name="cancel">Annuller</string>
+    <string name="low_ram_warning_title">Modellen kan vÃ¦re ustabil</string>
+    <string name="low_ram_warning_message">Modellen krÃ¦ver ~%1$s RAM, men denne enhed har kun %2$s i alt. Den indlÃ¦ses muligvis langsomt eller reagerer uforudsigeligt.</string>
+    <string name="load_anyway">IndlÃ¦s alligevel</string>
+
+    <!-- Download notifications -->
+    <string name="download_notification_channel">Modeldownloads</string>
+    <string name="download_notification_channel_description">Viser fremskridt for download af modelfiler</string>
+    <string name="download_complete">Download fuldfÃ¸rt</string>
+    <string name="moving_to_storage">Flytter til lager\u2026</string>
+    <string name="starting_download">Starter download\u2026</string>
+    <string name="download_failed">Download mislykkedes</string>
+    <string name="download_cancelled">Download annulleret</string>
+    <string name="waiting_for_network">Venter pÃ¥ netvÃ¦rk\u2026</string>
+
+    <!-- Migration -->
+    <string name="migrate_models_title">Migrer modeller?</string>
+    <string name="migrate_models_message">Fandt %1$d model(ler) (%2$s) i den forrige mappe. Vil du kopiere dem til den nye placering?</string>
+    <string name="migrate_models_from_downloads">Fandt %1$d model(ler) (%2$s) i din downloadmappe. Vil du flytte dem til den valgte lagerplacering?</string>
+    <string name="models_to_migrate">Modeller:</string>
+    <string name="migrate">Migrer</string>
+    <string name="skip">Spring over</string>
+    <string name="migrating_models">Migrerer modeller</string>
+    <string name="migration_progress">Kopierer %1$d af %2$d</string>
+
+    <!-- System prompts -->
+    <string name="system_prompts">Systemprompter</string>
+    <string name="system_prompts_subtitle">Genbrugelige instruktioner til enhver model</string>
+    <string name="system_prompts_empty">Ingen systemprompter endnu. Tryk pÃ¥ + for at tilfÃ¸je en.</string>
+    <string name="system_prompt_new">Ny systemprompt</string>
+    <string name="system_prompt_edit">Rediger systemprompt</string>
+    <string name="system_prompt_hint">f.eks. Du er en kortfattet assistent. Svar altid pÃ¥ fransk.</string>
+    <string name="system_prompt_current">Aktuel systemprompt</string>
+    <string name="system_prompt_current_empty">Ingen systemprompt â€” tryk for at tilfÃ¸je</string>
+    <string name="system_prompt_update">Opdater</string>
+    <string name="save">Gem</string>
+    <string name="add">TilfÃ¸j</string>
+    <string name="clear">Ryd</string>
+
+    <!-- General UI -->
+    <string name="select_model">VÃ¦lg model</string>
+    <string name="new_conversation">Ny samtale</string>
+    <string name="close">Luk</string>
+    <string name="pinned_label">Fastgjort</string>
+    <string name="unpin">FrigÃ¸r</string>
+    <string name="pin">FastgÃ¸r</string>
+    <string name="rename">OmdÃ¸b</string>
+    <string name="delete">Slet</string>
+    <string name="rename_conversation">OmdÃ¸b samtale</string>
+    <string name="previously_used_model">Tidligere brugt: %s</string>
+
+    <!-- Storage -->
+    <string name="choose_storage_folder">VÃ¦lg lagermappe</string>
+    <string name="choose_storage_folder_message">VÃ¦lg venligst en mappe, hvor modeller skal gemmes. Dette er nÃ¸dvendigt for at bruge appen.</string>
+    <string name="choose_folder">VÃ¦lg mappe</string>
+
+    <!-- Session -->
+    <string name="session_info">Sessionsinformation</string>
+
+    <!-- Generation Parameters -->
+    <string name="generation_parameters">Genereringsparametre</string>
+    <string name="reset">Nulstil</string>
+    <string name="context_size">KontekststÃ¸rrelse</string>
+    <string name="will_reset_conversation">Nulstiller samtalen</string>
+    <string name="thinking_budget">TÃ¦nkebudget</string>
+    <string name="tokens_value">%d tokens</string>
+    <string name="temperature">Temperatur</string>
+    <string name="top_p" translatable="false">Top-P</string>
+    <string name="top_k" translatable="false">Top-K</string>
+    <string name="min_p" translatable="false">Min-P</string>
+    <string name="repetition_penalty">Gentagelsesstraf</string>
+    <string name="advanced">Avanceret</string>
+    <string name="collapse">Skjul</string>
+    <string name="expand">Udvid</string>
+    <string name="seed">FrÃ¸</string>
+    <string name="random">TilfÃ¦ldig</string>
+    <string name="disabled_label">deaktiveret</string>
+    <string name="unload_model">AfindlÃ¦s model</string>
+
+    <!-- Thinking -->
+    <string name="thinking">TÃ¦nker</string>
+    <string name="collapse_thinking">Skjul tÃ¦nkning</string>
+    <string name="expand_thinking">Udvid tÃ¦nkning</string>
+    <string name="thoughts">Tanker</string>
+
+    <!-- Functionality -->
+    <string name="functionality_not_available">Funktionalitet ikke tilgÃ¦ngelig \uD83D\uDE48</string>
+
+    <!-- Screenshot titles -->
+    <string name="screenshot_hero_title_prefix">AI pÃ¥</string>
+    <string name="screenshot_hero_title_emphasis">din</string>
+    <string name="screenshot_hero_title_suffix">telefon</string>
+    <string name="screenshot_hero_title_suffix_tablet">tablet</string>
+    <string name="screenshot_hero_subtitle">Privat. Lokalt. Offline.</string>
+    <string name="screenshot_hero_providers_label">25+ modeller fra:</string>
+    <string name="screenshot_choose_model">VÃ¦lg model</string>
+    <string name="screenshot_choose_model_sub">fra fÃ¸rende AI-udbydere</string>
+    <string name="screenshot_chat">Chat privat</string>
+    <string name="screenshot_chat_sub">pÃ¥ din enhed</string>
+    <string name="screenshot_fine_tune">Finjuster</string>
+    <string name="screenshot_fine_tune_sub">genereringsparametre</string>
+    <string name="screenshot_download_models">Download enhver model</string>
+    <string name="screenshot_download_models_sub">til enhver mappe du vÃ¦lger</string>
+
+    <!-- Screenshot sample system prompt -->
+    <string name="screenshot_system_prompt_sample">Du er en kortfattet naturvidenskabslÃ¦rer. Forklar idÃ©er tydeligt med hverdagseksempler.</string>
+
+    <!-- Screenshot sample chat -->
+    <string name="screenshot_chat_question">Hvad er maskinlÃ¦ring?</string>
+    <string name="screenshot_chat_response">MaskinlÃ¦ring er en gren af kunstig intelligens, hvor computere **lÃ¦rer af data** i stedet for at blive eksplicit programmeret.\n\nNÃ¸glebegreber:\n\n\u2022 **TrÃ¦ning**: fodrer algoritmer med data\n\u2022 **Modeller**: lÃ¦rte mÃ¸nstre fra data\n\u2022 **Inferens**: forudsigelser pÃ¥ nye data</string>
+
+    <!-- Model categories -->
+    <string name="model_category_lightweight">LetvÃ¦gts chatmodel</string>
+    <string name="model_category_general">Alsidig chatmodel</string>
+    <string name="model_category_efficient">Effektiv enhedsmodel</string>
+    <string name="model_category_reasoning">Hybrid rÃ¦sonnementsmodel</string>
+    <string name="model_category_ultra_lightweight">Ultralet chatmodel</string>
+    <string name="model_category_compact_reasoning">Kompakt rÃ¦sonnementsmodel</string>
+    <string name="model_category_thinking">TÃ¦nkende model</string>
+    <string name="model_category_enterprise">Virksomhedschatmodel</string>
+
+    <!-- What\'s New -->
+    <string name="whats_new">Nyheder</string>
+    <string name="whats_new_item_1">Nye Gemma 4-modeller (E2B, E4B)</string>
+    <string name="whats_new_item_2">Genereringsparametre pr. model</string>
+    <string name="whats_new_item_3">Styring af tÃ¦nkebudget</string>
+
+    <string name="supports_your_language">UnderstÃ¸tter dit sprog</string>
+    <string name="other_models">Andre modeller</string>
+    <string name="language">Sprog</string>
+    <string name="language_system_default">Systemstandard</string>
+
+    <!-- Notifikation for inferensmotortjenesten (forgrundstjeneste,
+         mens en model er indlÃ¦st, sÃ¥ systemet ikke afslutter
+         :llama-processen). -->
+    <string name="inference_notification_channel_name">Inferensmotor</string>
+    <string name="inference_notification_channel_description">Holder AI-modellen indlÃ¦st og klar til at svare.</string>
+    <string name="inference_notification_title">NEO Local LM</string>
+    <string name="inference_notification_text">Model indlÃ¦st â€” klar til chat.</string>
+    <string name="inference_notification_loaded_title">Model indlÃ¦st</string>
+    <string name="inference_engine_crashed">Ups, noget gik galt.\nIndlÃ¦s modellen igen.</string>
+    <string name="message_too_large">Beskeden fylder %1$d KB og overskrider grÃ¦nsen pÃ¥ %2$d KB. PrÃ¸v at sende en kortere besked.</string>
+    <string name="replay_history_too_large">Samtalehistorikken er for stor til at blive indlÃ¦st igen i denne model. Start en ny chat for at fortsÃ¦tte.</string>
+    <string name="system_prompt_too_large">Systemprompten fylder %1$d KB og overskrider grÃ¦nsen pÃ¥ %2$d KB. PrÃ¸v en kortere prompt.</string>
+    <string name="history_message_too_large">En gemt besked i denne samtale er for stor til at blive indlÃ¦st igen. Start en ny chat for at fortsÃ¦tte.</string>
+    <string name="model_load_failed_status">Kunne ikke indlÃ¦se modellen</string>
+    <string name="model_load_failed_title">Kunne ikke indlÃ¦se modellen</string>
+    <string name="model_load_failed_message">Kunne ikke indlÃ¦se %1$s. Filen kan vÃ¦re beskadiget, eller den bruger en arkitektur, som denne version af appen endnu ikke understÃ¸tter. PrÃ¸v en anden model, eller opdater appen.</string>
+    <string name="model_load_failed_dismiss">OK</string>
+</resources>

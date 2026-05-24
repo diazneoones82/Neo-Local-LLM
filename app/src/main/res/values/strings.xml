@@ -1,0 +1,309 @@
+﻿<resources>
+    <string name="app_name" translatable="false">NEO Local LM</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title" translatable="false">Composer</string>
+    <string name="nav_header_subtitle" translatable="false">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_gallery">Gallery</string>
+    <string name="menu_slideshow">Slideshow</string>
+    <string name="conversations">Conversations</string>
+    <string name="profile">Profile</string>
+    <string name="jumpBottom">Jump to bottom</string>
+    <string name="send">Send</string>
+    <string name="author_me">me</string>
+    <string name="members">%d members</string>
+    <string name="textfield_hint">Message</string>
+    <string name="swipe_to_cancel_recording">&#x25C0; Swipe to cancel</string>
+    <string name="emojis_label">Emojis</string>
+    <string name="stickers_label">Stickers</string>
+
+    <string name="message">Message</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="profile_error">There was an error loading the profile</string>
+    <string name="bio">Bio</string>
+    <string name="display_name">Display name</string>
+    <string name="status">Status</string>
+    <string name="timezone">Timezone</string>
+    <string name="twitter">Twitter</string>
+    <string name="common_channels">Channels in common</string>
+    <string name="lorem" translatable="false">Lorem or Ipsum</string>
+
+    <!-- Accessibility descriptions -->
+
+    <string name="emoji_selector_desc">Emoji selector</string>
+    <string name="emoji_selector_bt_desc">Show Emoji selector</string>
+    <string name="dm_desc">Direct Message</string>
+    <string name="attach_photo_desc">Attach Photo</string>
+    <string name="map_selector_desc">Location selector</string>
+    <string name="videochat_desc">Start videochat</string>
+    <string name="textfield_desc">Text input</string>
+    <string name="not_available">Functionality currently not available</string>
+    <string name="not_available_subtitle">Grab a beverage and check back later!</string>
+    <string name="attached_image">Attached image</string>
+    <string name="search">Search</string>
+    <string name="info">Information</string>
+    <string name="more_options">More options</string>
+    <string name="touch_and_hold_to_record">Touch and hold to record</string>
+    <string name="record_message">Record voice message</string>
+    <string name="stop">Stop</string>
+
+    <string name="copy">Copy</string>
+    <string name="upvote">Upvote</string>
+    <string name="downvote">Downvote</string>
+    <string name="rating_question">Why did you choose this rating?</string>
+    <string name="offensive_unsafe">Offensive/Unsafe</string>
+    <string name="not_correct">Not correct</string>
+    <string name="didnt_follow_instructions">Didn\'t follow instructions</string>
+    <string name="wrong_language">Wrong language</string>
+    <string name="other">Other</string>
+
+    <!-- Settings -->
+    <string name="settings">Settings</string>
+    <string name="back">Back</string>
+    <string name="version">Version %s</string>
+    <string name="models_subtitle">Download and manage models</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="privacy_policy_effective_date">Effective Date: March 16, 2024</string>
+    <string name="privacy_policy_intro">Welcome to NEO Local LM. This Privacy Policy explains local processing, model downloads, and optional online fallback behavior.</string>
+    <string name="privacy_policy_s1_title">1. No Personal Information Collection</string>
+    <string name="privacy_policy_s1_body">NEO Local LM stores conversations and model files on your device. The app does not collect, sell, or share personal information.</string>
+    <string name="privacy_policy_s2_title">2. Non-Personal Information</string>
+    <string name="privacy_policy_s2_body">NEO Local LM does not include analytics tracking.</string>
+    <string name="privacy_policy_s3_title">3. Internet Permission Usage</string>
+    <string name="privacy_policy_s3_body">Internet access is used for model downloads and, only when local generation fails and API keys are configured, fallback responses through Gemini Flash and then OpenAI.</string>
+    <string name="privacy_policy_s4_title">4. Privacy Policy Updates</string>
+    <string name="privacy_policy_s4_body">This policy may be updated as NEO Local LM changes.</string>
+    <string name="privacy_policy_s5_title">5. Acceptance of This Policy</string>
+    <string name="privacy_policy_s5_body">By using NEO Local LM, you acknowledge and agree to this Privacy Policy.</string>
+    <string name="privacy_policy_s6_title">6. Contact Me</string>
+    <string name="privacy_policy_s6_body">If you have any questions or suggestions about my Privacy Policy, do not hesitate to contact me.</string>
+    <string name="privacy_policy_contact_email" translatable="false">support@neolocallm.local</string>
+    <string name="send_feedback">Send Feedback</string>
+    <string name="faq">FAQ</string>
+    <string name="faq_subtitle">Frequently asked questions</string>
+
+    <!-- FAQ -->
+    <string name="faq_q1">What is NEO Local LM?</string>
+    <string name="faq_a1">NEO Local LM lets you run large language models directly on your Android device using local GGUF models.</string>
+    <string name="faq_q2">What models are supported?</string>
+    <string name="faq_a2">The app supports the curated GGUF catalog with Qwen 3 1.7B as the default local model, plus DeepSeek R1 Distill, Gemma, Granite, LFM, Ministral, and Qwen Coder options.</string>
+    <string name="faq_q3">How much storage space do I need?</string>
+    <string name="faq_a3">Model sizes vary from about 668 MB to several GB. Make sure you have enough free space before downloading.</string>
+    <string name="faq_q4">Does the app require an internet connection?</string>
+    <string name="faq_a4">Internet is needed to download models and for the strict fallback path if local generation fails and API keys are configured.</string>
+    <string name="faq_q5">Is my data private?</string>
+    <string name="faq_a5">Local model responses stay on-device. If local generation fails and online fallback keys are configured, the prompt is sent to Gemini Flash first, then OpenAI only if Gemini also fails.</string>
+    <string name="faq_q6">Why is model loading slow?</string>
+    <string name="faq_a6">Larger models take more time to load into memory. Loading times depend on your device\'s hardware. Once loaded, the model stays in memory until you unload it.</string>
+    <string name="faq_q7">Which devices work best?</string>
+    <string name="faq_a7">Devices with more RAM can run larger models. For best performance, use a device with at least 6 GB of RAM for small models and 8+ GB for larger ones.</string>
+    <string name="faq_q8">Can I load a custom GGUF model?</string>
+    <string name="faq_a8">Yes. Place your .gguf file in the storage folder selected in Settings \u2192 Models (the same folder used for downloads). The app will pick it up automatically and show it in the model selector alongside the built-in catalog. Chat template and tokenizer settings are read from the GGUF metadata. If a specific model doesn\'t work, please open an issue on GitHub.</string>
+    <string name="faq_q9">Can I change where models are stored?</string>
+    <string name="faq_a9">Yes. Go to Settings, then Models, and use the \u201CChange Folder\u201D option to select a different storage location.</string>
+    <string name="faq_q10">How do I delete a model?</string>
+    <string name="faq_a10">Go to Settings, then Models. In the \u201CDownloaded\u201D section, tap the delete icon next to the model you want to remove.</string>
+
+    <!-- Models Screen -->
+    <string name="models">Models</string>
+    <string name="change_folder">Change Folder</string>
+    <string name="delete_model">Delete</string>
+    <string name="download_model">Download</string>
+    <string name="storage_used_models">Models: %s</string>
+    <string name="storage_available">%s available</string>
+    <string name="downloads_folder">Downloads folder</string>
+    <string name="custom_folder">Custom folder</string>
+    <string name="delete_model_confirm">Delete %s?</string>
+    <string name="delete_model_message">This will permanently remove the model file.</string>
+    <string name="downloaded_models">Downloaded</string>
+    <string name="available_models">Available to Download</string>
+    <string name="supports_your_language">Supports your language</string>
+    <string name="other_models">Other models</string>
+    <string name="language">Language</string>
+    <string name="language_system_default">System default</string>
+    <string name="openrouter_api_key" translatable="false">OpenRouter API Key</string>
+    <string name="openrouter_api_key_subtitle">Used only when you select Nemotron 3 Nano (OpenRouter).</string>
+    <string name="openrouter_api_key_saved">OpenRouter API key saved.</string>
+    <string name="dark_mode">Dark mode</string>
+    <string name="dark_mode_subtitle">Switch between glossy light and dark themes.</string>
+    <string name="conversation_history">Conversation History</string>
+    <string name="conversation_history_subtitle">Open your saved conversations.</string>
+    <string name="biometric_pin">Biometric/PIN</string>
+    <string name="biometric_pin_subtitle">Save the device unlock preference for private chats.</string>
+    <string name="next">Next</string>
+    <string name="get_started">Get started</string>
+    <string name="onboarding_download_title">Download a local model</string>
+    <string name="onboarding_download_body">Open Settings, choose Models, then download Qwen 3 1.7B or another GGUF model.</string>
+    <string name="onboarding_chat_title">Load and chat locally</string>
+    <string name="onboarding_chat_body">Select a downloaded model from the top bar. Once it is loaded, type your message and NEO Local LM replies on device.</string>
+    <string name="onboarding_online_title">Use online only when needed</string>
+    <string name="onboarding_online_body">Add your OpenRouter API key in Settings to use Nemotron 3 Nano, or let online fallback help only when local response fails.</string>
+    <string name="no_downloaded_models">No models downloaded yet</string>
+    <string name="browse_more_models">Browse Models</string>
+    <string name="cancel">Cancel</string>
+    <string name="low_ram_warning_title">Model could be unstable</string>
+    <string name="low_ram_warning_message">Model needs ~%1$s RAM but this device only has %2$s total. It may load slowly or respond unpredictably.</string>
+    <string name="load_anyway">Load anyway</string>
+
+    <!-- Download notifications -->
+    <string name="download_notification_channel">Model Downloads</string>
+    <string name="download_notification_channel_description">Shows progress for model file downloads</string>
+    <string name="download_complete">Download complete</string>
+    <string name="moving_to_storage">Moving to storage\u2026</string>
+    <string name="starting_download">Starting download\u2026</string>
+    <string name="download_failed">Download failed</string>
+    <string name="download_cancelled">Download cancelled</string>
+    <string name="waiting_for_network">Waiting for network\u2026</string>
+
+    <!-- Migration -->
+    <string name="migrate_models_title">Migrate Models?</string>
+    <string name="migrate_models_message">Found %1$d model(s) (%2$s) in the previous folder. Would you like to copy them to the new location?</string>
+    <string name="migrate_models_from_downloads">Found %1$d model(s) (%2$s) in your Downloads folder. Would you like to move them to the selected storage location?</string>
+    <string name="models_to_migrate">Models:</string>
+    <string name="migrate">Migrate</string>
+    <string name="skip">Skip</string>
+    <string name="migrating_models">Migrating Models</string>
+    <string name="migration_progress">Copying %1$d of %2$d</string>
+
+    <!-- System prompts -->
+    <string name="system_prompts">System Prompts</string>
+    <string name="system_prompts_subtitle">Reusable instructions for any model</string>
+    <string name="system_prompts_empty">No system prompts yet. Tap + to add one.</string>
+    <string name="system_prompt_new">New system prompt</string>
+    <string name="system_prompt_edit">Edit system prompt</string>
+    <string name="system_prompt_hint">e.g. You are a concise assistant. Always answer in French.</string>
+    <string name="system_prompt_current">Current system prompt</string>
+    <string name="system_prompt_current_empty">No system prompt â€” tap to add</string>
+    <string name="system_prompt_update">Update</string>
+    <string name="save">Save</string>
+    <string name="add">Add</string>
+    <string name="clear">Clear</string>
+    <string name="clear_chat">Clear chat</string>
+    <string name="clear_chat_message">Clear the current chat window and start fresh with the loaded model?</string>
+    <string name="unload_online_model">Unload online model</string>
+
+    <!-- General UI -->
+    <string name="select_model">Select Model</string>
+    <string name="new_conversation">New Conversation</string>
+    <string name="close">Close</string>
+    <string name="pinned_label">Pinned</string>
+    <string name="unpin">Unpin</string>
+    <string name="pin">Pin</string>
+    <string name="rename">Rename</string>
+    <string name="delete">Delete</string>
+    <string name="rename_conversation">Rename Conversation</string>
+    <string name="previously_used_model">Previously used: %s</string>
+
+    <!-- Storage -->
+    <string name="choose_storage_folder">Choose Storage Folder</string>
+    <string name="choose_storage_folder_message">Please select a folder where models will be stored. This is required to use the app.</string>
+    <string name="choose_folder">Choose Folder</string>
+    <string name="folder_picker_unavailable">No app available to pick a folder. Install or enable the system Files / Documents app.</string>
+
+    <!-- Session -->
+    <string name="session_info">Session Info</string>
+
+    <!-- Generation Parameters -->
+    <string name="generation_parameters">Generation Parameters</string>
+    <string name="reset">Reset</string>
+    <string name="context_size">Context Size</string>
+    <string name="will_reset_conversation">Will reset conversation</string>
+    <string name="thinking_budget">Thinking Budget</string>
+    <string name="tokens_value">%d tokens</string>
+    <string name="temperature">Temperature</string>
+    <string name="top_p" translatable="false">Top-P</string>
+    <string name="top_k" translatable="false">Top-K</string>
+    <string name="min_p" translatable="false">Min-P</string>
+    <string name="repetition_penalty">Repetition Penalty</string>
+    <string name="advanced">Advanced</string>
+    <string name="collapse">Collapse</string>
+    <string name="expand">Expand</string>
+    <string name="seed">Seed</string>
+    <string name="random">Random</string>
+    <string name="disabled_label">disabled</string>
+    <string name="unload_model">Unload Model</string>
+
+    <!-- Thinking -->
+    <string name="thinking">Thinking</string>
+    <string name="collapse_thinking">Collapse thinking</string>
+    <string name="expand_thinking">Expand thinking</string>
+    <string name="thoughts">Thoughts</string>
+
+    <!-- Functionality -->
+    <string name="functionality_not_available">Functionality not available \uD83D\uDE48</string>
+
+    <!-- Screenshot titles -->
+    <string name="screenshot_hero_title_prefix">Run models on</string>
+    <string name="screenshot_hero_title_emphasis">your</string>
+    <string name="screenshot_hero_title_suffix">phone</string>
+    <!-- Hero title suffix variant for tablet marketing screenshots -->
+    <string name="screenshot_hero_title_suffix_tablet">tablet</string>
+    <string name="screenshot_hero_subtitle">Private. Local. Offline.</string>
+    <string name="screenshot_hero_providers_label">25+ models from:</string>
+    <string name="screenshot_choose_model">Choose model</string>
+    <string name="screenshot_choose_model_sub">from leading AI providers</string>
+    <string name="screenshot_chat">Chat privately</string>
+    <string name="screenshot_chat_sub">on your device</string>
+    <string name="screenshot_fine_tune">Fine-tune</string>
+    <string name="screenshot_fine_tune_sub">generation parameters</string>
+    <string name="screenshot_download_models">Download any model</string>
+    <string name="screenshot_download_models_sub">to any folder you choose</string>
+
+    <!-- Screenshot sample system prompt -->
+    <string name="screenshot_system_prompt_sample">You are a concise science tutor. Explain ideas clearly with everyday examples.</string>
+
+    <!-- Screenshot sample chat -->
+    <string name="screenshot_chat_question">What is machine learning?</string>
+    <string name="screenshot_chat_response">Machine learning is a branch of artificial intelligence where computers **learn from data** instead of being explicitly programmed.\n\nKey concepts:\n\n\u2022 **Training**: feeding data to algorithms\n\u2022 **Models**: learned patterns from data\n\u2022 **Inference**: making predictions on new data</string>
+
+    <!-- Model categories -->
+    <string name="model_category_lightweight">Lightweight chat model</string>
+    <string name="model_category_general">General-purpose chat model</string>
+    <string name="model_category_efficient">Efficient on-device model</string>
+    <string name="model_category_reasoning">Hybrid reasoning model</string>
+    <string name="model_category_ultra_lightweight">Ultra-lightweight chat model</string>
+    <string name="model_category_compact_reasoning">Compact reasoning model</string>
+    <string name="model_category_thinking">Thinking model</string>
+    <string name="model_category_enterprise">Enterprise chat model</string>
+
+    <!-- What\'s New -->
+    <string name="whats_new">What\'s New</string>
+    <string name="whats_new_item_1">Reusable system prompts</string>
+    <string name="whats_new_item_2">Now available in 28 languages</string>
+    <string name="whats_new_item_3">Performance improvements</string>
+
+    <!-- Inference engine service notification (foreground service while a
+         model is loaded so the OS does not evict the :llama process). -->
+    <string name="inference_notification_channel_name">Inference engine</string>
+    <string name="inference_notification_channel_description">Keeps the AI model loaded and ready to respond.</string>
+    <string name="inference_notification_title">NEO Local LM</string>
+    <string name="inference_notification_text">Model loaded â€” ready to chat.</string>
+    <!-- Title shown on the FGS notification while a model is loaded. The
+         description below is built from the user-facing model name and
+         the formatted RAM footprint, e.g. "Gemma 4 E2B - 3.41 GB". -->
+    <string name="inference_notification_loaded_title">Model is loaded</string>
+    <string name="inference_engine_crashed">Whoops â€” something went wrong.\nPlease reload the model.</string>
+    <string name="message_too_large">Message is %1$d KB, exceeds the %2$d KB limit. Try sending a shorter message.</string>
+    <string name="replay_history_too_large">Conversation history is too large to reload into this model. Start a new chat to continue.</string>
+    <string name="system_prompt_too_large">System prompt is %1$d KB, exceeds the %2$d KB limit. Try a shorter prompt.</string>
+    <string name="history_message_too_large">A saved message in this conversation is too large to reload. Start a new chat to continue.</string>
+    <string name="inference_engine_unavailable">Inference engine is not available right now. Try again in a moment.</string>
+    <string name="online_fallback_unavailable">Local response failed and the online fallback is not configured or unavailable.</string>
+    <string name="model_load_failed_status">Couldn\'t load model</string>
+    <string name="model_load_failed_title">Couldn\'t load model</string>
+    <string name="model_load_failed_message">Couldn\'t load %1$s. The file may be corrupt, or it uses an architecture this version of the app doesn\'t support yet. Try a different model, or update the app.</string>
+    <string name="model_load_failed_dismiss">OK</string>
+
+    <!-- Debug-only crash injection (only shown in debug builds â€” do not
+         translate, English only). -->
+    <string name="debug_crash_engine_title" translatable="false">Crash inference engine (debug)</string>
+    <string name="debug_crash_engine_subtitle" translatable="false">Kills the :llama process to verify crash isolation.</string>
+    <string name="debug_crash_engine_not_connected" translatable="false">Inference engine isn\'t connected.</string>
+    <string name="debug_crash_engine_done" translatable="false">Crash injected â€” check the chat for the recovery message.</string>
+
+</resources>

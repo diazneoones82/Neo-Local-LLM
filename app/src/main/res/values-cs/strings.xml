@@ -1,0 +1,275 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name" translatable="false">NEO Local LM</string>
+
+    <string name="navigation_drawer_open">OtevÅ™Ã­t navigaÄnÃ­ panel</string>
+    <string name="navigation_drawer_close">ZavÅ™Ã­t navigaÄnÃ­ panel</string>
+    <string name="nav_header_title" translatable="false">Composer</string>
+    <string name="nav_header_subtitle" translatable="false">android.studio@android.com</string>
+    <string name="nav_header_desc">ZÃ¡hlavÃ­ navigace</string>
+    <string name="action_settings">NastavenÃ­</string>
+
+    <string name="menu_home">DomÅ¯</string>
+    <string name="menu_gallery">Galerie</string>
+    <string name="menu_slideshow">Prezentace</string>
+    <string name="conversations">Konverzace</string>
+    <string name="profile">Profil</string>
+    <string name="jumpBottom">PÅ™ejÃ­t dolÅ¯</string>
+    <string name="send">Odeslat</string>
+    <string name="author_me">jÃ¡</string>
+    <string name="members">%d ÄlenÅ¯</string>
+    <string name="textfield_hint">ZprÃ¡va</string>
+    <string name="swipe_to_cancel_recording">&#x25C0; PÅ™ejetÃ­m zruÅ¡Ã­te</string>
+    <string name="emojis_label">Emoji</string>
+    <string name="stickers_label">NÃ¡lepky</string>
+
+    <string name="message">ZprÃ¡va</string>
+    <string name="edit_profile">Upravit profil</string>
+    <string name="profile_error">PÅ™i naÄÃ­tÃ¡nÃ­ profilu doÅ¡lo k chybÄ›</string>
+    <string name="bio">Å½ivotopis</string>
+    <string name="display_name">ZobrazovanÃ© jmÃ©no</string>
+    <string name="status">Status</string>
+    <string name="timezone">ÄŒasovÃ© pÃ¡smo</string>
+    <string name="twitter">Twitter</string>
+    <string name="common_channels">SpoleÄnÃ© kanÃ¡ly</string>
+    <string name="lorem" translatable="false">Lorem or Ipsum</string>
+
+    <!-- Accessibility descriptions -->
+
+    <string name="emoji_selector_desc">VÃ½bÄ›r emoji</string>
+    <string name="emoji_selector_bt_desc">Zobrazit vÃ½bÄ›r emoji</string>
+    <string name="dm_desc">PÅ™Ã­mÃ¡ zprÃ¡va</string>
+    <string name="attach_photo_desc">PÅ™ipojit fotografii</string>
+    <string name="map_selector_desc">VÃ½bÄ›r polohy</string>
+    <string name="videochat_desc">ZahÃ¡jit videohovor</string>
+    <string name="textfield_desc">TextovÃ½ vstup</string>
+    <string name="not_available">Funkce nenÃ­ momentÃ¡lnÄ› dostupnÃ¡</string>
+    <string name="not_available_subtitle">Dejte si nÄ›co k pitÃ­ a zkuste to znovu pozdÄ›ji!</string>
+    <string name="attached_image">PÅ™iloÅ¾enÃ½ obrÃ¡zek</string>
+    <string name="search">Hledat</string>
+    <string name="info">Informace</string>
+    <string name="more_options">DalÅ¡Ã­ moÅ¾nosti</string>
+    <string name="touch_and_hold_to_record">StisknutÃ­m a pÅ™idrÅ¾enÃ­m nahrÃ¡vejte</string>
+    <string name="record_message">NahrÃ¡t hlasovou zprÃ¡vu</string>
+    <string name="stop">Zastavit</string>
+
+    <string name="copy">KopÃ­rovat</string>
+    <string name="upvote">Hlasovat pro</string>
+    <string name="downvote">Hlasovat proti</string>
+    <string name="rating_question">ProÄ jste zvolili toto hodnocenÃ­?</string>
+    <string name="offensive_unsafe">UrÃ¡Å¾livÃ©/NebezpeÄnÃ©</string>
+    <string name="not_correct">NenÃ­ sprÃ¡vnÃ©</string>
+    <string name="didnt_follow_instructions">NedodrÅ¾elo pokyny</string>
+    <string name="wrong_language">Å patnÃ½ jazyk</string>
+    <string name="other">JinÃ©</string>
+
+    <!-- Settings -->
+    <string name="settings">NastavenÃ­</string>
+    <string name="back">ZpÄ›t</string>
+    <string name="version">Verze %s</string>
+    <string name="models_subtitle">StÃ¡hnout a spravovat modely</string>
+    <string name="privacy_policy">ZÃ¡sady ochrany osobnÃ­ch ÃºdajÅ¯</string>
+    <string name="privacy_policy_effective_date">Datum ÃºÄinnosti: 16. bÅ™ezna 2024</string>
+    <string name="privacy_policy_intro">VÃ­tejte v NEO Local LM! ZÃ¡leÅ¾Ã­ mi na zachovÃ¡nÃ­ dÅ¯vÄ›ry vÅ¡ech uÅ¾ivatelÅ¯ mÃ© aplikace. V tÄ›chto zÃ¡sadÃ¡ch ochrany osobnÃ­ch ÃºdajÅ¯ poskytuji podrobnÃ© informace o tom, kdy a proÄ nesbÃ­rÃ¡m osobnÃ­ Ãºdaje, jak vyuÅ¾Ã­vÃ¡m jedinÃ© poÅ¾adovanÃ© oprÃ¡vnÄ›nÃ­ (oprÃ¡vnÄ›nÃ­ k internetu) a jak zajiÅ¡Å¥uji ochranu vaÅ¡eho soukromÃ­.</string>
+    <string name="privacy_policy_s1_title">1. Å½Ã¡dnÃ½ sbÄ›r osobnÃ­ch ÃºdajÅ¯</string>
+    <string name="privacy_policy_s1_body">JÃ¡, NEO Local LM, vÃ½vojÃ¡Å™ NEO Local LM, neshromaÅ¾Äuji, neuklÃ¡dÃ¡m, nepouÅ¾Ã­vÃ¡m ani nesdÃ­lÃ­m Å¾Ã¡dnÃ© osobnÃ­ Ãºdaje uÅ¾ivatelÅ¯ mÃ© aplikace. Moje aplikace je navrÅ¾ena s prioritou vaÅ¡Ã­ soukromÃ­, abyste ji mohli pouÅ¾Ã­vat bez ohroÅ¾enÃ­ svÃ½ch osobnÃ­ch ÃºdajÅ¯.</string>
+    <string name="privacy_policy_s2_title">2. NeosobnÃ­ Ãºdaje</string>
+    <string name="privacy_policy_s2_body">NEO Local LM je navrÅ¾en tak, aby nesbÃ­ral ani nepouÅ¾Ã­val Å¾Ã¡dnÃ© neosobnÃ­ Ãºdaje od svÃ½ch uÅ¾ivatelÅ¯. Aplikace funguje nezÃ¡visle, bez sledovÃ¡nÃ­ nebo analÃ½zy dat, chovÃ¡nÃ­ nebo preferencÃ­ uÅ¾ivatelÅ¯.</string>
+    <string name="privacy_policy_s3_title">3. PouÅ¾Ã­vÃ¡nÃ­ oprÃ¡vnÄ›nÃ­ k internetu</string>
+    <string name="privacy_policy_s3_body">JedinÃ½m oprÃ¡vnÄ›nÃ­m poÅ¾adovanÃ½m aplikacÃ­ NEO Local LM je pÅ™Ã­stup k internetu. Toto oprÃ¡vnÄ›nÃ­ je nezbytnÃ© k tomu, aby DownloadManager mohl stahovat soubory pÅ™Ã­mo do aplikace. UjiÅ¡Å¥uji vÃ¡s, Å¾e tato funkce nezahrnuje odesÃ­lÃ¡nÃ­ Å¾Ã¡dnÃ½ch dat z vaÅ¡eho zaÅ™Ã­zenÃ­ na jakÃ©koli servery ani shromaÅ¾ÄovÃ¡nÃ­ informacÃ­ o vaÅ¡ich zvycÃ­ch prohlÃ­Å¾enÃ­.</string>
+    <string name="privacy_policy_s4_title">4. Aktualizace zÃ¡sad ochrany osobnÃ­ch ÃºdajÅ¯</string>
+    <string name="privacy_policy_s4_body">Jako vÃ½vojÃ¡Å™ NEO Local LM si vyhrazuji prÃ¡vo kdykoli tyto zÃ¡sady ochrany osobnÃ­ch ÃºdajÅ¯ aktualizovat. JakÃ©koli zmÄ›ny jsou ÃºÄinnÃ© okamÅ¾itÄ› po zveÅ™ejnÄ›nÃ­ aktualizovanÃ½ch zÃ¡sad na tÃ©to strÃ¡nce. UÅ¾ivatelÃ© jsou vybÃ­zeni, aby pravidelnÄ› kontrolovali tuto strÃ¡nku kvÅ¯li zmÄ›nÃ¡m a zÅ¯stali informovÃ¡ni o tom, jak pomÃ¡hÃ¡m chrÃ¡nit osobnÃ­ Ãºdaje, kterÃ© neshromaÅ¾Äuji.</string>
+    <string name="privacy_policy_s5_title">5. PÅ™ijetÃ­ tÄ›chto zÃ¡sad</string>
+    <string name="privacy_policy_s5_body">PouÅ¾Ã­vÃ¡nÃ­m NEO Local LM berete na vÄ›domÃ­ a souhlasÃ­te s tÄ›mito zÃ¡sadami ochrany osobnÃ­ch ÃºdajÅ¯. Pokud s nimi nesouhlasÃ­te, aplikaci prosÃ­m nepouÅ¾Ã­vejte. PokraÄujÃ­cÃ­ pouÅ¾Ã­vÃ¡nÃ­ aplikace po zveÅ™ejnÄ›nÃ­ jakÃ½chkoli aktualizacÃ­ nebo zmÄ›n tÄ›chto zÃ¡sad bude povaÅ¾ovÃ¡no za vaÅ¡e pÅ™ijetÃ­ tÄ›chto zmÄ›n.</string>
+    <string name="privacy_policy_s6_title">6. Kontakt</string>
+    <string name="privacy_policy_s6_body">Pokud mÃ¡te jakÃ©koli dotazy nebo nÃ¡vrhy ohlednÄ› mÃ½ch zÃ¡sad ochrany osobnÃ­ch ÃºdajÅ¯, nevÃ¡hejte mÄ› kontaktovat.</string>
+    <string name="privacy_policy_contact_email" translatable="false">support@neolocallm.local</string>
+    <string name="send_feedback">Odeslat zpÄ›tnou vazbu</string>
+    <string name="faq">FAQ</string>
+    <string name="faq_subtitle">ÄŒasto kladenÃ© otÃ¡zky</string>
+
+    <!-- FAQ -->
+    <string name="faq_q1">Co je NEO Local LM?</string>
+    <string name="faq_a1">NEO Local LM vÃ¡m umoÅ¾Åˆuje spouÅ¡tÄ›t velkÃ© jazykovÃ© modely pÅ™Ã­mo na vaÅ¡em zaÅ™Ã­zenÃ­ s Androidem. VeÅ¡kerÃ© zpracovÃ¡nÃ­ probÃ­hÃ¡ lokÃ¡lnÄ› \u2013 bez potÅ™eby cloudovÃ½ch serverÅ¯.</string>
+    <string name="faq_q2">JakÃ© modely jsou podporovÃ¡ny?</string>
+    <string name="faq_a2">Aplikace podporuje modely ve formÃ¡tu GGUF s kvantizacÃ­ Q4_K_M, vÄetnÄ› Qwen 3, Gemma 3, Llama 3.2, Phi\u20114 mini a DeepSeek R1 Distill v rÅ¯znÃ½ch velikostech.</string>
+    <string name="faq_q3">Kolik ÃºloÅ¾nÃ©ho prostoru potÅ™ebuji?</string>
+    <string name="faq_a3">Velikosti modelÅ¯ se pohybujÃ­ od pÅ™ibliÅ¾nÄ› 500 MB (malÃ© modely jako Qwen 3 0.6B) aÅ¾ po nÄ›kolik GB (vÄ›tÅ¡Ã­ modely jako DeepSeek R1 7B). PÅ™ed staÅ¾enÃ­m se ujistÄ›te, Å¾e mÃ¡te dostatek volnÃ©ho mÃ­sta.</string>
+    <string name="faq_q4">VyÅ¾aduje aplikace pÅ™ipojenÃ­ k internetu?</string>
+    <string name="faq_a4">Internet je potÅ™eba pouze ke staÅ¾enÃ­ modelÅ¯. Po staÅ¾enÃ­ modely bÄ›Å¾Ã­ kompletnÄ› offline na vaÅ¡em zaÅ™Ã­zenÃ­.</string>
+    <string name="faq_q5">Jsou moje data soukromÃ¡?</string>
+    <string name="faq_a5">Ano. VÅ¡echny konverzace jsou zpracovÃ¡vÃ¡ny lokÃ¡lnÄ› na vaÅ¡em zaÅ™Ã­zenÃ­. Å½Ã¡dnÃ¡ data nejsou odesÃ­lÃ¡na na externÃ­ servery. Podrobnosti naleznete v zÃ¡sadÃ¡ch ochrany osobnÃ­ch ÃºdajÅ¯.</string>
+    <string name="faq_q6">ProÄ je naÄÃ­tÃ¡nÃ­ modelu pomalÃ©?</string>
+    <string name="faq_a6">VÄ›tÅ¡Ã­ modely potÅ™ebujÃ­ vÃ­ce Äasu k naÄtenÃ­ do pamÄ›ti. Doby naÄÃ­tÃ¡nÃ­ zÃ¡visÃ­ na hardwaru vaÅ¡eho zaÅ™Ã­zenÃ­. Po naÄtenÃ­ zÅ¯stÃ¡vÃ¡ model v pamÄ›ti, dokud jej nevyloÅ¾Ã­te.</string>
+    <string name="faq_q7">KterÃ¡ zaÅ™Ã­zenÃ­ fungujÃ­ nejlÃ©pe?</string>
+    <string name="faq_a7">ZaÅ™Ã­zenÃ­ s vÃ­ce RAM mohou spouÅ¡tÄ›t vÄ›tÅ¡Ã­ modely. Pro nejlepÅ¡Ã­ vÃ½kon pouÅ¾ijte zaÅ™Ã­zenÃ­ s minimÃ¡lnÄ› 6 GB RAM pro malÃ© modely a 8+ GB pro vÄ›tÅ¡Ã­.</string>
+    <string name="faq_q8">Mohu naÄÃ­st vlastnÃ­ model GGUF?</string>
+    <string name="faq_a8">Ano. UmÃ­stÄ›te soubor .gguf do sloÅ¾ky ÃºloÅ¾iÅ¡tÄ› vybranÃ© v NastavenÃ­ â†’ Modely (stejnÃ¡ sloÅ¾ka, kterÃ¡ se pouÅ¾Ã­vÃ¡ pro stahovÃ¡nÃ­). Aplikace jej automaticky najde a zobrazÃ­ ve vÃ½bÄ›ru modelÅ¯ vedle vestavÄ›nÃ©ho katalogu. Å ablona chatu a nastavenÃ­ tokenizÃ©ru se naÄÃ­tajÃ­ z metadat GGUF. Pokud konkrÃ©tnÃ­ model nefunguje, zaloÅ¾te prosÃ­m issue na GitHubu.</string>
+    <string name="faq_q9">Mohu zmÄ›nit, kde jsou modely uloÅ¾eny?</string>
+    <string name="faq_a9">Ano. PÅ™ejdÄ›te do NastavenÃ­, potÃ© Modely, a pomocÃ­ moÅ¾nosti \u201CZmÄ›nit sloÅ¾ku\u201D vyberte jinÃ© umÃ­stÄ›nÃ­ ÃºloÅ¾iÅ¡tÄ›.</string>
+    <string name="faq_q10">Jak smazat model?</string>
+    <string name="faq_a10">PÅ™ejdÄ›te do NastavenÃ­, potÃ© Modely. V sekci \u201CStaÅ¾enÃ©\u201D klepnÄ›te na ikonu smazÃ¡nÃ­ vedle modelu, kterÃ½ chcete odstranit.</string>
+
+    <!-- Models Screen -->
+    <string name="models">Modely</string>
+    <string name="change_folder">ZmÄ›nit sloÅ¾ku</string>
+    <string name="delete_model">Smazat</string>
+    <string name="download_model">StÃ¡hnout</string>
+    <string name="storage_used_models">Modely: %s</string>
+    <string name="storage_available">%s dostupnÃ©</string>
+    <string name="downloads_folder">SloÅ¾ka staÅ¾enÃ½ch souborÅ¯</string>
+    <string name="custom_folder">VlastnÃ­ sloÅ¾ka</string>
+    <string name="delete_model_confirm">Smazat %s?</string>
+    <string name="delete_model_message">TÃ­mto bude soubor modelu trvale odstranÄ›n.</string>
+    <string name="downloaded_models">StaÅ¾enÃ©</string>
+    <string name="available_models">DostupnÃ© ke staÅ¾enÃ­</string>
+    <string name="no_downloaded_models">ZatÃ­m Å¾Ã¡dnÃ© staÅ¾enÃ© modely</string>
+    <string name="browse_more_models">ProchÃ¡zet modely</string>
+    <string name="cancel">ZruÅ¡it</string>
+    <string name="low_ram_warning_title">Model mÅ¯Å¾e bÃ½t nestabilnÃ­</string>
+    <string name="low_ram_warning_message">Model potÅ™ebuje ~%1$s RAM, ale toto zaÅ™Ã­zenÃ­ mÃ¡ celkem pouze %2$s. NaÄÃ­tÃ¡nÃ­ mÅ¯Å¾e bÃ½t pomalÃ© nebo se chovat nepÅ™edvÃ­datelnÄ›.</string>
+    <string name="load_anyway">PÅ™esto naÄÃ­st</string>
+
+    <!-- Download notifications -->
+    <string name="download_notification_channel">StahovÃ¡nÃ­ modelÅ¯</string>
+    <string name="download_notification_channel_description">Zobrazuje prÅ¯bÄ›h stahovÃ¡nÃ­ souborÅ¯ modelÅ¯</string>
+    <string name="download_complete">StahovÃ¡nÃ­ dokonÄeno</string>
+    <string name="moving_to_storage">PÅ™esouvÃ¡m do ÃºloÅ¾iÅ¡tÄ›\u2026</string>
+    <string name="starting_download">SpouÅ¡tÃ­m stahovÃ¡nÃ­\u2026</string>
+    <string name="download_failed">StahovÃ¡nÃ­ selhalo</string>
+    <string name="download_cancelled">StahovÃ¡nÃ­ zruÅ¡eno</string>
+    <string name="waiting_for_network">ÄŒekÃ¡nÃ­ na sÃ­Å¥\u2026</string>
+
+    <!-- Migration -->
+    <string name="migrate_models_title">Migrovat modely?</string>
+    <string name="migrate_models_message">V pÅ™edchozÃ­ sloÅ¾ce byl nalezen %1$d model(Å¯) (%2$s). Chcete je zkopÃ­rovat do novÃ©ho umÃ­stÄ›nÃ­?</string>
+    <string name="migrate_models_from_downloads">Ve vaÅ¡Ã­ sloÅ¾ce staÅ¾enÃ½ch souborÅ¯ byl nalezen %1$d model(Å¯) (%2$s). Chcete je pÅ™esunout do zvolenÃ©ho umÃ­stÄ›nÃ­ ÃºloÅ¾iÅ¡tÄ›?</string>
+    <string name="models_to_migrate">Modely:</string>
+    <string name="migrate">Migrovat</string>
+    <string name="skip">PÅ™eskoÄit</string>
+    <string name="migrating_models">Migrace modelÅ¯</string>
+    <string name="migration_progress">KopÃ­rovÃ¡nÃ­ %1$d z %2$d</string>
+
+    <!-- System prompts -->
+    <string name="system_prompts">SystÃ©movÃ© pokyny</string>
+    <string name="system_prompts_subtitle">OpakovanÄ› pouÅ¾itelnÃ© pokyny pro jakÃ½koli model</string>
+    <string name="system_prompts_empty">ZatÃ­m Å¾Ã¡dnÃ© systÃ©movÃ© pokyny. KlepnutÃ­m na + pÅ™idejte.</string>
+    <string name="system_prompt_new">NovÃ½ systÃ©movÃ½ pokyn</string>
+    <string name="system_prompt_edit">Upravit systÃ©movÃ½ pokyn</string>
+    <string name="system_prompt_hint">napÅ™. Jste struÄnÃ½ asistent. VÅ¾dy odpovÃ­dejte Äesky.</string>
+    <string name="system_prompt_current">AktuÃ¡lnÃ­ systÃ©movÃ½ pokyn</string>
+    <string name="system_prompt_current_empty">Å½Ã¡dnÃ½ systÃ©movÃ½ pokyn â€” klepnutÃ­m pÅ™idÃ¡te</string>
+    <string name="system_prompt_update">Aktualizovat</string>
+    <string name="save">UloÅ¾it</string>
+    <string name="add">PÅ™idat</string>
+    <string name="clear">Vymazat</string>
+
+    <!-- General UI -->
+    <string name="select_model">Vybrat model</string>
+    <string name="new_conversation">NovÃ¡ konverzace</string>
+    <string name="close">ZavÅ™Ã­t</string>
+    <string name="pinned_label">PÅ™ipnuto</string>
+    <string name="unpin">Odepnout</string>
+    <string name="pin">PÅ™ipnout</string>
+    <string name="rename">PÅ™ejmenovat</string>
+    <string name="delete">Smazat</string>
+    <string name="rename_conversation">PÅ™ejmenovat konverzaci</string>
+    <string name="previously_used_model">Naposledy pouÅ¾ito: %s</string>
+
+    <!-- Storage -->
+    <string name="choose_storage_folder">Vyberte sloÅ¾ku ÃºloÅ¾iÅ¡tÄ›</string>
+    <string name="choose_storage_folder_message">Vyberte sloÅ¾ku, do kterÃ© budou modely uklÃ¡dÃ¡ny. Je to nezbytnÃ© pro pouÅ¾Ã­vÃ¡nÃ­ aplikace.</string>
+    <string name="choose_folder">Vybrat sloÅ¾ku</string>
+
+    <!-- Session -->
+    <string name="session_info">Informace o relaci</string>
+
+    <!-- Generation Parameters -->
+    <string name="generation_parameters">Parametry generovÃ¡nÃ­</string>
+    <string name="reset">Resetovat</string>
+    <string name="context_size">Velikost kontextu</string>
+    <string name="will_reset_conversation">Konverzace bude resetovÃ¡na</string>
+    <string name="thinking_budget">RozpoÄet pÅ™emÃ½Å¡lenÃ­</string>
+    <string name="tokens_value">%d tokenÅ¯</string>
+    <string name="temperature">Teplota</string>
+    <string name="top_p" translatable="false">Top-P</string>
+    <string name="top_k" translatable="false">Top-K</string>
+    <string name="min_p" translatable="false">Min-P</string>
+    <string name="repetition_penalty">Penalizace opakovÃ¡nÃ­</string>
+    <string name="advanced">PokroÄilÃ©</string>
+    <string name="collapse">Sbalit</string>
+    <string name="expand">Rozbalit</string>
+    <string name="seed">Seed</string>
+    <string name="random">NÃ¡hodnÃ©</string>
+    <string name="disabled_label">vypnuto</string>
+    <string name="unload_model">Uvolnit model</string>
+
+    <!-- Thinking -->
+    <string name="thinking">PÅ™emÃ½Å¡lÃ­</string>
+    <string name="collapse_thinking">Sbalit pÅ™emÃ½Å¡lenÃ­</string>
+    <string name="expand_thinking">Rozbalit pÅ™emÃ½Å¡lenÃ­</string>
+    <string name="thoughts">MyÅ¡lenky</string>
+
+    <!-- Functionality -->
+    <string name="functionality_not_available">Funkce nenÃ­ dostupnÃ¡ \uD83D\uDE48</string>
+
+    <!-- Screenshot titles -->
+    <string name="screenshot_hero_title_prefix">AI ve</string>
+    <string name="screenshot_hero_title_emphasis">vaÅ¡em</string>
+    <string name="screenshot_hero_title_suffix">telefonu</string>
+    <string name="screenshot_hero_title_suffix_tablet">tabletu</string>
+    <string name="screenshot_hero_subtitle">SoukromÃ©. LokÃ¡lnÃ­. Offline.</string>
+    <string name="screenshot_hero_providers_label">25+ modelÅ¯ od:</string>
+    <string name="screenshot_choose_model">Vyberte model</string>
+    <string name="screenshot_choose_model_sub">od pÅ™ednÃ­ch poskytovatelÅ¯ AI</string>
+    <string name="screenshot_chat">Chatujte soukromÄ›</string>
+    <string name="screenshot_chat_sub">na vaÅ¡em zaÅ™Ã­zenÃ­</string>
+    <string name="screenshot_fine_tune">DoladÄ›nÃ­</string>
+    <string name="screenshot_fine_tune_sub">parametrÅ¯ generovÃ¡nÃ­</string>
+    <string name="screenshot_download_models">StÃ¡hnÄ›te jakÃ½koli model</string>
+    <string name="screenshot_download_models_sub">do libovolnÃ© sloÅ¾ky</string>
+
+    <!-- Screenshot sample system prompt -->
+    <string name="screenshot_system_prompt_sample">Jste struÄnÃ½ uÄitel pÅ™Ã­rodnÃ­ch vÄ›d. VysvÄ›tlujte myÅ¡lenky jasnÄ› pomocÃ­ kaÅ¾dodennÃ­ch pÅ™Ã­kladÅ¯.</string>
+
+    <!-- Screenshot sample chat -->
+    <string name="screenshot_chat_question">Co je strojovÃ© uÄenÃ­?</string>
+    <string name="screenshot_chat_response">StrojovÃ© uÄenÃ­ je odvÄ›tvÃ­ umÄ›lÃ© inteligence, kde se poÄÃ­taÄe **uÄÃ­ z dat** mÃ­sto toho, aby byly explicitnÄ› programovÃ¡ny.\n\nKlÃ­ÄovÃ© pojmy:\n\n\u2022 **TrÃ©novÃ¡nÃ­**: pÅ™edÃ¡vÃ¡nÃ­ dat algoritmÅ¯m\n\u2022 **Modely**: vzory nauÄenÃ© z dat\n\u2022 **Inference**: vytvÃ¡Å™enÃ­ predikcÃ­ z novÃ½ch dat</string>
+
+    <!-- Model categories -->
+    <string name="model_category_lightweight">OdlehÄenÃ½ chatovacÃ­ model</string>
+    <string name="model_category_general">UniverzÃ¡lnÃ­ chatovacÃ­ model</string>
+    <string name="model_category_efficient">EfektivnÃ­ model na zaÅ™Ã­zenÃ­</string>
+    <string name="model_category_reasoning">HybridnÃ­ model uvaÅ¾ovÃ¡nÃ­</string>
+    <string name="model_category_ultra_lightweight">UltraodlehÄenÃ½ chatovacÃ­ model</string>
+    <string name="model_category_compact_reasoning">KompaktnÃ­ model uvaÅ¾ovÃ¡nÃ­</string>
+    <string name="model_category_thinking">PÅ™emÃ½Å¡lejÃ­cÃ­ model</string>
+    <string name="model_category_enterprise">PodnikovÃ½ chatovacÃ­ model</string>
+
+    <!-- What\'s New -->
+    <string name="whats_new">Co je novÃ©ho</string>
+    <string name="whats_new_item_1">NovÃ© modely Gemma 4 (E2B, E4B)</string>
+    <string name="whats_new_item_2">Parametry generovÃ¡nÃ­ pro jednotlivÃ© modely</string>
+    <string name="whats_new_item_3">OvlÃ¡dÃ¡nÃ­ rozpoÄtu pÅ™emÃ½Å¡lenÃ­</string>
+
+    <string name="supports_your_language">Podporuje vÃ¡Å¡ jazyk</string>
+    <string name="other_models">OstatnÃ­ modely</string>
+    <string name="language">Jazyk</string>
+    <string name="language_system_default">VÃ½chozÃ­ nastavenÃ­ systÃ©mu</string>
+    <!-- Inference engine service notification (foreground service while a
+         model is loaded so the OS does not evict the :llama process). -->
+    <string name="inference_notification_channel_name">InferenÄnÃ­ engine</string>
+    <string name="inference_notification_channel_description">UdrÅ¾uje model AI naÄtenÃ½ a pÅ™ipravenÃ½ odpovÃ­dat.</string>
+    <string name="inference_notification_title">NEO Local LM</string>
+    <string name="inference_notification_text">Model naÄten â€” pÅ™ipraven k chatu.</string>
+    <string name="inference_notification_loaded_title">Model naÄten</string>
+    <string name="inference_engine_crashed">Jejda â€” nÄ›co se pokazilo.\nProsÃ­m naÄtÄ›te model znovu.</string>
+    <string name="message_too_large">ZprÃ¡va mÃ¡ %1$d KB, coÅ¾ pÅ™ekraÄuje limit %2$d KB. Zkuste poslat kratÅ¡Ã­ zprÃ¡vu.</string>
+    <string name="replay_history_too_large">Historie konverzace je pÅ™Ã­liÅ¡ velkÃ¡ pro naÄtenÃ­ do tohoto modelu. PokraÄujte zahÃ¡jenÃ­m novÃ©ho chatu.</string>
+    <string name="system_prompt_too_large">SystÃ©movÃ½ prompt mÃ¡ %1$d KB, coÅ¾ pÅ™ekraÄuje limit %2$d KB. Zkuste kratÅ¡Ã­ prompt.</string>
+    <string name="history_message_too_large">UloÅ¾enÃ¡ zprÃ¡va v tÃ©to konverzaci je pÅ™Ã­liÅ¡ velkÃ¡ pro opÄ›tovnÃ© naÄtenÃ­. PokraÄujte zahÃ¡jenÃ­m novÃ©ho chatu.</string>
+    <string name="model_load_failed_status">NepodaÅ™ilo se naÄÃ­st model</string>
+    <string name="model_load_failed_title">NepodaÅ™ilo se naÄÃ­st model</string>
+    <string name="model_load_failed_message">NepodaÅ™ilo se naÄÃ­st %1$s. Soubor mÅ¯Å¾e bÃ½t poÅ¡kozenÃ½ nebo pouÅ¾Ã­vÃ¡ architekturu, kterou tato verze aplikace zatÃ­m nepodporuje. Zkuste jinÃ½ model nebo aktualizujte aplikaci.</string>
+    <string name="model_load_failed_dismiss">OK</string>
+</resources>

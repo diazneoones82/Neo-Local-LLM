@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
+
+    <!-- Large-screen / Chromebook posture: app works without touch input and
+         supports freeform window management. Keeping these as required="false"
+         ensures Play Store still surfaces the app to phones. -->
+    <uses-feature android:name="android.hardware.touchscreen" android:required="false" />
+    <uses-feature android:name="android.software.freeform_window_management" android:required="false" />
+
+    <application
+        android:name=".App"
+        android:allowBackup="true"
+        android:allowNativeHeapPointerTagging="false"
+        android:extractNativeLibs="true"
+        android:icon="@mipmap/ic_launcher"
+        android:roundIcon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:localeConfig="@xml/locales_config"
+        android:resizeableActivity="true"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.App.NoActionBar">
+
+        <activity
+            android:name="com.neo.locallm.MainActivity"
+            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation|keyboardHidden|density"
+            android:windowSoftInputMode="adjustResize"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <service
+            android:name="androidx.work.impl.foreground.SystemForegroundService"
+            android:foregroundServiceType="dataSync"
+            android:exported="false"
+            tools:node="merge" />
+
+        <!-- Inference engine service.
+             Runs in `:llama` so a SIGSEGV inside llama.cpp only kills this
+             process â€” the UI process catches the binder death via
+             InferenceClient.linkToDeath and surfaces a recoverable error.
+             Promoted to foreground while a model is loaded so Android does
+             not evict the process under memory pressure. -->
+        <service
+            android:name="com.neo.locallm.inference.LlamaService"
+            android:process=":llama"
+            android:foregroundServiceType="dataSync"
+            android:exported="false" />
+
+        <!-- AppCompat per-app language: enables automatic storage of the user's language
+             preference on pre-Android 13 devices. On Android 13+ the system handles it
+             via the android:localeConfig declaration above. -->
+        <service
+            android:name="androidx.appcompat.app.AppLocalesMetadataHolderService"
+            android:enabled="false"
+            android:exported="false">
+            <meta-data
+                android:name="autoStoreLocales"
+                android:value="true" />
+        </service>
+
+        <receiver
+            android:name="com.neo.locallm.download.DownloadNotificationManager$CancelDownloadReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.neo.locallm.CANCEL_DOWNLOAD" />
+            </intent-filter>
+        </receiver>
+
+    </application>
+</manifest>

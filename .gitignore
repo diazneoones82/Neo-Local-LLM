@@ -1,0 +1,47 @@
+# Gradle files
+.gradle/
+build/
+
+# Local configuration file (sdk path, etc)
+local.properties
+
+# Log/OS Files
+*.log
+
+# Android Studio generated files and folders
+captures/
+.externalNativeBuild/
+.cxx/
+*.apk
+output.json
+
+# IntelliJ
+*.iml
+.idea/
+
+# VS Code / Cursor
+.vscode/
+misc.xml
+deploymentTargetDropDown.xml
+render.experimental.xml
+
+# Keystore files
+*.jks
+
+# Google Services (e.g. APIs or Firebase)
+google-services.json
+
+# Android Profiling
+*.hprof
+app/src/main/cpp/clblast
+app/release
+android-commandlinetools.zip
+
+AGENTS.md
+
+# Fastlane
+fastlane/report.xml
+fastlane/README.md
+
+# Paparazzi raw snapshots (organized copies live in fastlane/metadata/)
+app/src/test/snapshots/

@@ -1,0 +1,276 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name" translatable="false">NEO Local LM</string>
+
+    <string name="navigation_drawer_open">×¤×ª×— ×ž×’×™×¨×ª × ×™×•×•×˜</string>
+    <string name="navigation_drawer_close">×¡×’×•×¨ ×ž×’×™×¨×ª × ×™×•×•×˜</string>
+    <string name="nav_header_title" translatable="false">Composer</string>
+    <string name="nav_header_subtitle" translatable="false">android.studio@android.com</string>
+    <string name="nav_header_desc">×›×•×ª×¨×ª × ×™×•×•×˜</string>
+    <string name="action_settings">×”×’×“×¨×•×ª</string>
+
+    <string name="menu_home">×‘×™×ª</string>
+    <string name="menu_gallery">×’×œ×¨×™×”</string>
+    <string name="menu_slideshow">×ž×¦×’×ª ×©×§×•×¤×™×•×ª</string>
+    <string name="conversations">×©×™×—×•×ª</string>
+    <string name="profile">×¤×¨×•×¤×™×œ</string>
+    <string name="jumpBottom">×§×¤×•×¥ ×œ×ª×—×ª×™×ª</string>
+    <string name="send">×©×œ×—</string>
+    <string name="author_me">×× ×™</string>
+    <string name="members">%d ×—×‘×¨×™×</string>
+    <string name="textfield_hint">×”×•×“×¢×”</string>
+    <string name="swipe_to_cancel_recording">&#x25C0; ×”×—×œ×§ ×œ×‘×™×˜×•×œ</string>
+    <string name="emojis_label">××™×ž×•×’\'×™×</string>
+    <string name="stickers_label">×ž×“×‘×§×•×ª</string>
+
+    <string name="message">×”×•×“×¢×”</string>
+    <string name="edit_profile">×¢×¨×•×š ×¤×¨×•×¤×™×œ</string>
+    <string name="profile_error">××™×¨×¢×” ×©×’×™××” ×‘×˜×¢×™× ×ª ×”×¤×¨×•×¤×™×œ</string>
+    <string name="bio">××•×“×•×ª</string>
+    <string name="display_name">×©× ×ª×¦×•×’×”</string>
+    <string name="status">×¡×˜×˜×•×¡</string>
+    <string name="timezone">××–×•×¨ ×–×ž×Ÿ</string>
+    <string name="twitter">Twitter</string>
+    <string name="common_channels">×¢×¨×•×¦×™× ×ž×©×•×ª×¤×™×</string>
+    <string name="lorem" translatable="false">Lorem or Ipsum</string>
+
+    <!-- Accessibility descriptions -->
+
+    <string name="emoji_selector_desc">×‘×—×™×¨×ª ××™×ž×•×’\'×™</string>
+    <string name="emoji_selector_bt_desc">×”×¦×’ ×‘×—×™×¨×ª ××™×ž×•×’\'×™</string>
+    <string name="dm_desc">×”×•×“×¢×” ×¤×¨×˜×™×ª</string>
+    <string name="attach_photo_desc">×¦×¨×£ ×ª×ž×•× ×”</string>
+    <string name="map_selector_desc">×‘×—×™×¨×ª ×ž×™×§×•×</string>
+    <string name="videochat_desc">×”×ª×—×œ ×©×™×—×ª ×•×™×“××•</string>
+    <string name="textfield_desc">×”×–× ×ª ×˜×§×¡×˜</string>
+    <string name="not_available">×”×¤×•× ×§×¦×™×•× ×œ×™×•×ª ××™× ×” ×–×ž×™× ×” ×›×¢×ª</string>
+    <string name="not_available_subtitle">×”×›× ×• ×œ×š ×ž×©×§×” ×•×—×–×•×¨ ×œ×‘×“×•×§ ×ž××•×—×¨ ×™×•×ª×¨!</string>
+    <string name="attached_image">×ª×ž×•× ×” ×ž×¦×•×¨×¤×ª</string>
+    <string name="search">×—×™×¤×•×©</string>
+    <string name="info">×ž×™×“×¢</string>
+    <string name="more_options">××¤×©×¨×•×™×•×ª × ×•×¡×¤×•×ª</string>
+    <string name="touch_and_hold_to_record">×’×¢ ×•×”×—×–×§ ×›×“×™ ×œ×”×§×œ×™×˜</string>
+    <string name="record_message">×”×§×œ×˜ ×”×•×“×¢×” ×§×•×œ×™×ª</string>
+    <string name="stop">×¢×¦×•×¨</string>
+
+    <string name="copy">×”×¢×ª×§</string>
+    <string name="upvote">×”×¦×‘×¢×” ×—×™×•×‘×™×ª</string>
+    <string name="downvote">×”×¦×‘×¢×” ×©×œ×™×œ×™×ª</string>
+    <string name="rating_question">×ž×“×•×¢ ×‘×—×¨×ª ×‘×“×™×¨×•×’ ×–×”?</string>
+    <string name="offensive_unsafe">×¤×•×’×¢× ×™/×œ× ×‘×˜×•×—</string>
+    <string name="not_correct">×œ× × ×›×•×Ÿ</string>
+    <string name="didnt_follow_instructions">×œ× ×¢×§×‘ ××—×¨ ×”×”×•×¨××•×ª</string>
+    <string name="wrong_language">×©×¤×” ×©×’×•×™×”</string>
+    <string name="other">××—×¨</string>
+
+    <!-- Settings -->
+    <string name="settings">×”×’×“×¨×•×ª</string>
+    <string name="back">×—×–×¨×”</string>
+    <string name="version">×’×¨×¡×” %s</string>
+    <string name="models_subtitle">×”×•×¨×“ ×•× ×”×œ ×ž×•×“×œ×™×</string>
+    <string name="privacy_policy">×ž×“×™× ×™×•×ª ×¤×¨×˜×™×•×ª</string>
+    <string name="privacy_policy_effective_date">×ª××¨×™×š ×ª×—×™×œ×”: 16 ×‘×ž×¨×¥, 2024</string>
+    <string name="privacy_policy_intro">×‘×¨×•×›×™× ×”×‘××™× ×œ-NEO Local LM! ×× ×™ ×ž×—×•×™×‘ ×œ×©×ž×•×¨ ×¢×œ ×”××ž×•×Ÿ ×©×œ ×›×œ ×ž×©×ª×ž×©×™ ×”××¤×œ×™×§×¦×™×” ×©×œ×™. ×‘×ž×“×™× ×™×•×ª ×¤×¨×˜×™×•×ª ×–×• ×× ×™ ×ž×¡×¤×§ ×ž×™×“×¢ ×ž×¤×•×¨×˜ ×ž×ª×™ ×•×ž×“×•×¢ ××™× ×™ ××•×¡×£ × ×ª×•× ×™× ××™×©×™×™×, ×›×™×¦×“ ×× ×™ ×ž×©×ª×ž×© ×‘×”×¨×©××” ×”×™×—×™×“×” ×”× ×“×¨×©×ª (×”×¨×©××ª ××™× ×˜×¨× ×˜), ×•×›×™×¦×“ ×× ×™ ×ž×‘×˜×™×— ×©×”×¤×¨×˜×™×•×ª ×©×œ×š ×ž×•×’× ×ª.</string>
+    <string name="privacy_policy_s1_title">1. ××™×Ÿ ××™×¡×•×£ ×©×œ ×ž×™×“×¢ ××™×©×™</string>
+    <string name="privacy_policy_s1_body">×× ×™, NEO Local LM, ×”×ž×¤×ª×— ×©×œ NEO Local LM, ××™× ×™ ××•×¡×£, ×©×•×ž×¨, ×ž×©×ª×ž×© ××• ×ž×©×ª×£ ×ž×™×“×¢ ××™×©×™ ×›×œ×©×”×• ×ž×ž×©×ª×ž×©×™ ×”××¤×œ×™×§×¦×™×” ×©×œ×™. ×”××¤×œ×™×§×¦×™×” ×©×œ×™ ×ª×•×›× × ×” ×¢× ×”×¤×¨×˜×™×•×ª ×©×œ×š ×›×¢×“×™×¤×•×ª, ×›×“×™ ×œ×”×‘×˜×™×— ×©×ª×•×›×œ ×œ×”×©×ª×ž×© ×‘×” ×ž×‘×œ×™ ×œ×¡×›×Ÿ ××ª ×”× ×ª×•× ×™× ×”××™×©×™×™× ×©×œ×š.</string>
+    <string name="privacy_policy_s2_title">2. ×ž×™×“×¢ ×œ× ××™×©×™</string>
+    <string name="privacy_policy_s2_body">NEO Local LM ×ª×•×›× × ×” ×›×š ×©××™× ×” ××•×¡×¤×ª ××• ×ž×©×ª×ž×©×ª ×‘×ž×™×“×¢ ×œ× ××™×©×™ ×ž×ž×©×ª×ž×©×™×”. ×”××¤×œ×™×§×¦×™×” ×¤×•×¢×œ×ª ×‘××•×¤×Ÿ ×¢×¦×ž××™ ×ž×‘×œ×™ ×œ×¢×§×•×‘ ××• ×œ× ×ª×— × ×ª×•× ×™×, ×”×ª× ×”×’×•×ª ××• ×”×¢×“×¤×•×ª ×©×œ ×ž×©×ª×ž×©×™×.</string>
+    <string name="privacy_policy_s3_title">3. ×©×™×ž×•×© ×‘×”×¨×©××ª ××™× ×˜×¨× ×˜</string>
+    <string name="privacy_policy_s3_body">×”×”×¨×©××” ×”×™×—×™×“×” ×”× ×“×¨×©×ª ×¢×œ ×™×“×™ NEO Local LM ×”×™× ×’×™×©×” ×œ××™× ×˜×¨× ×˜. ×”×¨×©××” ×–×• × ×—×•×¦×” ×›×“×™ ×œ××¤×©×¨ ×œ-DownloadManager ×œ×”×•×¨×™×“ ×§×‘×¦×™× ×™×©×™×¨×•×ª ×œ××¤×œ×™×§×¦×™×”. ×× × ×”×™×” ×¡×ž×•×š ×•×‘×˜×•×— ×©×¤×•× ×§×¦×™×” ×–×• ××™× ×” ×›×•×œ×œ×ª ×©×œ×™×—×ª × ×ª×•× ×™× ×›×œ×©×”× ×ž×”×ž×›×©×™×¨ ×©×œ×š ×œ×©×¨×ª×™× ××• ××™×¡×•×£ ×ž×™×“×¢ ×¢×œ ×”×¨×’×œ×™ ×”×’×œ×™×©×” ×©×œ×š.</string>
+    <string name="privacy_policy_s4_title">4. ×¢×“×›×•× ×™ ×ž×“×™× ×™×•×ª ×¤×¨×˜×™×•×ª</string>
+    <string name="privacy_policy_s4_body">×›×ž×¤×ª×— ×©×œ NEO Local LM, ×× ×™ ×©×•×ž×¨ ×œ×¢×¦×ž×™ ××ª ×”×–×›×•×ª ×œ×¢×“×›×Ÿ ×ž×“×™× ×™×•×ª ×¤×¨×˜×™×•×ª ×–×• ×‘×›×œ ×¢×ª. ×›×œ ×©×™× ×•×™ ×™×™×›× ×¡ ×œ×ª×•×§×£ ×ž×™×“ ×¢× ×¤×¨×¡×•× ×”×ž×“×™× ×™×•×ª ×”×ž×¢×•×“×›× ×ª ×‘×“×£ ×–×”. ×ž×©×ª×ž×©×™× ×ž×ª×‘×§×©×™× ×œ×‘×“×•×§ ××ª ×”×“×£ ×”×–×” ×œ×¢×ª×™× ×§×¨×•×‘×•×ª ×œ×©×™× ×•×™×™× ×•×œ×”×ª×¢×“×›×Ÿ ×›×™×¦×“ ×× ×™ ×ž×¡×™×™×¢ ×œ×”×’×Ÿ ×¢×œ ×”×ž×™×“×¢ ×”××™×©×™ ×©××™× ×™ ××•×¡×£.</string>
+    <string name="privacy_policy_s5_title">5. ×”×¡×›×ž×” ×œ×ž×“×™× ×™×•×ª ×–×•</string>
+    <string name="privacy_policy_s5_body">×¢×œ ×™×“×™ ×©×™×ž×•×© ×‘-NEO Local LM, ××ª×” ×ž××©×¨ ×•×ž×¡×›×™× ×œ×ž×“×™× ×™×•×ª ×¤×¨×˜×™×•×ª ×–×•. ×× ××™× ×š ×ž×¡×›×™× ×œ×ž×“×™× ×™×•×ª, ×× × ×”×™×ž× ×¢ ×ž×©×™×ž×•×© ×‘××¤×œ×™×§×¦×™×”. ×”×ž×©×š ×”×©×™×ž×•×© ×©×œ×š ×‘××¤×œ×™×§×¦×™×” ×œ××—×¨ ×¤×¨×¡×•× ×¢×“×›×•× ×™× ××• ×©×™× ×•×™×™× ×‘×ž×“×™× ×™×•×ª ×–×• ×™×™×—×©×‘ ×›×”×¡×›×ž×ª×š ×œ×©×™× ×•×™×™× ××œ×”.</string>
+    <string name="privacy_policy_s6_title">6. ×¦×•×¨ ××™×ª×™ ×§×©×¨</string>
+    <string name="privacy_policy_s6_body">×× ×™×© ×œ×š ×©××œ×•×ª ××• ×”×¦×¢×•×ª ×œ×’×‘×™ ×ž×“×™× ×™×•×ª ×”×¤×¨×˜×™×•×ª ×©×œ×™, ××œ ×ª×”×¡×¡ ×œ×™×¦×•×¨ ××™×ª×™ ×§×©×¨.</string>
+    <string name="privacy_policy_contact_email" translatable="false">support@neolocallm.local</string>
+    <string name="send_feedback">×©×œ×— ×ž×©×•×‘</string>
+    <string name="faq">×©××œ×•×ª × ×¤×•×¦×•×ª</string>
+    <string name="faq_subtitle">×©××œ×•×ª ×©× ×©××œ×•×ª ×œ×¢×ª×™× ×§×¨×•×‘×•×ª</string>
+
+    <!-- FAQ -->
+    <string name="faq_q1">×ž×” ×–×” NEO Local LM?</string>
+    <string name="faq_a1">NEO Local LM ×ž××¤×©×¨ ×œ×š ×œ×”×¤×¢×™×œ ×ž×•×“×œ×™× ×©×¤×ª×™×™× ×’×“×•×œ×™× ×™×©×™×¨×•×ª ×‘×ž×›×©×™×¨ ×”-Android ×©×œ×š. ×›×œ ×”×¢×™×‘×•×“ ×ž×ª×‘×¦×¢ ×ž×§×•×ž×™×ª \u2013 ×œ×œ× ×¦×•×¨×š ×‘×©×¨×ª×™ ×¢× ×Ÿ.</string>
+    <string name="faq_q2">××™×œ×• ×ž×•×“×œ×™× × ×ª×ž×›×™×?</string>
+    <string name="faq_a2">×”××¤×œ×™×§×¦×™×” ×ª×•×ž×›×ª ×‘×ž×•×“×œ×™× ×‘×¤×•×¨×ž×˜ GGUF ×¢× ×§×•×•× ×˜×™×–×¦×™×” Q4_K_M, ×›×•×œ×œ Qwen 3, Gemma 3, Llama 3.2, Phi\u20114 mini ×•-DeepSeek R1 Distill ×‘×’×“×œ×™× ×©×•× ×™×.</string>
+    <string name="faq_q3">×›×ž×” × ×¤×— ××—×¡×•×Ÿ ×× ×™ ×¦×¨×™×š?</string>
+    <string name="faq_a3">×’×“×œ×™ ×”×ž×•×“×œ×™× × ×¢×™× ×‘×™×Ÿ ×›-500 MB (×ž×•×“×œ×™× ×§×˜× ×™× ×›×ž×• Qwen 3 0.6B) ×œ×ž×¡×¤×¨ GB (×ž×•×“×œ×™× ×’×“×•×œ×™× ×™×•×ª×¨ ×›×ž×• DeepSeek R1 7B). ×•×“× ×©×™×© ×œ×š ×ž×¡×¤×™×§ ×ž×§×•× ×¤× ×•×™ ×œ×¤× ×™ ×”×”×•×¨×“×”.</string>
+    <string name="faq_q4">×”×× ×”××¤×œ×™×§×¦×™×” ×“×•×¨×©×ª ×—×™×‘×•×¨ ×œ××™× ×˜×¨× ×˜?</string>
+    <string name="faq_a4">××™× ×˜×¨× ×˜ × ×“×¨×© ×¨×§ ×œ×”×•×¨×“×ª ×ž×•×“×œ×™×. ×œ××—×¨ ×”×”×•×¨×“×”, ×”×ž×•×“×œ×™× ×¤×•×¢×œ×™× ×œ×—×œ×•×˜×™×Ÿ ×‘×ž×¦×‘ ×œ× ×ž×§×•×•×Ÿ ×‘×ž×›×©×™×¨ ×©×œ×š.</string>
+    <string name="faq_q5">×”×× ×”× ×ª×•× ×™× ×©×œ×™ ×¤×¨×˜×™×™×?</string>
+    <string name="faq_a5">×›×Ÿ. ×›×œ ×”×©×™×—×•×ª ×ž×¢×•×‘×“×•×ª ×ž×§×•×ž×™×ª ×‘×ž×›×©×™×¨ ×©×œ×š. ×©×•× × ×ª×•×Ÿ ××™× ×• × ×©×œ×— ×œ×©×¨×ª×™× ×—×™×¦×•× ×™×™×. ×¨××” ××ª ×ž×“×™× ×™×•×ª ×”×¤×¨×˜×™×•×ª ×œ×¤×¨×˜×™×.</string>
+    <string name="faq_q6">×ž×“×•×¢ ×˜×¢×™× ×ª ×”×ž×•×“×œ ××™×˜×™×ª?</string>
+    <string name="faq_a6">×ž×•×“×œ×™× ×’×“×•×œ×™× ×™×•×ª×¨ ×œ×•×§×—×™× ×™×•×ª×¨ ×–×ž×Ÿ ×œ×˜×¢×™× ×” ×œ×–×™×›×¨×•×Ÿ. ×–×ž× ×™ ×”×˜×¢×™× ×” ×ª×œ×•×™×™× ×‘×—×•×ž×¨×” ×©×œ ×”×ž×›×©×™×¨ ×©×œ×š. ×œ××—×¨ ×”×˜×¢×™× ×”, ×”×ž×•×“×œ × ×©××¨ ×‘×–×™×›×¨×•×Ÿ ×¢×“ ×©×ª×¤×¨×•×§ ××•×ª×•.</string>
+    <string name="faq_q7">××™×œ×• ×ž×›×©×™×¨×™× ×¢×•×‘×“×™× ×‘×¦×•×¨×” ×”×˜×•×‘×” ×‘×™×•×ª×¨?</string>
+    <string name="faq_a7">×ž×›×©×™×¨×™× ×¢× ×™×•×ª×¨ ×–×™×›×¨×•×Ÿ RAM ×™×›×•×œ×™× ×œ×”×¤×¢×™×œ ×ž×•×“×œ×™× ×’×“×•×œ×™× ×™×•×ª×¨. ×œ×‘×™×¦×•×¢×™× ×”×˜×•×‘×™× ×‘×™×•×ª×¨, ×”×©×ª×ž×© ×‘×ž×›×©×™×¨ ×¢× ×œ×¤×—×•×ª 6 GB RAM ×œ×ž×•×“×œ×™× ×§×˜× ×™× ×•-8+ GB ×œ×ž×•×“×œ×™× ×’×“×•×œ×™× ×™×•×ª×¨.</string>
+    <string name="faq_q8">×”×× ××•×›×œ ×œ×˜×¢×•×Ÿ ×ž×•×“×œ GGUF ×ž×•×ª×× ××™×©×™×ª?</string>
+    <string name="faq_a8">×›×Ÿ. ×ž×§× ××ª ×§×•×‘×¥ ×”-.gguf ×©×œ×š ×‘×ª×™×§×™×™×ª ×”××—×¡×•×Ÿ ×©× ×‘×—×¨×” ×‘×”×’×“×¨×•×ª \u2192 ×ž×•×“×œ×™× (××•×ª×” ×ª×™×§×™×™×” ×”×ž×©×ž×©×ª ×œ×”×•×¨×“×•×ª). ×”××¤×œ×™×§×¦×™×” ×ª××ª×¨ ××•×ª×• ××•×˜×•×ž×˜×™×ª ×•×ª×¦×™×’ ××•×ª×• ×‘×‘×•×¨×¨ ×”×ž×•×“×œ×™× ×œ×¦×“ ×”×§×˜×œ×•×’ ×”×ž×•×‘× ×”. ×”×’×“×¨×•×ª ×ª×‘× ×™×ª ×”×¦\'××˜ ×•×”×˜×•×§× ×™×™×–×¨ × ×§×¨××•×ª ×ž×ž×˜×-×”× ×ª×•× ×™× ×©×œ GGUF. ×× ×ž×•×“×œ ×ž×¡×•×™× ×œ× ×¢×•×‘×“, ×× × ×¤×ª×— Issue ×‘-GitHub.</string>
+    <string name="faq_q9">×”×× ××•×›×œ ×œ×©× ×•×ª ×”×™×›×Ÿ ×ž×•×“×œ×™× ×ž××•×—×¡× ×™×?</string>
+    <string name="faq_a9">×›×Ÿ. ×¢×‘×•×¨ ×œ×”×’×“×¨×•×ª, ×•××– ×œ×ž×•×“×œ×™×, ×•×”×©×ª×ž×© ×‘××¤×©×¨×•×ª \u201C×©× ×” ×ª×™×§×™×™×”\u201D ×›×“×™ ×œ×‘×—×•×¨ ×ž×™×§×•× ××—×¡×•×Ÿ ××—×¨.</string>
+    <string name="faq_q10">×›×™×¦×“ ×× ×™ ×ž×•×—×§ ×ž×•×“×œ?</string>
+    <string name="faq_a10">×¢×‘×•×¨ ×œ×”×’×“×¨×•×ª, ×•××– ×œ×ž×•×“×œ×™×. ×‘×¡×¢×™×£ \u201C×”×•×¨×“×•\u201D, ×”×§×© ×¢×œ ×¡×ž×œ ×”×ž×—×™×§×” ×œ×™×“ ×”×ž×•×“×œ ×©×‘×¨×¦×•× ×š ×œ×”×¡×™×¨.</string>
+
+    <!-- Models Screen -->
+    <string name="models">×ž×•×“×œ×™×</string>
+    <string name="change_folder">×©× ×” ×ª×™×§×™×™×”</string>
+    <string name="delete_model">×ž×—×§</string>
+    <string name="download_model">×”×•×¨×“</string>
+    <string name="storage_used_models">×ž×•×“×œ×™×: %s</string>
+    <string name="storage_available">%s ×¤× ×•×™</string>
+    <string name="downloads_folder">×ª×™×§×™×™×ª ×”×•×¨×“×•×ª</string>
+    <string name="custom_folder">×ª×™×§×™×™×” ×ž×•×ª××ž×ª ××™×©×™×ª</string>
+    <string name="delete_model_confirm">×œ×ž×—×•×§ ××ª %s?</string>
+    <string name="delete_model_message">×¤×¢×•×œ×” ×–×• ×ª×¡×™×¨ ×œ×¦×ž×™×ª×•×ª ××ª ×§×•×‘×¥ ×”×ž×•×“×œ.</string>
+    <string name="downloaded_models">×”×•×¨×“×•</string>
+    <string name="available_models">×–×ž×™× ×™× ×œ×”×•×¨×“×”</string>
+    <string name="no_downloaded_models">×¢×“×™×™×Ÿ ×œ× ×”×•×¨×“×• ×ž×•×“×œ×™×</string>
+    <string name="browse_more_models">×¢×™×™×Ÿ ×‘×ž×•×“×œ×™×</string>
+    <string name="cancel">×‘×™×˜×•×œ</string>
+    <string name="low_ram_warning_title">×”×ž×•×“×œ ×¢×©×•×™ ×œ×”×™×•×ª ×œ× ×™×¦×™×‘</string>
+    <string name="low_ram_warning_message">×”×ž×•×“×œ ×–×§×•×§ ×œ×›-%1$s RAM, ××š ×œ×ž×›×©×™×¨ ×–×” ×™×© ×‘×¡×š ×”×›×œ %2$s ×‘×œ×‘×“. ×”×˜×¢×™× ×” ×¢×©×•×™×” ×œ×”×™×•×ª ××™×˜×™×ª ××• ×”×ª×’×•×‘×•×ª ×‘×œ×ª×™ ×¦×¤×•×™×•×ª.</string>
+    <string name="load_anyway">×˜×¢×Ÿ ×‘×›×œ ×–××ª</string>
+
+    <!-- Download notifications -->
+    <string name="download_notification_channel">×”×•×¨×“×•×ª ×ž×•×“×œ×™×</string>
+    <string name="download_notification_channel_description">×ž×¦×™×’ ××ª ×”×ª×§×“×ž×•×ª ×”×•×¨×“×ª ×§×‘×¦×™ ×”×ž×•×“×œ×™×</string>
+    <string name="download_complete">×”×”×•×¨×“×” ×”×•×©×œ×ž×”</string>
+    <string name="moving_to_storage">×ž×¢×‘×™×¨ ×œ××—×¡×•×Ÿ\u2026</string>
+    <string name="starting_download">×ž×ª×—×™×œ ×”×•×¨×“×”\u2026</string>
+    <string name="download_failed">×”×”×•×¨×“×” × ×›×©×œ×”</string>
+    <string name="download_cancelled">×”×”×•×¨×“×” ×‘×•×˜×œ×”</string>
+    <string name="waiting_for_network">×ž×ž×ª×™×Ÿ ×œ×¨×©×ª\u2026</string>
+
+    <!-- Migration -->
+    <string name="migrate_models_title">×œ×”×¢×‘×™×¨ ×ž×•×“×œ×™×?</string>
+    <string name="migrate_models_message">× ×ž×¦××• %1$d ×ž×•×“×œ×™× (%2$s) ×‘×ª×™×§×™×™×” ×”×§×•×“×ž×ª. ×”×× ×‘×¨×¦×•× ×š ×œ×”×¢×ª×™×§ ××•×ª× ×œ×ž×™×§×•× ×”×—×“×©?</string>
+    <string name="migrate_models_from_downloads">× ×ž×¦××• %1$d ×ž×•×“×œ×™× (%2$s) ×‘×ª×™×§×™×™×ª ×”×”×•×¨×“×•×ª ×©×œ×š. ×”×× ×‘×¨×¦×•× ×š ×œ×”×¢×‘×™×¨ ××•×ª× ×œ×ž×™×§×•× ×”××—×¡×•×Ÿ ×©× ×‘×—×¨?</string>
+    <string name="models_to_migrate">×ž×•×“×œ×™×:</string>
+    <string name="migrate">×”×¢×‘×¨</string>
+    <string name="skip">×“×œ×’</string>
+    <string name="migrating_models">×ž×¢×‘×™×¨ ×ž×•×“×œ×™×</string>
+    <string name="migration_progress">×ž×¢×ª×™×§ %1$d ×ž×ª×•×š %2$d</string>
+
+    <!-- System prompts -->
+    <string name="system_prompts">×¤×¨×•×ž×¤×˜×™× ×©×œ ×ž×¢×¨×›×ª</string>
+    <string name="system_prompts_subtitle">×”×•×¨××•×ª ×œ×©×™×ž×•×© ×—×•×–×¨ ×œ×›×œ ×ž×•×“×œ</string>
+    <string name="system_prompts_empty">××™×Ÿ ×¢×“×™×™×Ÿ ×¤×¨×•×ž×¤×˜×™× ×©×œ ×ž×¢×¨×›×ª. ×”×§×© ×¢×œ + ×›×“×™ ×œ×”×•×¡×™×£.</string>
+    <string name="system_prompt_new">×¤×¨×•×ž×¤×˜ ×ž×¢×¨×›×ª ×—×“×©</string>
+    <string name="system_prompt_edit">×¢×¨×•×š ×¤×¨×•×ž×¤×˜ ×ž×¢×¨×›×ª</string>
+    <string name="system_prompt_hint">×œ×“×•×’×ž×”, ××ª×” ×¢×•×–×¨ ×ª×ž×¦×™×ª×™. ×¢× ×” ×ª×ž×™×“ ×‘×¢×‘×¨×™×ª.</string>
+    <string name="system_prompt_current">×¤×¨×•×ž×¤×˜ ×ž×¢×¨×›×ª × ×•×›×—×™</string>
+    <string name="system_prompt_current_empty">××™×Ÿ ×¤×¨×•×ž×¤×˜ ×ž×¢×¨×›×ª â€” ×”×§×© ×œ×”×•×¡×¤×”</string>
+    <string name="system_prompt_update">×¢×“×›×Ÿ</string>
+    <string name="save">×©×ž×•×¨</string>
+    <string name="add">×”×•×¡×£</string>
+    <string name="clear">× ×§×”</string>
+
+    <!-- General UI -->
+    <string name="select_model">×‘×—×¨ ×ž×•×“×œ</string>
+    <string name="new_conversation">×©×™×—×” ×—×“×©×”</string>
+    <string name="close">×¡×’×•×¨</string>
+    <string name="pinned_label">×ž×•×¦×ž×“</string>
+    <string name="unpin">×‘×˜×œ ×”×¦×ž×“×”</string>
+    <string name="pin">×”×¦×ž×“</string>
+    <string name="rename">×©× ×” ×©×</string>
+    <string name="delete">×ž×—×§</string>
+    <string name="rename_conversation">×©× ×” ×©× ×©×™×—×”</string>
+    <string name="previously_used_model">×©×™×ž×•×© ××—×¨×•×Ÿ: %s</string>
+
+    <!-- Storage -->
+    <string name="choose_storage_folder">×‘×—×¨ ×ª×™×§×™×™×ª ××—×¡×•×Ÿ</string>
+    <string name="choose_storage_folder_message">×× × ×‘×—×¨ ×ª×™×§×™×™×” ×©×‘×” ×™××•×—×¡× ×• ×”×ž×•×“×œ×™×. ×–×” × ×“×¨×© ×›×“×™ ×œ×”×©×ª×ž×© ×‘××¤×œ×™×§×¦×™×”.</string>
+    <string name="choose_folder">×‘×—×¨ ×ª×™×§×™×™×”</string>
+
+    <!-- Session -->
+    <string name="session_info">×ž×™×“×¢ ×¢×œ ×¡×©×Ÿ</string>
+
+    <!-- Generation Parameters -->
+    <string name="generation_parameters">×¤×¨×ž×˜×¨×™ ×™×¦×™×¨×”</string>
+    <string name="reset">××¤×¡</string>
+    <string name="context_size">×’×•×“×œ ×”×§×©×¨</string>
+    <string name="will_reset_conversation">×”×©×™×—×” ×ª××•×¤×¡</string>
+    <string name="thinking_budget">×ª×§×¦×™×‘ ×—×©×™×‘×”</string>
+    <string name="tokens_value">%d ×˜×•×§× ×™×</string>
+    <string name="temperature">×˜×ž×¤×¨×˜×•×¨×”</string>
+    <string name="top_p" translatable="false">Top-P</string>
+    <string name="top_k" translatable="false">Top-K</string>
+    <string name="min_p" translatable="false">Min-P</string>
+    <string name="repetition_penalty">×¢×•× ×© ×¢×œ ×—×–×¨×•×ª</string>
+    <string name="advanced">×ž×ª×§×“×</string>
+    <string name="collapse">×›×•×•×¥</string>
+    <string name="expand">×”×¨×—×‘</string>
+    <string name="seed">Seed</string>
+    <string name="random">××§×¨××™</string>
+    <string name="disabled_label">×ž×•×©×‘×ª</string>
+    <string name="unload_model">×¤×¨×•×§ ×ž×•×“×œ</string>
+
+    <!-- Thinking -->
+    <string name="thinking">×—×•×©×‘</string>
+    <string name="collapse_thinking">×›×•×•×¥ ×—×©×™×‘×”</string>
+    <string name="expand_thinking">×”×¨×—×‘ ×—×©×™×‘×”</string>
+    <string name="thoughts">×ž×—×©×‘×•×ª</string>
+
+    <!-- Functionality -->
+    <string name="functionality_not_available">×”×¤×•× ×§×¦×™×” ××™× ×” ×–×ž×™× ×” \uD83D\uDE48</string>
+
+    <!-- Screenshot titles -->
+    <string name="screenshot_hero_title_prefix">AI ×¢×œ</string>
+    <string name="screenshot_hero_title_emphasis">×”×˜×œ×¤×•×Ÿ</string>
+    <string name="screenshot_hero_title_suffix">×©×œ×š</string>
+    <string name="screenshot_hero_title_suffix_tablet">×˜××‘×œ×˜ ×©×œ×š</string>
+    <string name="screenshot_hero_subtitle">×¤×¨×˜×™. ×ž×§×•×ž×™. ×œ× ×ž×§×•×•×Ÿ.</string>
+    <string name="screenshot_hero_providers_label">25+ ×ž×•×“×œ×™× ×ž:</string>
+    <string name="screenshot_choose_model">×‘×—×¨ ×ž×•×“×œ</string>
+    <string name="screenshot_choose_model_sub">×ž×¡×¤×§×™ AI ×ž×•×‘×™×œ×™×</string>
+    <string name="screenshot_chat">×©×•×—×— ×‘×¤×¨×˜×™×•×ª</string>
+    <string name="screenshot_chat_sub">×‘×ž×›×©×™×¨ ×©×œ×š</string>
+    <string name="screenshot_fine_tune">×›×•×•× ×•×Ÿ ×¢×“×™×Ÿ</string>
+    <string name="screenshot_fine_tune_sub">×¤×¨×ž×˜×¨×™ ×™×¦×™×¨×”</string>
+    <string name="screenshot_download_models">×”×•×¨×“ ×›×œ ×ž×•×“×œ</string>
+    <string name="screenshot_download_models_sub">×œ×›×œ ×ª×™×§×™×™×” ×©×ª×‘×—×¨</string>
+
+    <!-- Screenshot sample system prompt -->
+    <string name="screenshot_system_prompt_sample">××ª×” ×ž×•×¨×” ×ª×ž×¦×™×ª×™ ×œ×ž×“×¢×™×. ×”×¡×‘×¨ ×¨×¢×™×•× ×•×ª ×‘×‘×”×™×¨×•×ª ×‘×¢×–×¨×ª ×“×•×’×ž××•×ª ×ž×—×™×™ ×”×™×•×-×™×•×.</string>
+
+    <!-- Screenshot sample chat -->
+    <string name="screenshot_chat_question">×ž×”×™ ×œ×ž×™×“×ª ×ž×›×•× ×”?</string>
+    <string name="screenshot_chat_response">×œ×ž×™×“×ª ×ž×›×•× ×” ×”×™× ×¢× ×£ ×©×œ ×‘×™× ×” ×ž×œ××›×•×ª×™×ª ×©×‘×• ×ž×—×©×‘×™× **×œ×•×ž×“×™× ×ž× ×ª×•× ×™×** ×‘×ž×§×•× ×œ×”×™×•×ª ×ž×ª×•×›× ×ª×™× ×‘×ž×¤×•×¨×©.\n\n×ž×•×©×’×™ ×ž×¤×ª×—:\n\n\u2022 **××™×ž×•×Ÿ**: ×”×–× ×ª × ×ª×•× ×™× ×œ××œ×’×•×¨×™×ª×ž×™×\n\u2022 **×ž×•×“×œ×™×**: ×“×¤×•×¡×™× ×©× ×œ×ž×“×• ×ž× ×ª×•× ×™×\n\u2022 **×”×™×¡×§**: ×‘×™×¦×•×¢ ×ª×—×–×™×•×ª ×¢×œ × ×ª×•× ×™× ×—×“×©×™×</string>
+
+    <!-- Model categories -->
+    <string name="model_category_lightweight">×ž×•×“×œ ×¦\'××˜ ×§×œ ×ž×©×§×œ</string>
+    <string name="model_category_general">×ž×•×“×œ ×¦\'××˜ ×œ×©×™×ž×•×© ×›×œ×œ×™</string>
+    <string name="model_category_efficient">×ž×•×“×œ ×™×¢×™×œ ×¢×œ ×”×ž×›×©×™×¨</string>
+    <string name="model_category_reasoning">×ž×•×“×œ ×”×¡×§×” ×”×™×‘×¨×™×“×™</string>
+    <string name="model_category_ultra_lightweight">×ž×•×“×œ ×¦\'××˜ ×§×œ ×ž×©×§×œ ×‘×ž×™×•×—×“</string>
+    <string name="model_category_compact_reasoning">×ž×•×“×œ ×”×¡×§×” ×§×•×ž×¤×§×˜×™</string>
+    <string name="model_category_thinking">×ž×•×“×œ ×—×©×™×‘×”</string>
+    <string name="model_category_enterprise">×ž×•×“×œ ×¦\'××˜ ×œ××¨×’×•× ×™×</string>
+
+    <!-- What\'s New -->
+    <string name="whats_new">×ž×” ×—×“×©</string>
+    <string name="whats_new_item_1">×ž×•×“×œ×™ Gemma 4 ×—×“×©×™× (E2B, E4B)</string>
+    <string name="whats_new_item_2">×¤×¨×ž×˜×¨×™ ×™×¦×™×¨×” ×œ×›×œ ×ž×•×“×œ</string>
+    <string name="whats_new_item_3">×‘×§×¨×ª ×ª×§×¦×™×‘ ×—×©×™×‘×”</string>
+
+    <string name="supports_your_language">×ª×•×ž×š ×‘×©×¤×” ×©×œ×š</string>
+    <string name="other_models">×“×’×ž×™× ××—×¨×™×</string>
+    <string name="language">×©×¤×”</string>
+    <string name="language_system_default">×‘×¨×™×¨×ª ×”×ž×—×“×œ ×©×œ ×”×ž×¢×¨×›×ª</string>
+
+    <!-- Inference engine service notification (foreground service while a
+         model is loaded so the OS does not evict the :llama process). -->
+    <string name="inference_notification_channel_name">×ž× ×•×¢ ×”×™×¡×§</string>
+    <string name="inference_notification_channel_description">×©×•×ž×¨ ×¢×œ ×ž×•×“×œ ×”-AI ×˜×¢×•×Ÿ ×•×ž×•×›×Ÿ ×œ×”×’×™×‘.</string>
+    <string name="inference_notification_title">NEO Local LM</string>
+    <string name="inference_notification_text">×”×ž×•×“×œ × ×˜×¢×Ÿ â€” ×ž×•×›×Ÿ ×œ×©×™×—×”.</string>
+    <string name="inference_notification_loaded_title">×”×ž×•×“×œ × ×˜×¢×Ÿ</string>
+    <string name="inference_engine_crashed">××•×¤×¡ â€” ×ž×©×”×• ×”×©×ª×‘×©.\n×˜×¢×Ÿ ×ž×—×“×© ××ª ×”×ž×•×“×œ.</string>
+    <string name="message_too_large">×”×”×•×“×¢×” ×”×™× %1$d KB, ×—×•×¨×’×ª ×ž×”×ž×’×‘×œ×” ×©×œ %2$d KB. × ×¡×” ×œ×©×œ×•×— ×”×•×“×¢×” ×§×¦×¨×” ×™×•×ª×¨.</string>
+    <string name="replay_history_too_large">×”×™×¡×˜×•×¨×™×™×ª ×”×©×™×—×” ×’×“×•×œ×” ×ž×“×™ ×œ×˜×¢×™× ×” ×ž×—×“×© ×‘×ž×•×“×œ ×–×”. ×”×ª×—×œ ×©×™×—×” ×—×“×©×” ×›×“×™ ×œ×”×ž×©×™×š.</string>
+    <string name="system_prompt_too_large">×”× ×—×™×™×ª ×”×ž×¢×¨×›×ª ×”×™× %1$d KB, ×—×•×¨×’×ª ×ž×”×ž×’×‘×œ×” ×©×œ %2$d KB. × ×¡×” ×”× ×—×™×” ×§×¦×¨×” ×™×•×ª×¨.</string>
+    <string name="history_message_too_large">×”×•×“×¢×” ×©×ž×•×¨×” ×‘×©×™×—×” ×–×• ×’×“×•×œ×” ×ž×“×™ ×œ×˜×¢×™× ×” ×ž×—×“×©. ×”×ª×—×œ ×©×™×—×” ×—×“×©×” ×›×“×™ ×œ×”×ž×©×™×š.</string>
+    <string name="model_load_failed_status">×œ× × ×™×ª×Ÿ ×œ×˜×¢×•×Ÿ ××ª ×”×ž×•×“×œ</string>
+    <string name="model_load_failed_title">×œ× × ×™×ª×Ÿ ×œ×˜×¢×•×Ÿ ××ª ×”×ž×•×“×œ</string>
+    <string name="model_load_failed_message">×œ× × ×™×ª×Ÿ ×œ×˜×¢×•×Ÿ ××ª %1$s. ×™×™×ª×›×Ÿ ×©×”×§×•×‘×¥ ×¤×’×•×, ××• ×©×”×•× ×ž×©×ª×ž×© ×‘××¨×›×™×˜×§×˜×•×¨×” ×©×’×¨×¡×” ×–×• ×©×œ ×”××¤×œ×™×§×¦×™×” ×¢×“×™×™×Ÿ ××™× ×” ×ª×•×ž×›×ª ×‘×”. × ×¡×” ×ž×•×“×œ ××—×¨, ××• ×¢×“×›×Ÿ ××ª ×”××¤×œ×™×§×¦×™×”.</string>
+    <string name="model_load_failed_dismiss">××™×©×•×¨</string>
+</resources>

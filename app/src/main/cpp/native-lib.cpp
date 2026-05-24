@@ -1,0 +1,386 @@
+#include <jni.h>
+#include <string>
+
+#include "LlamaCpp.h"
+#include "common.h"
+
+#include "console.h"
+#include "ggml.h"
+#include "ggml-backend.h"
+#include "gguf.h"
+#include "llama.h"
+#include "log.h"
+
+#include <cassert>
+#include <cinttypes>
+#include <cmath>
+#include <cstdio>
+#include <cstring>
+#include <ctime>
+#include <fstream>
+#include <iostream>
+#include <sstream>
+#include <string>
+#include <vector>
+#include <iostream>
+#include <csignal>
+#include <unistd.h>
+#include <android/log.h>
+
+class AndroidLogBuf : public std::streambuf {
+protected:
+    std::streamsize xsputn(const char* s, std::streamsize n) override {
+        __android_log_print(ANDROID_LOG_INFO, "Llama", "%.*s", (int)n, s);
+        return n;
+    }
+
+    int overflow(int c) override {
+        if (c != EOF) {
+            char c_as_char = static_cast<char>(c);
+            __android_log_write(ANDROID_LOG_INFO, "Llama", &c_as_char);
+        }
+        return c;
+    }
+};
+
+#define TAG "llama-android.cpp"
+static void log_callback(ggml_log_level level, const char * fmt, void * data) {
+    if (level == GGML_LOG_LEVEL_ERROR)     __android_log_print(ANDROID_LOG_ERROR, TAG, fmt, data);
+    else if (level == GGML_LOG_LEVEL_INFO) __android_log_print(ANDROID_LOG_INFO, TAG, fmt, data);
+    else if (level == GGML_LOG_LEVEL_WARN) __android_log_print(ANDROID_LOG_WARN, TAG, fmt, data);
+    else __android_log_print(ANDROID_LOG_DEFAULT, TAG, fmt, data);
+}
+
+extern "C"
+JNIEXPORT jobjectArray JNICALL
+Java_com_diazneoones82_llamacpp_jni_NativeLlamaCpp_probeModelMetadata(JNIEnv *env, jobject thiz, jstring modelPath) {
+    const char* path = env->GetStringUTFChars(modelPath, nullptr);
+
+    struct gguf_init_params params = { /*.no_alloc =*/ true, /*.ctx =*/ nullptr };
+    struct gguf_context * gguf_ctx = gguf_init_from_file(path, params);
+    env->ReleaseStringUTFChars(modelPath, path);
+
+    if (gguf_ctx == nullptr) {
+        return nullptr;
+    }
+
+    // Read general.name
+    std::string name;
+    int64_t name_key = gguf_find_key(gguf_ctx, "general.name");
+    if (name_key >= 0) {
+        name = gguf_get_val_str(gguf_ctx, name_key);
+    }
+
+    // Check tokenizer.chat_template existence
+    int64_t template_key = gguf_find_key(gguf_ctx, "tokenizer.chat_template");
+    bool has_chat_template = (template_key >= 0);
+
+    gguf_free(gguf_ctx);
+
+    // Return String[] { name, hasChatTemplate }
+    jclass stringClass = env->FindClass("java/lang/String");
+    jobjectArray result = env->NewObjectArray(2, stringClass, nullptr);
+    env->SetObjectArrayElement(result, 0, env->NewStringUTF(name.c_str()));
+    env->SetObjectArrayElement(result, 1, env->NewStringUTF(has_chat_template ? "true" : "false"));
+
+    return result;
+}
+
+extern "C" JNIEXPORT int
+JNICALL
+Java_com_diazneoones82_llamacpp_jni_NativeLlamaCpp_init(JNIEnv *env, jobject object, jstring nativeLibDir) {
+
+    // Redirect std::cerr to logcat
+    AndroidLogBuf androidLogBuf;
+    std::cerr.rdbuf(&androidLogBuf);
+
+    llama_log_set(log_callback, NULL);
+
+    // With GGML_BACKEND_DL=ON the CPU backend lives in separate
+    // libggml-cpu-*.so files alongside libllamacpp.so. dlopen them so
+    // llama_model_load_from_file has a backend to bind tensors to.
+    if (nativeLibDir != nullptr) {
+        const char *path = env->GetStringUTFChars(nativeLibDir, nullptr);
+        ggml_backend_load_all_from_path(path);
+        env->ReleaseStringUTFChars(nativeLibDir, path);
+    } else {
+        ggml_backend_load_all();
+    }
+
+    llama_backend_init();
+    return 0;
+}
+
+extern "C"
+JNIEXPORT jstring JNICALL
+Java_com_diazneoones82_llamacpp_jni_NativeLlamaCpp_systemInfo(JNIEnv *env, jobject object) {
+    return env->NewStringUTF(llama_print_system_info());
+}
+
+extern "C" JNIEXPORT jobject
+JNICALL
+Java_com_diazneoones82_llamacpp_jni_NativeLlamaCpp_loadModel(JNIEnv *env,
+                   jobject activity,
+                   jstring modelPath,
+                   jobject progressCallback) {
+
+    struct CallbackContext {
+        JNIEnv *env;
+        jobject progressCallback;
+    };
+
+    auto* model = new LlamaModel();
+    CallbackContext ctx = {env, progressCallback};
+    const char* utfModelPath = env->GetStringUTFChars(modelPath, nullptr);
+    model->loadModel(utfModelPath,
+                     -1,
+                     [](float progress, void *ctx) -> bool {
+                            auto* context = static_cast<CallbackContext*>(ctx);
+                            jclass clazz = context->env->GetObjectClass(context->progressCallback);
+                            jmethodID methodId = context->env->GetMethodID(clazz, "onProgress", "(F)V");
+                            context->env->CallVoidMethod(context->progressCallback, methodId, progress);
+                            return true;
+                     },
+                     &ctx
+                     );
+    env->ReleaseStringUTFChars(modelPath, utfModelPath);
+
+    if (!model->isLoaded()) {
+        delete model;
+        return nullptr;
+    }
+
+    jclass clazz = env->FindClass("com/diazneoones82/llamacpp/jni/NativeLlamaModel");
+    jmethodID constructor = env->GetMethodID(clazz, "<init>", "()V");
+    jobject obj = env->NewObject(clazz, constructor);
+    jfieldID fid = env->GetFieldID(clazz, "nativeHandle", "J");
+    env->SetLongField(obj, fid, (long) model);
+    return obj;
+}
+
+extern "C"
+JNIEXPORT jlong JNICALL
+Java_com_diazneoones82_llamacpp_jni_NativeLlamaModel_getModelSize(JNIEnv *env, jobject thiz) {
+    jclass clazz = env->GetObjectClass(thiz);
+    jfieldID fid = env->GetFieldID(clazz, "nativeHandle", "J");
+    auto* model = (LlamaModel*) env->GetLongField(thiz, fid);
+    if (model == nullptr) {
+        return 0;
+    }
+    return model->getModelSize();
+}
+
+extern "C"
+JNIEXPORT jstring JNICALL
+Java_com_diazneoones82_llamacpp_jni_NativeLlamaModel_getModelReport(JNIEnv *env, jobject thiz) {
+    jclass clazz = env->GetObjectClass(thiz);
+    jfieldID fid = env->GetFieldID(clazz, "nativeHandle", "J");
+    auto* model = (LlamaModel*) env->GetLongField(thiz, fid);
+    if (model == nullptr) {
+        return env->NewStringUTF("");
+    }
+    auto report = model->getModelReport();
+    return env->NewStringUTF(report.c_str());
+}
+
+extern "C"
+JNIEXPORT jboolean JNICALL
+Java_com_diazneoones82_llamacpp_jni_NativeLlamaModel_supportsThinking(JNIEnv *env, jobject thiz) {
+    jclass clazz = env->GetObjectClass(thiz);
+    jfieldID fid = env->GetFieldID(clazz, "nativeHandle", "J");
+    auto* model = (LlamaModel*) env->GetLongField(thiz, fid);
+    if (model == nullptr) {
+        return JNI_FALSE;
+    }
+    return model->supportsThinking() ? JNI_TRUE : JNI_FALSE;
+}
+
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_diazneoones82_llamacpp_jni_NativeLlamaModel_unloadModel(JNIEnv *env, jobject thiz) {
+    jclass clazz = env->GetObjectClass(thiz);
+    jfieldID fid = env->GetFieldID(clazz, "nativeHandle", "J");
+    auto* model = (LlamaModel*) env->GetLongField(thiz, fid);
+    if (model == nullptr) {
+        return;
+    }
+    env->SetLongField(thiz, fid, 0);
+    model->unloadModel();
+    delete model;
+}
+
+extern "C"
+JNIEXPORT jint JNICALL
+Java_com_diazneoones82_llamacpp_jni_NativeLlamaModel_getContextTrainSize(JNIEnv *env, jobject thiz) {
+    jclass clazz = env->GetObjectClass(thiz);
+    jfieldID fid = env->GetFieldID(clazz, "nativeHandle", "J");
+    auto* model = (LlamaModel*) env->GetLongField(thiz, fid);
+    if (model == nullptr) {
+        return 0;
+    }
+    return model->getContextTrainSize();
+}
+
+extern "C"
+JNIEXPORT jobject JNICALL
+Java_com_diazneoones82_llamacpp_jni_NativeLlamaModel_createSession(JNIEnv *env, jobject thiz,
+                                                  jint contextSize,
+                                                  jfloat temperature,
+                                                  jfloat topP,
+                                                  jfloat repetitionPenalty,
+                                                  jint topK,
+                                                  jfloat minP,
+                                                  jint seed,
+                                                  jint thinkingBudget,
+                                                  jstring systemPrompt) {
+
+    jclass clazz1 = env->GetObjectClass(thiz);
+    jfieldID fid1 = env->GetFieldID(clazz1, "nativeHandle", "J");
+    auto* model = (LlamaModel*) env->GetLongField(thiz, fid1);
+    if (model == nullptr) {
+        return nullptr;
+    }
+
+    SamplerParams params;
+    params.n_ctx = contextSize;
+    params.temperature = temperature;
+    params.top_p = topP;
+    params.repetition_penalty = repetitionPenalty;
+    params.top_k = topK;
+    params.min_p = minP;
+    params.seed = (seed < 0) ? LLAMA_DEFAULT_SEED : static_cast<uint32_t>(seed);
+    params.thinking_budget = thinkingBudget;
+    if (systemPrompt != nullptr) {
+        const char* utfSystemPrompt = env->GetStringUTFChars(systemPrompt, nullptr);
+        if (utfSystemPrompt != nullptr) {
+            params.system_prompt = utfSystemPrompt;
+            env->ReleaseStringUTFChars(systemPrompt, utfSystemPrompt);
+        }
+    }
+
+    jclass clazz2 = env->FindClass("com/diazneoones82/llamacpp/jni/NativeLlamaSession");
+    jmethodID constructor = env->GetMethodID(clazz2, "<init>", "()V");
+    jobject obj = env->NewObject(clazz2, constructor);
+
+    LlamaGenerationSession* session = model->createGenerationSession(params);
+    if (session == nullptr) {
+        return nullptr;
+    }
+    jclass clazz3 = env->GetObjectClass(obj);
+    jfieldID fid3 = env->GetFieldID(clazz3, "nativeHandle", "J");
+    env->SetLongField(obj, fid3, (long)session);
+
+    return obj;
+}
+
+extern "C" JNIEXPORT jint JNICALL Java_com_diazneoones82_llamacpp_jni_NativeLlamaSession_generate
+        (JNIEnv *env, jobject obj, jobject callback) {
+    jclass clazz = env->GetObjectClass(obj);
+    jfieldID fid = env->GetFieldID(clazz, "nativeHandle", "J");
+    auto *session = (LlamaGenerationSession*)env->GetLongField(obj, fid);
+    if (session == nullptr) {
+        return 1;
+    }
+
+    jclass javaClass = env->FindClass("com/diazneoones82/llamacpp/LlamaGenerationCallback");
+    jmethodID onFullResponseId = env->GetMethodID(javaClass, "onFullResponse", "(Ljava/lang/String;)V");
+
+    return session->generate(
+            [env, onFullResponseId, callback](const std::string &fullResponse) {
+                jstring jResponse = env->NewStringUTF(fullResponse.c_str());
+                if (jResponse != nullptr) {
+                    env->CallVoidMethod(callback, onFullResponseId, jResponse);
+                    env->DeleteLocalRef(jResponse);
+                }
+            }
+    );
+}
+
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_diazneoones82_llamacpp_jni_NativeLlamaSession_addMessage(JNIEnv *env,
+                                                         jobject thiz,
+                                                         jstring message,
+                                                         jboolean enableThinking) {
+    jclass clazz = env->GetObjectClass(thiz);
+    jfieldID fid = env->GetFieldID(clazz, "nativeHandle", "J");
+    auto *session = (LlamaGenerationSession*)env->GetLongField(thiz, fid);
+    if (session == nullptr) {
+        return;
+    }
+
+    const char* utfMessage = env->GetStringUTFChars(message, nullptr);
+    session->addMessage(utfMessage, enableThinking);
+    env->ReleaseStringUTFChars(message, utfMessage);
+}
+
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_diazneoones82_llamacpp_jni_NativeLlamaSession_printReport(JNIEnv *env, jobject thiz) {
+    jclass clazz = env->GetObjectClass(thiz);
+    jfieldID fid = env->GetFieldID(clazz, "nativeHandle", "J");
+    auto *session = (LlamaGenerationSession*)env->GetLongField(thiz, fid);
+    if (session == nullptr) {
+        return;
+    }
+    session->printReport();
+}
+
+extern "C"
+JNIEXPORT jstring JNICALL
+Java_com_diazneoones82_llamacpp_jni_NativeLlamaSession_getReport(JNIEnv *env, jobject thiz) {
+    jclass clazz = env->GetObjectClass(thiz);
+    jfieldID fid = env->GetFieldID(clazz, "nativeHandle", "J");
+    auto *session = (LlamaGenerationSession*)env->GetLongField(thiz, fid);
+    if (session == nullptr) {
+        return env->NewStringUTF("");
+    }
+    auto report = session->getReport();
+    auto string = env->NewStringUTF(report.c_str());
+    return string;
+}
+
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_diazneoones82_llamacpp_jni_NativeLlamaSession_replayHistory(JNIEnv *env,
+                                                             jobject thiz,
+                                                             jobjectArray userMessages,
+                                                             jobjectArray assistantMessages) {
+    jclass clazz = env->GetObjectClass(thiz);
+    jfieldID fid = env->GetFieldID(clazz, "nativeHandle", "J");
+    auto *session = (LlamaGenerationSession*)env->GetLongField(thiz, fid);
+    if (session == nullptr) {
+        return;
+    }
+
+    int len = env->GetArrayLength(userMessages);
+    std::vector<std::pair<std::string, std::string>> history;
+    history.reserve(len);
+
+    for (int i = 0; i < len; i++) {
+        auto jUser = (jstring) env->GetObjectArrayElement(userMessages, i);
+        auto jAssistant = (jstring) env->GetObjectArrayElement(assistantMessages, i);
+        const char* user = env->GetStringUTFChars(jUser, nullptr);
+        const char* assistant = env->GetStringUTFChars(jAssistant, nullptr);
+        history.emplace_back(user, assistant);
+        env->ReleaseStringUTFChars(jUser, user);
+        env->ReleaseStringUTFChars(jAssistant, assistant);
+        env->DeleteLocalRef(jUser);
+        env->DeleteLocalRef(jAssistant);
+    }
+
+    session->replayHistory(history);
+}
+
+extern "C" JNIEXPORT void JNICALL Java_com_diazneoones82_llamacpp_jni_NativeLlamaSession_destroy
+        (JNIEnv *env, jobject obj) {
+    jclass clazz = env->GetObjectClass(obj);
+    jfieldID fid = env->GetFieldID(clazz, "nativeHandle", "J");
+    auto *session = (LlamaGenerationSession*)env->GetLongField(obj, fid);
+
+    if (session != nullptr) {
+        env->SetLongField(obj, fid, (long)nullptr);
+        delete session;
+        __android_log_print(ANDROID_LOG_DEBUG, "Llama", "Destroy");
+    }
+}

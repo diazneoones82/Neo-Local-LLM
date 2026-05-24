@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_home">
+
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="com.neo.locallm.conversation.ConversationFragment"
+        android:label="@string/conversations">
+        <action
+            android:id="@+id/action_home_to_settings"
+            app:destination="@id/nav_settings"
+            app:enterAnim="@anim/slide_in_bottom"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out_bottom" />
+        <action
+            android:id="@+id/action_home_to_models"
+            app:destination="@id/nav_models" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_settings"
+        android:name="com.neo.locallm.settings.SettingsFragment"
+        android:label="@string/settings">
+        <action
+            android:id="@+id/action_settings_to_models"
+            app:destination="@id/nav_models" />
+        <action
+            android:id="@+id/action_settings_to_language"
+            app:destination="@id/nav_language" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_models"
+        android:name="com.neo.locallm.storage.ModelsFragment"
+        android:label="@string/models" />
+
+    <fragment
+        android:id="@+id/nav_language"
+        android:name="com.neo.locallm.settings.LanguageFragment"
+        android:label="@string/language" />
+
+</navigation>
