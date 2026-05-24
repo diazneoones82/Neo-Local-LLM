@@ -46,33 +46,146 @@ Settings includes an OpenRouter API key field. When configured, the model picker
 
 ## Install
 
-Build locally from this repository. Android APKs are built with Gradle, Windows packages are built from `windows/build_windows.ps1`, and Apple builds are produced with Xcode on macOS.
+Download packages from the GitHub Releases page:
+
+- **Windows**: use `Neo-Local-LLM-Windows-Portable.zip` or `Neo-Local-LLM-Windows-Standalone.exe`.
+- **Android**: use `app-universal-release.apk` for most devices, `app-arm64-v8a-release.apk` for modern phones/tablets, or `app-x86_64-release.apk` for x86 emulators.
+- **iOS and Mac**: Apple builds must be produced on macOS with Xcode and Apple signing. The Xcode project is included at `ios/NEOLocalLM/NEOLocalLM.xcodeproj`.
+
+## Use The App
+
+1. Open NEO Local LM.
+2. Open the model picker.
+3. Download a local GGUF model. Qwen 3 1.7B is the default local model.
+4. Load the downloaded model.
+5. Start chatting.
+6. Optional: open Settings and save an OpenRouter API key to use the online Nemotron models.
+7. To return from online mode to local mode, unload the online model or load a local model.
+
+## Windows App
+
+### Install From Release
+
+Portable ZIP:
+
+1. Download `Neo-Local-LLM-Windows-Portable.zip`.
+2. Extract it anywhere, for example `C:\Apps\Neo Local LLM`.
+3. Run `Neo Local LLM.exe`.
+
+Standalone EXE:
+
+1. Download `Neo-Local-LLM-Windows-Standalone.exe`.
+2. Run it.
+3. The app extracts its bundled runtime on first launch.
+
+### Windows Model Downloads
+
+1. Pick a model in the right pane.
+2. Choose the download folder or keep the default Downloads folder.
+3. Click Download.
+4. When the download completes, load the model and chat.
+
+## Android App
+
+### Install APK
+
+1. Download `app-universal-release.apk`.
+2. Copy it to the Android device.
+3. Allow installing apps from your browser or file manager if Android asks.
+4. Open the APK and install NEO Local LM.
+5. Start the app, download a model, load it, and chat.
+
+For smaller downloads, use `app-arm64-v8a-release.apk` on most modern Android devices. Use `app-x86_64-release.apk` only for x86_64 emulators or compatible devices.
 
 ## Build Instructions
 
+Build locally from this repository. Android APKs are built with Gradle, Windows packages are built from `windows/build_windows.ps1`, and Apple builds are produced with Xcode on macOS.
+
+### Android Build
+
 Prerequisites:
-* Android Studio [2024.3.1+](https://developer.android.com/studio/releases)
-* NDK 27.2.12479018
-* CMake 3.31.6
+
+- Android Studio 2024.3.1+
+- NDK 27.2.12479018
+- CMake 3.31.6
 
 1. Open the project in Android Studio: `File` > `Open`.
 2. Connect an Android device or start an emulator.
 3. Run the application using `Run` > `Run 'app'` or the play button in Android Studio.
 4. For command-line APK builds, run `./gradlew assembleRelease`.
 
-Windows:
+APK outputs are written to:
+
+```text
+app/build/outputs/apk/release/
+```
+
+### Windows Build
+
+Prerequisites:
+
+- Windows 10/11
+- JDK with `javac`, `jar`, `jlink`, and `jpackage`
+- PowerShell
+
+Run:
 
 ```powershell
 .\windows\build_windows.ps1
 ```
 
-iOS and Mac:
+Outputs are written to:
+
+```text
+windows/build/Neo-Local-LLM-Windows-Standalone.exe
+windows/build/Neo-Local-LLM-Windows-Portable.zip
+```
+
+### iOS Build
+
+Prerequisites:
+
+- macOS
+- Xcode 15+
+- Apple Developer account for device signing or App Store/TestFlight distribution
+- Apple-compatible llama.cpp framework built as described in `ios/NEOLocalLM/README.md`
+
+Open:
 
 ```sh
 open ios/NEOLocalLM/NEOLocalLM.xcodeproj
 ```
 
-Choose an iPhone/iPad destination for iOS, or `My Mac (Mac Catalyst)` for the Mac desktop build.
+Then:
+
+1. Select the `NEO Local LM` scheme.
+2. Choose an iPhone or iPad destination.
+3. Configure signing under Xcode target settings.
+4. Build and run, or archive for distribution.
+
+Command-line iOS build:
+
+```sh
+xcodebuild -project ios/NEOLocalLM/NEOLocalLM.xcodeproj -scheme "NEO Local LM" -configuration Release -destination 'generic/platform=iOS' build
+```
+
+### Mac Desktop Build
+
+The Mac desktop version uses the same SwiftUI target through Mac Catalyst.
+
+1. Open `ios/NEOLocalLM/NEOLocalLM.xcodeproj` on macOS.
+2. Select the `NEO Local LM` scheme.
+3. Choose `My Mac (Mac Catalyst)`.
+4. Configure signing.
+5. Build, run, or archive from Xcode.
+
+Command-line Mac Catalyst build:
+
+```sh
+xcodebuild -project ios/NEOLocalLM/NEOLocalLM.xcodeproj -scheme "NEO Local LM" -configuration Release -destination 'platform=macOS,variant=Mac Catalyst' build
+```
+
+Signed `.ipa`, `.app`, `.dmg`, or notarized Mac packages must be created on macOS with Xcode and valid Apple signing credentials.
 
 ## License
 
