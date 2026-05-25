@@ -17,6 +17,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
 import java.time.Duration;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -58,6 +59,7 @@ public final class NEOLocalLMDesktop extends JFrame {
     private final Path appData = Paths.get(System.getenv().getOrDefault("LOCALAPPDATA", System.getProperty("user.home")), APP_NAME);
     private Path modelsDir = Paths.get(prefs.get("models_dir", defaultDownloadsFolder().toString()));
     private final Path runtimeDir = appData.resolve("runtime");
+    private final Path runtimeMarker = runtimeDir.resolve("llama-server.path");
     private final JTextArea chatArea = new JTextArea();
     private final JTextField inputField = new JTextField();
     private final JComboBox<ModelItem> modelCombo = new JComboBox<>();
@@ -538,12 +540,34 @@ public final class NEOLocalLMDesktop extends JFrame {
     }
 
     private Optional<Path> runtimeExe() {
+        Optional<Path> marked = readRuntimeMarker();
+        if (marked.isPresent()) return marked;
         Path saved = Paths.get(prefs.get("llama_server", runtimeDir.resolve("llama-server.exe").toString()));
         if (Files.exists(saved)) return Optional.of(saved);
         try (var stream = Files.walk(runtimeDir)) {
-            return stream.filter(p -> p.getFileName().toString().equalsIgnoreCase("llama-server.exe")).findFirst();
+            return stream
+                .filter(p -> p.getFileName().toString().equalsIgnoreCase("llama-server.exe"))
+                .max(Comparator.comparingLong(this::lastModifiedMillis));
         } catch (IOException ignored) {
             return Optional.empty();
+        }
+    }
+
+    private Optional<Path> readRuntimeMarker() {
+        try {
+            if (!Files.exists(runtimeMarker)) return Optional.empty();
+            Path marked = Paths.get(Files.readString(runtimeMarker, StandardCharsets.UTF_8).trim());
+            return Files.exists(marked) ? Optional.of(marked) : Optional.empty();
+        } catch (IOException | RuntimeException ignored) {
+            return Optional.empty();
+        }
+    }
+
+    private long lastModifiedMillis(Path path) {
+        try {
+            return Files.getLastModifiedTime(path).toMillis();
+        } catch (IOException ignored) {
+            return 0L;
         }
     }
 
@@ -557,7 +581,8 @@ public final class NEOLocalLMDesktop extends JFrame {
             String output = new String(process.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
             int exit = process.waitFor();
             if (exit != 0) throw new IOException(output);
-            runtimeExe().ifPresent(path -> prefs.put("llama_server", path.toString()));
+            Path installed = readRuntimeMarker().orElseGet(() -> runtimeExe().orElse(null));
+            if (installed != null) prefs.put("llama_server", installed.toString());
             appendSystem("llama.cpp runtime installed");
         });
     }
@@ -943,21 +968,32 @@ public final class NEOLocalLMDesktop extends JFrame {
     @FunctionalInterface
     private interface ThrowingRunnable { void run() throws Exception; }
 
-    private static final String INSTALL_SCRIPT = """
+private static final String INSTALL_SCRIPT = """
 param([Parameter(Mandatory=$true)][string]$InstallDir)
 $ErrorActionPreference = 'Stop'
 New-Item -ItemType Directory -Force -Path $InstallDir | Out-Null
+Get-Process -Name 'llama-server' -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
 $release = Invoke-RestMethod -Uri 'https://api.github.com/repos/ggml-org/llama.cpp/releases/latest' -Headers @{ 'User-Agent' = 'Neo Local LLM' }
 $asset = $release.assets |
   Where-Object { $_.name -match 'bin-win' -and $_.name -match 'x64' -and $_.name -match '\\.zip$' } |
   Sort-Object @{ Expression = { if ($_.name -match 'vulkan') { 0 } elseif ($_.name -match 'avx2') { 1 } else { 2 } } }, name |
   Select-Object -First 1
 if (-not $asset) { throw 'Could not find a Windows x64 llama.cpp runtime asset in the latest release.' }
-$zip = Join-Path $InstallDir $asset.name
+$stamp = Get-Date -Format 'yyyyMMdd-HHmmss'
+$target = Join-Path $InstallDir "llama-$stamp"
+New-Item -ItemType Directory -Force -Path $target | Out-Null
+$zip = Join-Path $target $asset.name
 Invoke-WebRequest -Uri $asset.browser_download_url -OutFile $zip -Headers @{ 'User-Agent' = 'Neo Local LLM' }
-Expand-Archive -Path $zip -DestinationPath $InstallDir -Force
-$server = Get-ChildItem -Path $InstallDir -Recurse -Filter 'llama-server.exe' | Select-Object -First 1
+Expand-Archive -Path $zip -DestinationPath $target -Force
+$server = Get-ChildItem -Path $target -Recurse -Filter 'llama-server.exe' | Select-Object -First 1
 if (-not $server) { throw 'Downloaded runtime did not include llama-server.exe.' }
+$marker = Join-Path $InstallDir 'llama-server.path'
+Set-Content -LiteralPath $marker -Value $server.FullName -Encoding UTF8
+Get-ChildItem -Path $InstallDir -Directory -Filter 'llama-*' |
+  Where-Object { $_.FullName -ne $target } |
+  Sort-Object LastWriteTime -Descending |
+  Select-Object -Skip 2 |
+  ForEach-Object { Remove-Item -LiteralPath $_.FullName -Recurse -Force -ErrorAction SilentlyContinue }
 Write-Output "Installed $($server.FullName)"
 """;
 }
