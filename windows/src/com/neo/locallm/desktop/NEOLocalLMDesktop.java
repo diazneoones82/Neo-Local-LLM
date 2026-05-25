@@ -90,6 +90,7 @@ public final class NEOLocalLMDesktop extends JFrame {
         new ModelItem("Ministral 3 8B Instruct", "Ministral-3-8B-Instruct-2512-Q4_K_M.gguf", "https://huggingface.co/lmstudio-community/Ministral-3-8B-Instruct-2512-GGUF/resolve/main/Ministral-3-8B-Instruct-2512-Q4_K_M.gguf", null, false),
         new ModelItem("Ministral 3 8B Reasoning", "Ministral-3-8B-Reasoning-2512-Q4_K_M.gguf", "https://huggingface.co/lmstudio-community/Ministral-3-8B-Reasoning-2512-GGUF/resolve/main/Ministral-3-8B-Reasoning-2512-Q4_K_M.gguf", null, false),
         new ModelItem("Gemma 3n 4B", "gemma-3n-E4B-it-Q4_K_M.gguf", "https://huggingface.co/lmstudio-community/gemma-3n-E4B-it-text-GGUF/resolve/main/gemma-3n-E4B-it-Q4_K_M.gguf", null, false),
+        new ModelItem("NVIDIA Nemotron 3 Nano 4B", "NVIDIA-Nemotron3-Nano-4B-Q4_K_M.gguf", "https://huggingface.co/nvidia/NVIDIA-Nemotron-3-Nano-4B-GGUF/resolve/main/NVIDIA-Nemotron3-Nano-4B-Q4_K_M.gguf", null, false),
         new ModelItem("Gemma2 9B", "gemma-2-9b-it-Q4_K_M.gguf", "https://huggingface.co/bartowski/gemma-2-9b-it-GGUF/resolve/main/gemma-2-9b-it-Q4_K_M.gguf", null, false),
         new ModelItem("TinyLlama 1.1B Q5", "tinyllama-1.1b-chat-v1.0.Q5_K_M.gguf", "https://huggingface.co/pbatra/TinyLlama-1.1B-Chat-v1.0-GGUF/resolve/main/tinyllama-1.1b-chat-v1.0.Q5_K_M.gguf", null, false),
         new ModelItem("Llama 3.2 3B Instruct Uncensored", "Llama-3.2-3B-Instruct-uncensored-Q8_0.gguf", "https://huggingface.co/bartowski/Llama-3.2-3B-Instruct-uncensored-GGUF/resolve/main/Llama-3.2-3B-Instruct-uncensored-Q8_0.gguf", null, false),
@@ -500,14 +501,31 @@ public final class NEOLocalLMDesktop extends JFrame {
             command.add("--batch-size"); command.add("1024");
             command.add("--ubatch-size"); command.add("512");
             command.add("--parallel"); command.add("1");
+            command.add("--no-mmap");
+            command.add("--mlock");
             ProcessBuilder pb = new ProcessBuilder(command);
             pb.directory(exe.getParent().toFile());
             pb.redirectErrorStream(true);
             llamaServer = pb.start();
+            raiseProcessPriority(llamaServer);
             loadedModel = model;
             Thread.sleep(2500);
             appendSystem("Loaded local model: " + model.name);
         });
+    }
+
+    private void raiseProcessPriority(Process process) {
+        long pid = process.pid();
+        try {
+            new ProcessBuilder(
+                "powershell.exe",
+                "-NoProfile",
+                "-Command",
+                "$p = Get-Process -Id " + pid + " -ErrorAction SilentlyContinue; if ($p) { $p.PriorityClass = 'High' }"
+            ).redirectErrorStream(true).start();
+        } catch (IOException ignored) {
+            // Best effort only. The llama-server flags still handle the main speed path.
+        }
     }
 
     private boolean ensureRuntime() {

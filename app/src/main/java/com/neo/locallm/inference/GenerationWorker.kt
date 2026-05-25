@@ -55,6 +55,11 @@ internal class GenerationWorker(
     private val thread: Thread = Thread({
         var statusCode = 0
         try {
+            try {
+                android.os.Process.setThreadPriority(android.os.Process.THREAD_PRIORITY_DISPLAY)
+            } catch (_: Throwable) {
+                // Best effort: some devices clamp app thread priorities.
+            }
             // Block until the publisher has installed us in the session's
             // worker slot. Without this gate, a tearDown landing between
             // CAS-publish and start() could free the native session

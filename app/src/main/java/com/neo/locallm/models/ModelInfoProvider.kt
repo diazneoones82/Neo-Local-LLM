@@ -107,6 +107,15 @@ object ModelInfoProvider {
             supportedLanguages = MULTILINGUAL_BROAD
         ),
         ModelInfo(
+            name = "NVIDIA Nemotron 3 Nano 4B",
+            filename = "NVIDIA-Nemotron3-Nano-4B-Q4_K_M.gguf",
+            remoteUri = Uri.parse("https://huggingface.co/nvidia/NVIDIA-Nemotron-3-Nano-4B-GGUF/resolve/main/NVIDIA-Nemotron3-Nano-4B-Q4_K_M.gguf"),
+            releaseDate = LocalDate.parse("2026-05-20"),
+            description = "NVIDIA local instruct model - 4B - Q4_K_M",
+            logoRes = R.drawable.logo_nvidia,
+            supportedLanguages = ENGLISH_ONLY
+        ),
+        ModelInfo(
             name = "Gemma2 9B",
             filename = "gemma-2-9b-it-Q4_K_M.gguf",
             remoteUri = Uri.parse("https://huggingface.co/bartowski/gemma-2-9b-it-GGUF/resolve/main/gemma-2-9b-it-Q4_K_M.gguf"),

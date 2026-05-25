@@ -104,6 +104,7 @@ void LlamaGenerationSession::init(llama_model *model, const struct common_chat_t
     llama_context_params ctx_params = llama_context_default_params();
     ctx_params.n_ctx = n_ctx;
     ctx_params.n_batch = std::min(n_ctx, 1024);
+    ctx_params.n_ubatch = std::min(ctx_params.n_batch, 512u);
     ctx_params.n_threads       = n_threads;
     ctx_params.n_threads_batch = n_threads;
 
