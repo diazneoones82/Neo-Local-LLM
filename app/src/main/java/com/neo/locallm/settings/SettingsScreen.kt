@@ -61,10 +61,8 @@ fun SettingsScreen(
     onModelsClick: () -> Unit,
     onLanguageClick: () -> Unit,
     onConversationHistoryClick: () -> Unit,
-    openRouterApiKey: String = "",
-    onOpenRouterApiKeySave: (String) -> Unit = {},
-    nvidiaApiKey: String = "",
-    onNvidiaApiKeySave: (String) -> Unit = {},
+    huggingFaceToken: String = "",
+    onHuggingFaceTokenSave: (String) -> Unit = {},
     darkModeEnabled: Boolean = false,
     onDarkModeChange: (Boolean) -> Unit = {},
     biometricPinEnabled: Boolean = false,
@@ -119,10 +117,8 @@ fun SettingsScreen(
                             else onLanguageClick()
                         },
                         onConversationHistoryClick = onConversationHistoryClick,
-                        openRouterApiKey = openRouterApiKey,
-                        onOpenRouterApiKeySave = onOpenRouterApiKeySave,
-                        nvidiaApiKey = nvidiaApiKey,
-                        onNvidiaApiKeySave = onNvidiaApiKeySave,
+                        huggingFaceToken = huggingFaceToken,
+                        onHuggingFaceTokenSave = onHuggingFaceTokenSave,
                         darkModeEnabled = darkModeEnabled,
                         onDarkModeChange = onDarkModeChange,
                         biometricPinEnabled = biometricPinEnabled,
@@ -174,10 +170,8 @@ fun SettingsScreen(
                 onModelsClick = onModelsClick,
                 onLanguageClick = onLanguageClick,
                 onConversationHistoryClick = onConversationHistoryClick,
-                openRouterApiKey = openRouterApiKey,
-                onOpenRouterApiKeySave = onOpenRouterApiKeySave,
-                nvidiaApiKey = nvidiaApiKey,
-                onNvidiaApiKeySave = onNvidiaApiKeySave,
+                huggingFaceToken = huggingFaceToken,
+                onHuggingFaceTokenSave = onHuggingFaceTokenSave,
                 darkModeEnabled = darkModeEnabled,
                 onDarkModeChange = onDarkModeChange,
                 biometricPinEnabled = biometricPinEnabled,
@@ -196,18 +190,15 @@ private fun SettingsList(
     onModelsClick: () -> Unit,
     onLanguageClick: () -> Unit,
     onConversationHistoryClick: () -> Unit,
-    openRouterApiKey: String,
-    onOpenRouterApiKeySave: (String) -> Unit,
-    nvidiaApiKey: String,
-    onNvidiaApiKeySave: (String) -> Unit,
+    huggingFaceToken: String,
+    onHuggingFaceTokenSave: (String) -> Unit,
     darkModeEnabled: Boolean,
     onDarkModeChange: (Boolean) -> Unit,
     biometricPinEnabled: Boolean,
     onBiometricPinChange: (Boolean) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    var apiKeyDraft by remember(openRouterApiKey) { mutableStateOf(openRouterApiKey) }
-    var nvidiaApiKeyDraft by remember(nvidiaApiKey) { mutableStateOf(nvidiaApiKey) }
+    var tokenDraft by remember(huggingFaceToken) { mutableStateOf(huggingFaceToken) }
 
     Column(modifier = modifier.verticalScroll(rememberScrollState())) {
         ToggleRow(
@@ -250,48 +241,16 @@ private fun SettingsList(
             Spacer(Modifier.width(16.dp))
             Column(Modifier.weight(1f)) {
                 OutlinedTextField(
-                    value = apiKeyDraft,
-                    onValueChange = { apiKeyDraft = it },
-                    label = { Text(stringResource(R.string.openrouter_api_key)) },
-                    supportingText = { Text(stringResource(R.string.openrouter_api_key_subtitle)) },
+                    value = tokenDraft,
+                    onValueChange = { tokenDraft = it },
+                    label = { Text(stringResource(R.string.huggingface_token)) },
+                    supportingText = { Text(stringResource(R.string.huggingface_token_subtitle)) },
                     singleLine = true,
                     visualTransformation = PasswordVisualTransformation(),
                     modifier = Modifier.fillMaxWidth()
                 )
                 Button(
-                    onClick = { onOpenRouterApiKeySave(apiKeyDraft) },
-                    modifier = Modifier.align(Alignment.End)
-                ) {
-                    Text(stringResource(R.string.save))
-                }
-            }
-        }
-
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 8.dp),
-            verticalAlignment = Alignment.Top
-        ) {
-            Icon(
-                imageVector = Icons.Outlined.VpnKey,
-                contentDescription = null,
-                tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                modifier = Modifier.padding(top = 18.dp)
-            )
-            Spacer(Modifier.width(16.dp))
-            Column(Modifier.weight(1f)) {
-                OutlinedTextField(
-                    value = nvidiaApiKeyDraft,
-                    onValueChange = { nvidiaApiKeyDraft = it },
-                    label = { Text(stringResource(R.string.nvidia_api_key)) },
-                    supportingText = { Text(stringResource(R.string.nvidia_api_key_subtitle)) },
-                    singleLine = true,
-                    visualTransformation = PasswordVisualTransformation(),
-                    modifier = Modifier.fillMaxWidth()
-                )
-                Button(
-                    onClick = { onNvidiaApiKeySave(nvidiaApiKeyDraft) },
+                    onClick = { onHuggingFaceTokenSave(tokenDraft) },
                     modifier = Modifier.align(Alignment.End)
                 ) {
                     Text(stringResource(R.string.save))

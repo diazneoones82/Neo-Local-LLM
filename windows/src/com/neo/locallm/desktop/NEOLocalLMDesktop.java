@@ -63,8 +63,7 @@ public final class NEOLocalLMDesktop extends JFrame {
     private final JTextArea chatArea = new JTextArea();
     private final JTextField inputField = new JTextField();
     private final JComboBox<ModelItem> modelCombo = new JComboBox<>();
-    private final JTextField openRouterApiKeyField = new JPasswordField();
-    private final JTextField nvidiaApiKeyField = new JPasswordField();
+    private final JTextField huggingFaceTokenField = new JPasswordField();
     private final JTextField modelFolderField = new JTextField();
     private final JLabel statusLabel = new JLabel("Ready");
     private final JProgressBar downloadProgress = new JProgressBar(0, 100);
@@ -100,10 +99,8 @@ public final class NEOLocalLMDesktop extends JFrame {
         new ModelItem("Llama 3.2 3B Instruct Uncensored", "Llama-3.2-3B-Instruct-uncensored-Q8_0.gguf", "https://huggingface.co/bartowski/Llama-3.2-3B-Instruct-uncensored-GGUF/resolve/main/Llama-3.2-3B-Instruct-uncensored-Q8_0.gguf", null, false, ""),
         new ModelItem("Qwen2.5.1-Coder 7B Instruct", "Qwen2.5.1-Coder-7B-Instruct-Q6_K_L.gguf", "https://huggingface.co/bartowski/Qwen2.5.1-Coder-7B-Instruct-GGUF/resolve/main/Qwen2.5.1-Coder-7B-Instruct-Q6_K_L.gguf", null, false, ""),
         new ModelItem("OLMo 2 1124 7B Instruct", "OLMo-2-1124-7B-Instruct-Q6_K.gguf", "https://huggingface.co/bartowski/OLMo-2-1124-7B-Instruct-GGUF/resolve/main/OLMo-2-1124-7B-Instruct-Q6_K.gguf", null, false, ""),
-        new ModelItem("Nemotron 3 Nano (NVIDIA)", "online-nvidia-nemotron-3-nano", null, "nvidia/nemotron-3-nano-30b-a3b", true, "nvidia"),
-        new ModelItem("DeepSeek V4 Flash (NVIDIA)", "online-nvidia-deepseek-v4-flash", null, "deepseek-ai/deepseek-v4-flash", true, "nvidia"),
-        new ModelItem("Nemotron 3 Nano (OpenRouter)", "online-nemotron-3-nano", null, "nvidia/nemotron-3-nano-30b-a3b", true, "openrouter"),
-        new ModelItem("Nemotron 3 Super 120B Free (OpenRouter)", "online-nemotron-3-super", null, "nvidia/nemotron-3-super-120b-a12b:free", true, "openrouter")
+        new ModelItem("Gemma 4 31B IT (Hugging Face)", "online-hf-gemma-4-31b-it", null, "google/gemma-4-31B-it", true, "huggingface"),
+        new ModelItem("DeepSeek V4 Flash (Hugging Face)", "online-hf-deepseek-v4-flash", null, "deepseek-ai/DeepSeek-V4-Flash", true, "huggingface")
     };
 
     public static void main(String[] args) {
@@ -279,15 +276,11 @@ public final class NEOLocalLMDesktop extends JFrame {
 
     private JPanel onlinePanel() {
         JPanel panel = verticalPanel();
-        panel.add(label("OpenRouter API key"));
-        openRouterApiKeyField.setPreferredSize(new Dimension(SIDE_CONTROL_WIDTH, 38));
-        openRouterApiKeyField.setMaximumSize(new Dimension(Integer.MAX_VALUE, 38));
-        panel.add(leftWrap(openRouterApiKeyField, 38));
-        panel.add(label("NVIDIA API key"));
-        nvidiaApiKeyField.setPreferredSize(new Dimension(SIDE_CONTROL_WIDTH, 38));
-        nvidiaApiKeyField.setMaximumSize(new Dimension(Integer.MAX_VALUE, 38));
-        panel.add(leftWrap(nvidiaApiKeyField, 38));
-        panel.add(button("Save API keys", e -> saveApiKeys()));
+        panel.add(label("Hugging Face token"));
+        huggingFaceTokenField.setPreferredSize(new Dimension(SIDE_CONTROL_WIDTH, 38));
+        huggingFaceTokenField.setMaximumSize(new Dimension(Integer.MAX_VALUE, 38));
+        panel.add(leftWrap(huggingFaceTokenField, 38));
+        panel.add(button("Save token", e -> saveApiKeys()));
         return panel;
     }
 
@@ -355,17 +348,15 @@ public final class NEOLocalLMDesktop extends JFrame {
     }
 
     private void loadPrefs() {
-        openRouterApiKeyField.setText(prefs.get("openrouter_key", ""));
-        nvidiaApiKeyField.setText(prefs.get("nvidia_key", ""));
+        huggingFaceTokenField.setText(prefs.get("huggingface_token", ""));
         darkMode.setSelected(prefs.getBoolean("dark", true));
         modelFolderField.setText(compactPath(modelsDir));
         modelFolderField.setToolTipText(modelsDir.toString());
     }
 
     private void saveApiKeys() {
-        prefs.put("openrouter_key", openRouterApiKeyField.getText().trim());
-        prefs.put("nvidia_key", nvidiaApiKeyField.getText().trim());
-        setStatus("Online API keys saved");
+        prefs.put("huggingface_token", huggingFaceTokenField.getText().trim());
+        setStatus("Hugging Face token saved");
     }
 
     private void downloadSelected(ActionEvent event) {
@@ -618,25 +609,16 @@ public final class NEOLocalLMDesktop extends JFrame {
     }
 
     private String sendOnline(ModelItem model, String prompt) throws Exception {
-        if ("nvidia".equals(model.provider)) {
-            String key = nvidiaApiKeyField.getText().trim();
-            if (key.isEmpty()) throw new IllegalStateException("Save a NVIDIA API key first.");
-        return chatCompletions(URI.create("https://integrate.api.nvidia.com/v1/chat/completions"), key, model.onlineId, prompt, false, true);
-        }
-        String key = openRouterApiKeyField.getText().trim();
-        if (key.isEmpty()) throw new IllegalStateException("Save an OpenRouter API key first.");
-        return chatCompletions(URI.create("https://openrouter.ai/api/v1/chat/completions"), key, model.onlineId, prompt, true);
+        String key = huggingFaceTokenField.getText().trim();
+        if (key.isEmpty()) throw new IllegalStateException("Save a Hugging Face token first.");
+        return chatCompletions(URI.create("https://router.huggingface.co/v1/chat/completions"), key, model.onlineId, prompt, true);
     }
 
     private String chatCompletions(URI uri, String key, String model, String prompt) throws Exception {
         return chatCompletions(uri, key, model, prompt, false);
     }
 
-    private String chatCompletions(URI uri, String key, String model, String prompt, boolean openRouterHeaders) throws Exception {
-        return chatCompletions(uri, key, model, prompt, openRouterHeaders, false);
-    }
-
-    private String chatCompletions(URI uri, String key, String model, String prompt, boolean openRouterHeaders, boolean nvidiaJsonResponse) throws Exception {
+    private String chatCompletions(URI uri, String key, String model, String prompt, boolean forceJsonResponse) throws Exception {
         String cacheKey = model + "\n" + prompt;
         synchronized (responseCache) {
             String cached = responseCache.get(cacheKey);
@@ -645,7 +627,7 @@ public final class NEOLocalLMDesktop extends JFrame {
         boolean local = key == null;
         String body = "{\"model\":\"" + json(model) + "\",\"messages\":[{\"role\":\"user\",\"content\":\"" + json(prompt) + "\"}]" +
             (local ? ",\"cache_prompt\":true" : "") +
-            (nvidiaJsonResponse ? ",\"stream\":false,\"max_tokens\":2048" : "") +
+            (forceJsonResponse ? ",\"stream\":false,\"max_tokens\":2048" : "") +
             "}";
         HttpRequest.Builder builder = HttpRequest.newBuilder(uri)
             .timeout(Duration.ofMinutes(10))
@@ -654,10 +636,6 @@ public final class NEOLocalLMDesktop extends JFrame {
             .POST(HttpRequest.BodyPublishers.ofString(body));
         if (key != null) {
             builder.header("Authorization", "Bearer " + key);
-            if (openRouterHeaders) {
-                builder.header("HTTP-Referer", "https://neolocallm.local");
-                builder.header("X-OpenRouter-Title", APP_NAME);
-            }
         }
         HttpResponse<String> response = HTTP.send(builder.build(), HttpResponse.BodyHandlers.ofString());
         if (response.statusCode() / 100 != 2) throw new IOException("LLM request failed: " + response.body());

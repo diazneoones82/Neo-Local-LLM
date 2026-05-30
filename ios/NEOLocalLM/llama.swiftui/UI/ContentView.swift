@@ -100,7 +100,7 @@ struct ContentView: View {
                                     .foregroundStyle(.tint)
                                 Text("NEO Local LM")
                                     .font(.title.bold())
-                                Text("Download Qwen 3 1.7B, load it locally, or select an OpenRouter model from the picker.")
+                                Text("Download Qwen 3 1.7B, load it locally, or select a Hugging Face model from the picker.")
                                     .font(.body)
                                     .foregroundStyle(.secondary)
                                     .multilineTextAlignment(.center)
@@ -249,8 +249,7 @@ private struct SettingsView: View {
     @EnvironmentObject private var state: NEOAppState
     @Environment(\.dismiss) private var dismiss
     @AppStorage("dark_mode_enabled") private var darkModeEnabled = false
-    @State private var apiKeyDraft = ""
-    @State private var nvidiaApiKeyDraft = ""
+    @State private var huggingFaceTokenDraft = ""
     @State private var showingModels = false
     @State private var showingHistory = false
 
@@ -265,16 +264,10 @@ private struct SettingsView: View {
                     Text("Spanish").tag("Spanish")
                     Text("French").tag("French")
                 }
-                Section("OpenRouter API Key") {
-                    SecureField("OpenRouter API Key", text: $apiKeyDraft)
+                Section("Hugging Face Token") {
+                    SecureField("Hugging Face Token", text: $huggingFaceTokenDraft)
                     Button("Save") {
-                        state.saveOpenRouterKey(apiKeyDraft)
-                    }
-                }
-                Section("NVIDIA API Key") {
-                    SecureField("NVIDIA API Key", text: $nvidiaApiKeyDraft)
-                    Button("Save") {
-                        state.saveNvidiaKey(nvidiaApiKeyDraft)
+                        state.saveHuggingFaceToken(huggingFaceTokenDraft)
                     }
                 }
                 Button("Models") {
@@ -298,8 +291,7 @@ private struct SettingsView: View {
                 }
             }
             .onAppear {
-                apiKeyDraft = state.openRouterApiKey
-                nvidiaApiKeyDraft = state.nvidiaApiKey
+                huggingFaceTokenDraft = state.huggingFaceToken
             }
             .sheet(isPresented: $showingModels) {
                 ModelPickerView()
@@ -366,7 +358,7 @@ private struct OnboardingView: View {
     private let slides = [
         ("Download a local model", "Open Settings, choose Models, then download Qwen 3 1.7B or another GGUF model.", "arrow.down.circle"),
         ("Load and chat locally", "Select a downloaded model from the top bar. Once loaded, messages are generated with llama.cpp on device.", "cpu"),
-        ("Use online only when needed", "Add your OpenRouter key to use Nemotron online, or as fallback when local generation fails.", "cloud")
+        ("Use online only when needed", "Add your Hugging Face token to use hosted online models, or as fallback when local generation fails.", "cloud")
     ]
 
     var body: some View {

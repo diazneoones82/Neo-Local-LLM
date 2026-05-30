@@ -316,13 +316,7 @@ class ConversationViewModel(val app: Application) : AndroidViewModel(app) {
 
             onlineOnlyModel = modelInfo
             _loadedModel.postValue(modelInfo)
-            _loadedModelStatus.postValue(
-                if (ModelInfoProvider.getNvidiaModelId(modelInfo) != null) {
-                    "NVIDIA online"
-                } else {
-                    "OpenRouter online"
-                }
-            )
+            _loadedModelStatus.postValue("Hugging Face online")
             _modelLoadingProgress.postValue(0f)
             _thinkingEnabled.postValue(false)
             _supportsThinking.postValue(false)
@@ -921,21 +915,13 @@ class ConversationViewModel(val app: Application) : AndroidViewModel(app) {
                         if (localResponseFailed || localResponseBlank) {
                             val onlineResponse = withContext(Dispatchers.IO) {
                                 val selectedOnlineModel = onlineOnlyModel
-                                val nvidiaModelId = selectedOnlineModel
-                                    ?.let { ModelInfoProvider.getNvidiaModelId(it) }
-                                val openRouterModelId = selectedOnlineModel
-                                    ?.let { ModelInfoProvider.getOpenRouterModelId(it) }
-                                if (nvidiaModelId != null) {
-                                    onlineFallbackClient.generateNvidiaModel(
+                                val huggingFaceModelId = selectedOnlineModel
+                                    ?.let { ModelInfoProvider.getHuggingFaceModelId(it) }
+                                if (huggingFaceModelId != null) {
+                                    onlineFallbackClient.generateHuggingFaceModel(
                                         _systemPrompt.value.orEmpty(),
                                         fallbackMessages,
-                                        nvidiaModelId
-                                    )
-                                } else if (openRouterModelId != null) {
-                                    onlineFallbackClient.generateOpenRouterModel(
-                                        _systemPrompt.value.orEmpty(),
-                                        fallbackMessages,
-                                        openRouterModelId
+                                        huggingFaceModelId
                                     )
                                 } else {
                                     onlineFallbackClient.generate(

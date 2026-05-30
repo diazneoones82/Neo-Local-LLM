@@ -25,64 +25,22 @@ class OnlineFallbackClient(
         return tryGemini(systemPrompt, messages) ?: tryOpenAi(systemPrompt, messages)
     }
 
-    suspend fun generateOpenRouterNemotron(systemPrompt: String, messages: List<Message>): String? {
-        return tryOpenRouter(systemPrompt, messages, OPENROUTER_NEMOTRON_MODEL)
-    }
-
-    suspend fun generateOpenRouterModel(
+    suspend fun generateHuggingFaceModel(
         systemPrompt: String,
         messages: List<Message>,
         modelId: String
     ): String? {
-        return tryOpenRouter(systemPrompt, messages, modelId)
+        return tryHuggingFace(systemPrompt, messages, modelId)
     }
 
-    suspend fun generateNvidiaModel(
-        systemPrompt: String,
-        messages: List<Message>,
-        modelId: String
-    ): String? {
-        return tryNvidia(systemPrompt, messages, modelId)
-    }
-
-    private fun tryOpenRouter(
+    private fun tryHuggingFace(
         systemPrompt: String,
         messages: List<Message>,
         model: String
     ): String? {
-        val apiKey = onlinePreferences?.openRouterApiKey.orEmpty()
-        if (apiKey.isBlank()) {
-            return "OpenRouter API key is missing. Save it in Settings, then try again."
-        }
-
-        val body = JSONObject()
-            .put("model", model)
-            .put("messages", openAiCompatibleMessages(systemPrompt, messages))
-
-        val request = Request.Builder()
-            .url("https://openrouter.ai/api/v1/chat/completions")
-            .addHeader("Authorization", "Bearer $apiKey")
-            .addHeader("HTTP-Referer", "https://neolocallm.local")
-            .addHeader("X-OpenRouter-Title", "NEO Local LM")
-            .post(body.toString().toRequestBody(jsonMediaType))
-            .build()
-
-        return executeTextRequest(request, "OpenRouter") { json ->
-            json.optJSONArray("choices")
-                ?.optJSONObject(0)
-                ?.optJSONObject("message")
-                ?.optString("content")
-        }
-    }
-
-    private fun tryNvidia(
-        systemPrompt: String,
-        messages: List<Message>,
-        model: String
-    ): String? {
-        val apiKey = onlinePreferences?.nvidiaApiKey.orEmpty()
-        if (apiKey.isBlank()) {
-            return "NVIDIA API key is missing. Save it in Settings, then try again."
+        val token = onlinePreferences?.huggingFaceToken.orEmpty()
+        if (token.isBlank()) {
+            return "Hugging Face token is missing. Save it in Settings, then try again."
         }
 
         val body = JSONObject()
@@ -94,13 +52,13 @@ class OnlineFallbackClient(
             .put("stream", false)
 
         val request = Request.Builder()
-            .url("https://integrate.api.nvidia.com/v1/chat/completions")
+            .url("https://router.huggingface.co/v1/chat/completions")
             .addHeader("Accept", "application/json")
-            .addHeader("Authorization", "Bearer $apiKey")
+            .addHeader("Authorization", "Bearer $token")
             .post(body.toString().toRequestBody(jsonMediaType))
             .build()
 
-        return executeTextRequest(request, "NVIDIA") { json ->
+        return executeTextRequest(request, "Hugging Face") { json ->
             json.optJSONArray("choices")
                 ?.optJSONObject(0)
                 ?.optJSONObject("message")
@@ -254,9 +212,5 @@ class OnlineFallbackClient(
             }
         }
         return builder.toString()
-    }
-
-    companion object {
-        const val OPENROUTER_NEMOTRON_MODEL = "nvidia/nemotron-3-nano-30b-a3b"
     }
 }

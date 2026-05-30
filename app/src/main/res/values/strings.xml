@@ -126,12 +126,9 @@
     <string name="other_models">Other models</string>
     <string name="language">Language</string>
     <string name="language_system_default">System default</string>
-    <string name="openrouter_api_key" translatable="false">OpenRouter API Key</string>
-    <string name="openrouter_api_key_subtitle">Used only when you select Nemotron 3 Nano (OpenRouter).</string>
-    <string name="openrouter_api_key_saved">OpenRouter API key saved.</string>
-    <string name="nvidia_api_key" translatable="false">NVIDIA API Key</string>
-    <string name="nvidia_api_key_subtitle">Used only when you select Nemotron 3 Nano (NVIDIA).</string>
-    <string name="nvidia_api_key_saved">NVIDIA API key saved.</string>
+    <string name="huggingface_token" translatable="false">Hugging Face Token</string>
+    <string name="huggingface_token_subtitle">Used only when you select a Hugging Face online model.</string>
+    <string name="huggingface_token_saved">Hugging Face token saved.</string>
     <string name="dark_mode">Dark mode</string>
     <string name="dark_mode_subtitle">Switch between glossy light and dark themes.</string>
     <string name="conversation_history">Conversation History</string>
@@ -145,7 +142,7 @@
     <string name="onboarding_chat_title">Load and chat locally</string>
     <string name="onboarding_chat_body">Select a downloaded model from the top bar. Once it is loaded, type your message and NEO Local LM replies on device.</string>
     <string name="onboarding_online_title">Use online only when needed</string>
-    <string name="onboarding_online_body">Add your OpenRouter API key in Settings to use Nemotron 3 Nano, or let online fallback help only when local response fails.</string>
+    <string name="onboarding_online_body">Add your Hugging Face token in Settings to use hosted online models, or let online fallback help only when local response fails.</string>
     <string name="no_downloaded_models">No models downloaded yet</string>
     <string name="browse_more_models">Browse Models</string>
     <string name="cancel">Cancel</string>

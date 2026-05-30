@@ -187,11 +187,8 @@ class SettingsFragment : Fragment() {
                     320.dp
                 }
                 val onlinePreferences = remember { OnlinePreferences(requireContext()) }
-                var openRouterApiKey by remember {
-                    mutableStateOf(onlinePreferences.openRouterApiKey)
-                }
-                var nvidiaApiKey by remember {
-                    mutableStateOf(onlinePreferences.nvidiaApiKey)
+                var huggingFaceToken by remember {
+                    mutableStateOf(onlinePreferences.huggingFaceToken)
                 }
                 val themePreferences = remember { ThemePreferences(requireContext()) }
                 var darkModeEnabled by remember {
@@ -225,23 +222,13 @@ class SettingsFragment : Fragment() {
                         { LanguageContent() }
                     } else null,
                     masterWidth = masterWidth,
-                    openRouterApiKey = openRouterApiKey,
-                    onOpenRouterApiKeySave = { key ->
-                        openRouterApiKey = key
-                        onlinePreferences.openRouterApiKey = key
+                    huggingFaceToken = huggingFaceToken,
+                    onHuggingFaceTokenSave = { token ->
+                        huggingFaceToken = token
+                        onlinePreferences.huggingFaceToken = token
                         Toast.makeText(
                             requireContext(),
-                            R.string.openrouter_api_key_saved,
-                            Toast.LENGTH_SHORT,
-                        ).show()
-                    },
-                    nvidiaApiKey = nvidiaApiKey,
-                    onNvidiaApiKeySave = { key ->
-                        nvidiaApiKey = key
-                        onlinePreferences.nvidiaApiKey = key
-                        Toast.makeText(
-                            requireContext(),
-                            R.string.nvidia_api_key_saved,
+                            R.string.huggingface_token_saved,
                             Toast.LENGTH_SHORT,
                         ).show()
                     },

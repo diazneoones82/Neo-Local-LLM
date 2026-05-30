@@ -57,8 +57,7 @@ final class NEOAppState: ObservableObject {
     @Published var isGenerating = false
     @Published var downloadProgress: [String: String] = [:]
     @Published var selectedLanguage = "System"
-    @Published var openRouterApiKey = UserDefaults.standard.string(forKey: Keys.openRouterApiKey) ?? ""
-    @Published var nvidiaApiKey = UserDefaults.standard.string(forKey: Keys.nvidiaApiKey) ?? ""
+    @Published var huggingFaceToken = UserDefaults.standard.string(forKey: Keys.huggingFaceToken) ?? ""
     @Published var biometricPinEnabled = UserDefaults.standard.bool(forKey: Keys.biometricPinEnabled)
 
     let localModels: [LocalModel] = ModelCatalog.localModels
@@ -86,7 +85,7 @@ final class NEOAppState: ObservableObject {
     var modelSubtitle: String {
         switch loadedMode {
         case .none:
-            return "Local or OpenRouter"
+            return "Local or Hugging Face"
         case .local(let model):
             return model.description
         case .online(let model):
@@ -94,14 +93,9 @@ final class NEOAppState: ObservableObject {
         }
     }
 
-    func saveOpenRouterKey(_ value: String) {
-        openRouterApiKey = value.trimmingCharacters(in: .whitespacesAndNewlines)
-        UserDefaults.standard.set(openRouterApiKey, forKey: Keys.openRouterApiKey)
-    }
-
-    func saveNvidiaKey(_ value: String) {
-        nvidiaApiKey = value.trimmingCharacters(in: .whitespacesAndNewlines)
-        UserDefaults.standard.set(nvidiaApiKey, forKey: Keys.nvidiaApiKey)
+    func saveHuggingFaceToken(_ value: String) {
+        huggingFaceToken = value.trimmingCharacters(in: .whitespacesAndNewlines)
+        UserDefaults.standard.set(huggingFaceToken, forKey: Keys.huggingFaceToken)
     }
 
     func setBiometricPinEnabled(_ enabled: Bool) {
@@ -214,11 +208,11 @@ final class NEOAppState: ObservableObject {
         switch loadedMode {
         case .local:
             response = await generateLocal(prompt: trimmed)
-                ?? await generateOpenRouter(model: ModelCatalog.fallbackOnlineModel, prompt: trimmed)
+                ?? await generateOnline(model: ModelCatalog.fallbackOnlineModel, prompt: trimmed)
         case .online(let model):
-            response = await generateOpenRouter(model: model, prompt: trimmed)
+            response = await generateOnline(model: model, prompt: trimmed)
         case .none:
-            response = "Download and load a local model, or select an OpenRouter online model in the model picker."
+            response = "Download and load a local model, or select a Hugging Face online model in the model picker."
         }
 
         if let index = messages.firstIndex(where: { $0.id == assistantId }) {
@@ -239,21 +233,14 @@ final class NEOAppState: ObservableObject {
         return output.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? nil : output
     }
 
-    private func generateOpenRouter(model: OnlineModel, prompt: String) async -> String? {
-        let key = (model.provider == "nvidia" ? nvidiaApiKey : openRouterApiKey)
-            .trimmingCharacters(in: .whitespacesAndNewlines)
+    private func generateOnline(model: OnlineModel, prompt: String) async -> String? {
+        let key = huggingFaceToken.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !key.isEmpty else { return nil }
 
-        let endpoint = model.provider == "nvidia"
-            ? "https://integrate.api.nvidia.com/v1/chat/completions"
-            : "https://openrouter.ai/api/v1/chat/completions"
+        let endpoint = "https://router.huggingface.co/v1/chat/completions"
         var request = URLRequest(url: URL(string: endpoint)!)
         request.httpMethod = "POST"
         request.setValue("Bearer \(key)", forHTTPHeaderField: "Authorization")
-        if model.provider == "openrouter" {
-            request.setValue("https://neolocallm.local", forHTTPHeaderField: "HTTP-Referer")
-            request.setValue("NEO Local LM iOS", forHTTPHeaderField: "X-OpenRouter-Title")
-        }
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.setValue("application/json", forHTTPHeaderField: "Accept")
 
@@ -264,10 +251,8 @@ final class NEOAppState: ObservableObject {
             "model": model.modelId,
             "messages": history.isEmpty ? [["role": "user", "content": prompt]] : history
         ]
-        if model.provider == "nvidia" {
-            body["stream"] = false
-            body["max_tokens"] = 2048
-        }
+        body["stream"] = false
+        body["max_tokens"] = 2048
         request.httpBody = try? JSONSerialization.data(withJSONObject: body)
 
         do {
@@ -314,8 +299,7 @@ final class NEOAppState: ObservableObject {
     }
 
     private enum Keys {
-        static let openRouterApiKey = "openrouter_api_key"
-        static let nvidiaApiKey = "nvidia_api_key"
+        static let huggingFaceToken = "huggingface_token"
         static let biometricPinEnabled = "biometric_pin_enabled"
     }
 }
@@ -356,11 +340,9 @@ enum ModelCatalog {
     ]
 
     static let onlineModels: [OnlineModel] = [
-        OnlineModel(id: "nvidia-nemotron-3-nano", name: "Nemotron 3 Nano (NVIDIA)", modelId: "nvidia/nemotron-3-nano-30b-a3b", provider: "nvidia", description: "NVIDIA online model - NVIDIA API key required"),
-        OnlineModel(id: "nvidia-deepseek-v4-flash", name: "DeepSeek V4 Flash (NVIDIA)", modelId: "deepseek-ai/deepseek-v4-flash", provider: "nvidia", description: "DeepSeek online model - NVIDIA API key required"),
-        OnlineModel(id: "nemotron-3-nano", name: "Nemotron 3 Nano (OpenRouter)", modelId: "nvidia/nemotron-3-nano-30b-a3b", provider: "openrouter", description: "NVIDIA online model - OpenRouter API key required"),
-        OnlineModel(id: "nemotron-3-super-free", name: "Nemotron 3 Super 120B Free (OpenRouter)", modelId: "nvidia/nemotron-3-super-120b-a12b:free", provider: "openrouter", description: "NVIDIA free online model - OpenRouter API key required")
+        OnlineModel(id: "hf-gemma-4-31b-it", name: "Gemma 4 31B IT (Hugging Face)", modelId: "google/gemma-4-31B-it", provider: "huggingface", description: "Hugging Face online model - token required"),
+        OnlineModel(id: "hf-deepseek-v4-flash", name: "DeepSeek V4 Flash (Hugging Face)", modelId: "deepseek-ai/DeepSeek-V4-Flash", provider: "huggingface", description: "Hugging Face online model - token required")
     ]
 
-    static let fallbackOnlineModel = onlineModels[1]
+    static let fallbackOnlineModel = onlineModels[0]
 }

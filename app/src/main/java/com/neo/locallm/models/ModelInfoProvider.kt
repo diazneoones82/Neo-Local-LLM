@@ -171,73 +171,40 @@ object ModelInfoProvider {
         )
     )
 
-    private fun openRouterModel(
+    private fun huggingFaceModel(
         name: String,
         filename: String,
-        provider: String,
         logoRes: Int,
         modelId: String
     ): ModelInfo = ModelInfo(
         name = name,
-        filename = "online-openrouter-$filename",
+        filename = "online-huggingface-$filename",
         remoteUri = null,
         releaseDate = null,
-        description = "$provider online model - OpenRouter API key required",
+        description = "Hugging Face online model - token required",
         logoRes = logoRes,
         supportedLanguages = MULTILINGUAL_BROAD,
         isOnline = true,
-        additionalFiles = listOf(ModelFilePart("openrouter-model-id", Uri.parse(modelId)))
+        additionalFiles = listOf(ModelFilePart("huggingface-model-id", Uri.parse(modelId)))
     )
 
-    private fun nvidiaModel(
-        name: String,
-        filename: String,
-        modelId: String
-    ): ModelInfo = ModelInfo(
-        name = name,
-        filename = "online-nvidia-$filename",
-        remoteUri = null,
-        releaseDate = null,
-        description = "NVIDIA online model - NVIDIA API key required",
-        logoRes = R.drawable.logo_nvidia,
-        supportedLanguages = MULTILINGUAL_BROAD,
-        isOnline = true,
-        additionalFiles = listOf(ModelFilePart("nvidia-model-id", Uri.parse(modelId)))
+    val huggingFaceGemma4: ModelInfo = huggingFaceModel(
+        name = "Gemma 4 31B IT (Hugging Face)",
+        filename = "gemma-4-31b-it",
+        logoRes = R.drawable.logo_google,
+        modelId = "google/gemma-4-31B-it"
     )
 
-    val openRouterNemotron: ModelInfo = openRouterModel(
-        name = "Nemotron 3 Nano (OpenRouter)",
-        filename = "nemotron-3-nano",
-        provider = "NVIDIA",
-        logoRes = R.drawable.logo_nvidia,
-        modelId = "nvidia/nemotron-3-nano-30b-a3b"
-    )
-
-    val openRouterNemotronSuper: ModelInfo = openRouterModel(
-        name = "Nemotron 3 Super 120B Free (OpenRouter)",
-        filename = "nemotron-3-super-120b-free",
-        provider = "NVIDIA",
-        logoRes = R.drawable.logo_nvidia,
-        modelId = "nvidia/nemotron-3-super-120b-a12b:free"
-    )
-
-    val nvidiaNemotronNano: ModelInfo = nvidiaModel(
-        name = "Nemotron 3 Nano (NVIDIA)",
-        filename = "nemotron-3-nano",
-        modelId = "nvidia/nemotron-3-nano-30b-a3b"
-    )
-
-    val nvidiaDeepSeekV4Flash: ModelInfo = nvidiaModel(
-        name = "DeepSeek V4 Flash (NVIDIA)",
+    val huggingFaceDeepSeekV4Flash: ModelInfo = huggingFaceModel(
+        name = "DeepSeek V4 Flash (Hugging Face)",
         filename = "deepseek-v4-flash",
-        modelId = "deepseek-ai/deepseek-v4-flash"
+        logoRes = R.drawable.logo_deepseek,
+        modelId = "deepseek-ai/DeepSeek-V4-Flash"
     )
 
     val onlineModels: List<ModelInfo> = listOf(
-        nvidiaNemotronNano,
-        nvidiaDeepSeekV4Flash,
-        openRouterNemotron,
-        openRouterNemotronSuper
+        huggingFaceGemma4,
+        huggingFaceDeepSeekV4Flash
     )
 
     val defaultModel: ModelInfo = allModels.first()
@@ -260,13 +227,8 @@ object ModelInfoProvider {
      */
     fun getDisplayName(filename: String): String = getByFilename(filename)?.name ?: filename.removeSuffix(".gguf")
 
-    fun getOpenRouterModelId(model: ModelInfo): String? =
-        model.additionalFiles.firstOrNull { it.filename == "openrouter-model-id" }
-            ?.remoteUri
-            ?.toString()
-
-    fun getNvidiaModelId(model: ModelInfo): String? =
-        model.additionalFiles.firstOrNull { it.filename == "nvidia-model-id" }
+    fun getHuggingFaceModelId(model: ModelInfo): String? =
+        model.additionalFiles.firstOrNull { it.filename == "huggingface-model-id" }
             ?.remoteUri
             ?.toString()
     
@@ -303,7 +265,7 @@ object ModelInfoProvider {
                     model = model,
                     isDownloaded = model.filename in downloadedFilenames &&
                         model.additionalFiles
-                            .filterNot { it.filename == "openrouter-model-id" }
+                            .filterNot { it.filename == "huggingface-model-id" }
                             .all { it.filename in downloadedFilenames },
                 )
             }
