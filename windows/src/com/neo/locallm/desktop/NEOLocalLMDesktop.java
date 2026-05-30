@@ -101,6 +101,7 @@ public final class NEOLocalLMDesktop extends JFrame {
         new ModelItem("Qwen2.5.1-Coder 7B Instruct", "Qwen2.5.1-Coder-7B-Instruct-Q6_K_L.gguf", "https://huggingface.co/bartowski/Qwen2.5.1-Coder-7B-Instruct-GGUF/resolve/main/Qwen2.5.1-Coder-7B-Instruct-Q6_K_L.gguf", null, false, ""),
         new ModelItem("OLMo 2 1124 7B Instruct", "OLMo-2-1124-7B-Instruct-Q6_K.gguf", "https://huggingface.co/bartowski/OLMo-2-1124-7B-Instruct-GGUF/resolve/main/OLMo-2-1124-7B-Instruct-Q6_K.gguf", null, false, ""),
         new ModelItem("Nemotron 3 Nano (NVIDIA)", "online-nvidia-nemotron-3-nano", null, "nvidia/nemotron-3-nano-30b-a3b", true, "nvidia"),
+        new ModelItem("DeepSeek V4 Flash (NVIDIA)", "online-nvidia-deepseek-v4-flash", null, "deepseek-ai/deepseek-v4-flash", true, "nvidia"),
         new ModelItem("Nemotron 3 Nano (OpenRouter)", "online-nemotron-3-nano", null, "nvidia/nemotron-3-nano-30b-a3b", true, "openrouter"),
         new ModelItem("Nemotron 3 Super 120B Free (OpenRouter)", "online-nemotron-3-super", null, "nvidia/nemotron-3-super-120b-a12b:free", true, "openrouter")
     };

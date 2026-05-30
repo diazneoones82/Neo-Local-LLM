@@ -357,6 +357,7 @@ enum ModelCatalog {
 
     static let onlineModels: [OnlineModel] = [
         OnlineModel(id: "nvidia-nemotron-3-nano", name: "Nemotron 3 Nano (NVIDIA)", modelId: "nvidia/nemotron-3-nano-30b-a3b", provider: "nvidia", description: "NVIDIA online model - NVIDIA API key required"),
+        OnlineModel(id: "nvidia-deepseek-v4-flash", name: "DeepSeek V4 Flash (NVIDIA)", modelId: "deepseek-ai/deepseek-v4-flash", provider: "nvidia", description: "DeepSeek online model - NVIDIA API key required"),
         OnlineModel(id: "nemotron-3-nano", name: "Nemotron 3 Nano (OpenRouter)", modelId: "nvidia/nemotron-3-nano-30b-a3b", provider: "openrouter", description: "NVIDIA online model - OpenRouter API key required"),
         OnlineModel(id: "nemotron-3-super-free", name: "Nemotron 3 Super 120B Free (OpenRouter)", modelId: "nvidia/nemotron-3-super-120b-a12b:free", provider: "openrouter", description: "NVIDIA free online model - OpenRouter API key required")
     ]

@@ -227,8 +227,15 @@ object ModelInfoProvider {
         modelId = "nvidia/nemotron-3-nano-30b-a3b"
     )
 
+    val nvidiaDeepSeekV4Flash: ModelInfo = nvidiaModel(
+        name = "DeepSeek V4 Flash (NVIDIA)",
+        filename = "deepseek-v4-flash",
+        modelId = "deepseek-ai/deepseek-v4-flash"
+    )
+
     val onlineModels: List<ModelInfo> = listOf(
         nvidiaNemotronNano,
+        nvidiaDeepSeekV4Flash,
         openRouterNemotron,
         openRouterNemotronSuper
     )
