@@ -189,6 +189,22 @@ object ModelInfoProvider {
         additionalFiles = listOf(ModelFilePart("openrouter-model-id", Uri.parse(modelId)))
     )
 
+    private fun nvidiaModel(
+        name: String,
+        filename: String,
+        modelId: String
+    ): ModelInfo = ModelInfo(
+        name = name,
+        filename = "online-nvidia-$filename",
+        remoteUri = null,
+        releaseDate = null,
+        description = "NVIDIA online model - NVIDIA API key required",
+        logoRes = R.drawable.logo_nvidia,
+        supportedLanguages = MULTILINGUAL_BROAD,
+        isOnline = true,
+        additionalFiles = listOf(ModelFilePart("nvidia-model-id", Uri.parse(modelId)))
+    )
+
     val openRouterNemotron: ModelInfo = openRouterModel(
         name = "Nemotron 3 Nano (OpenRouter)",
         filename = "nemotron-3-nano",
@@ -205,7 +221,14 @@ object ModelInfoProvider {
         modelId = "nvidia/nemotron-3-super-120b-a12b:free"
     )
 
+    val nvidiaNemotronNano: ModelInfo = nvidiaModel(
+        name = "Nemotron 3 Nano (NVIDIA)",
+        filename = "nemotron-3-nano",
+        modelId = "nvidia/nemotron-3-nano-30b-a3b"
+    )
+
     val onlineModels: List<ModelInfo> = listOf(
+        nvidiaNemotronNano,
         openRouterNemotron,
         openRouterNemotronSuper
     )
@@ -232,6 +255,11 @@ object ModelInfoProvider {
 
     fun getOpenRouterModelId(model: ModelInfo): String? =
         model.additionalFiles.firstOrNull { it.filename == "openrouter-model-id" }
+            ?.remoteUri
+            ?.toString()
+
+    fun getNvidiaModelId(model: ModelInfo): String? =
+        model.additionalFiles.firstOrNull { it.filename == "nvidia-model-id" }
             ?.remoteUri
             ?.toString()
     

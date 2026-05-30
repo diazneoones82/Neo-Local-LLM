@@ -190,6 +190,9 @@ class SettingsFragment : Fragment() {
                 var openRouterApiKey by remember {
                     mutableStateOf(onlinePreferences.openRouterApiKey)
                 }
+                var nvidiaApiKey by remember {
+                    mutableStateOf(onlinePreferences.nvidiaApiKey)
+                }
                 val themePreferences = remember { ThemePreferences(requireContext()) }
                 var darkModeEnabled by remember {
                     mutableStateOf(themePreferences.darkModeEnabled)
@@ -229,6 +232,16 @@ class SettingsFragment : Fragment() {
                         Toast.makeText(
                             requireContext(),
                             R.string.openrouter_api_key_saved,
+                            Toast.LENGTH_SHORT,
+                        ).show()
+                    },
+                    nvidiaApiKey = nvidiaApiKey,
+                    onNvidiaApiKeySave = { key ->
+                        nvidiaApiKey = key
+                        onlinePreferences.nvidiaApiKey = key
+                        Toast.makeText(
+                            requireContext(),
+                            R.string.nvidia_api_key_saved,
                             Toast.LENGTH_SHORT,
                         ).show()
                     },

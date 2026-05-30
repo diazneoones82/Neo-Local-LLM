@@ -129,6 +129,9 @@
     <string name="openrouter_api_key" translatable="false">OpenRouter API Key</string>
     <string name="openrouter_api_key_subtitle">Used only when you select Nemotron 3 Nano (OpenRouter).</string>
     <string name="openrouter_api_key_saved">OpenRouter API key saved.</string>
+    <string name="nvidia_api_key" translatable="false">NVIDIA API Key</string>
+    <string name="nvidia_api_key_subtitle">Used only when you select Nemotron 3 Nano (NVIDIA).</string>
+    <string name="nvidia_api_key_saved">NVIDIA API key saved.</string>
     <string name="dark_mode">Dark mode</string>
     <string name="dark_mode_subtitle">Switch between glossy light and dark themes.</string>
     <string name="conversation_history">Conversation History</string>

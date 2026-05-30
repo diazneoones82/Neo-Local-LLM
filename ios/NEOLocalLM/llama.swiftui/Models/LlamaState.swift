@@ -20,6 +20,7 @@ struct OnlineModel: Identifiable, Codable, Hashable {
     let id: String
     let name: String
     let modelId: String
+    let provider: String
     let description: String
 }
 
@@ -57,6 +58,7 @@ final class NEOAppState: ObservableObject {
     @Published var downloadProgress: [String: String] = [:]
     @Published var selectedLanguage = "System"
     @Published var openRouterApiKey = UserDefaults.standard.string(forKey: Keys.openRouterApiKey) ?? ""
+    @Published var nvidiaApiKey = UserDefaults.standard.string(forKey: Keys.nvidiaApiKey) ?? ""
     @Published var biometricPinEnabled = UserDefaults.standard.bool(forKey: Keys.biometricPinEnabled)
 
     let localModels: [LocalModel] = ModelCatalog.localModels
@@ -95,6 +97,11 @@ final class NEOAppState: ObservableObject {
     func saveOpenRouterKey(_ value: String) {
         openRouterApiKey = value.trimmingCharacters(in: .whitespacesAndNewlines)
         UserDefaults.standard.set(openRouterApiKey, forKey: Keys.openRouterApiKey)
+    }
+
+    func saveNvidiaKey(_ value: String) {
+        nvidiaApiKey = value.trimmingCharacters(in: .whitespacesAndNewlines)
+        UserDefaults.standard.set(nvidiaApiKey, forKey: Keys.nvidiaApiKey)
     }
 
     func setBiometricPinEnabled(_ enabled: Bool) {
@@ -233,23 +240,34 @@ final class NEOAppState: ObservableObject {
     }
 
     private func generateOpenRouter(model: OnlineModel, prompt: String) async -> String? {
-        let key = openRouterApiKey.trimmingCharacters(in: .whitespacesAndNewlines)
+        let key = (model.provider == "nvidia" ? nvidiaApiKey : openRouterApiKey)
+            .trimmingCharacters(in: .whitespacesAndNewlines)
         guard !key.isEmpty else { return nil }
 
-        var request = URLRequest(url: URL(string: "https://openrouter.ai/api/v1/chat/completions")!)
+        let endpoint = model.provider == "nvidia"
+            ? "https://integrate.api.nvidia.com/v1/chat/completions"
+            : "https://openrouter.ai/api/v1/chat/completions"
+        var request = URLRequest(url: URL(string: endpoint)!)
         request.httpMethod = "POST"
         request.setValue("Bearer \(key)", forHTTPHeaderField: "Authorization")
-        request.setValue("https://neolocallm.local", forHTTPHeaderField: "HTTP-Referer")
-        request.setValue("NEO Local LM iOS", forHTTPHeaderField: "X-OpenRouter-Title")
+        if model.provider == "openrouter" {
+            request.setValue("https://neolocallm.local", forHTTPHeaderField: "HTTP-Referer")
+            request.setValue("NEO Local LM iOS", forHTTPHeaderField: "X-OpenRouter-Title")
+        }
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.setValue("application/json", forHTTPHeaderField: "Accept")
 
         let history = messages
             .filter { !$0.content.isEmpty }
             .map { ["role": $0.role == .user ? "user" : "assistant", "content": $0.content] }
-        let body: [String: Any] = [
+        var body: [String: Any] = [
             "model": model.modelId,
             "messages": history.isEmpty ? [["role": "user", "content": prompt]] : history
         ]
+        if model.provider == "nvidia" {
+            body["stream"] = false
+            body["max_tokens"] = 2048
+        }
         request.httpBody = try? JSONSerialization.data(withJSONObject: body)
 
         do {
@@ -297,6 +315,7 @@ final class NEOAppState: ObservableObject {
 
     private enum Keys {
         static let openRouterApiKey = "openrouter_api_key"
+        static let nvidiaApiKey = "nvidia_api_key"
         static let biometricPinEnabled = "biometric_pin_enabled"
     }
 }
@@ -337,8 +356,9 @@ enum ModelCatalog {
     ]
 
     static let onlineModels: [OnlineModel] = [
-        OnlineModel(id: "nemotron-3-nano", name: "Nemotron 3 Nano (OpenRouter)", modelId: "nvidia/nemotron-3-nano-30b-a3b", description: "NVIDIA online model - OpenRouter API key required"),
-        OnlineModel(id: "nemotron-3-super-free", name: "Nemotron 3 Super 120B Free (OpenRouter)", modelId: "nvidia/nemotron-3-super-120b-a12b:free", description: "NVIDIA free online model - OpenRouter API key required")
+        OnlineModel(id: "nvidia-nemotron-3-nano", name: "Nemotron 3 Nano (NVIDIA)", modelId: "nvidia/nemotron-3-nano-30b-a3b", provider: "nvidia", description: "NVIDIA online model - NVIDIA API key required"),
+        OnlineModel(id: "nemotron-3-nano", name: "Nemotron 3 Nano (OpenRouter)", modelId: "nvidia/nemotron-3-nano-30b-a3b", provider: "openrouter", description: "NVIDIA online model - OpenRouter API key required"),
+        OnlineModel(id: "nemotron-3-super-free", name: "Nemotron 3 Super 120B Free (OpenRouter)", modelId: "nvidia/nemotron-3-super-120b-a12b:free", provider: "openrouter", description: "NVIDIA free online model - OpenRouter API key required")
     ]
 
     static let fallbackOnlineModel = onlineModels[1]

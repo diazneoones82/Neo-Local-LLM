@@ -37,13 +37,23 @@ class OnlineFallbackClient(
         return tryOpenRouter(systemPrompt, messages, modelId)
     }
 
+    suspend fun generateNvidiaModel(
+        systemPrompt: String,
+        messages: List<Message>,
+        modelId: String
+    ): String? {
+        return tryNvidia(systemPrompt, messages, modelId)
+    }
+
     private fun tryOpenRouter(
         systemPrompt: String,
         messages: List<Message>,
         model: String
     ): String? {
         val apiKey = onlinePreferences?.openRouterApiKey.orEmpty()
-        if (apiKey.isBlank()) return null
+        if (apiKey.isBlank()) {
+            return "OpenRouter API key is missing. Save it in Settings, then try again."
+        }
 
         val body = JSONObject()
             .put("model", model)
@@ -57,7 +67,40 @@ class OnlineFallbackClient(
             .post(body.toString().toRequestBody(jsonMediaType))
             .build()
 
-        return executeTextRequest(request) { json ->
+        return executeTextRequest(request, "OpenRouter") { json ->
+            json.optJSONArray("choices")
+                ?.optJSONObject(0)
+                ?.optJSONObject("message")
+                ?.optString("content")
+        }
+    }
+
+    private fun tryNvidia(
+        systemPrompt: String,
+        messages: List<Message>,
+        model: String
+    ): String? {
+        val apiKey = onlinePreferences?.nvidiaApiKey.orEmpty()
+        if (apiKey.isBlank()) {
+            return "NVIDIA API key is missing. Save it in Settings, then try again."
+        }
+
+        val body = JSONObject()
+            .put("model", model)
+            .put("messages", openAiCompatibleMessages(systemPrompt, messages))
+            .put("temperature", 0.6)
+            .put("top_p", 0.95)
+            .put("max_tokens", 2048)
+            .put("stream", false)
+
+        val request = Request.Builder()
+            .url("https://integrate.api.nvidia.com/v1/chat/completions")
+            .addHeader("Accept", "application/json")
+            .addHeader("Authorization", "Bearer $apiKey")
+            .post(body.toString().toRequestBody(jsonMediaType))
+            .build()
+
+        return executeTextRequest(request, "NVIDIA") { json ->
             json.optJSONArray("choices")
                 ?.optJSONObject(0)
                 ?.optJSONObject("message")
@@ -149,18 +192,44 @@ class OnlineFallbackClient(
 
     private fun executeTextRequest(
         request: Request,
+        errorLabel: String? = null,
         parser: (JSONObject) -> String?
     ): String? {
         return try {
             client.newCall(request).execute().use { response ->
-                if (!response.isSuccessful) return null
                 val body = response.body?.string().orEmpty()
+                if (!response.isSuccessful) {
+                    return if (errorLabel == null) {
+                        null
+                    } else {
+                        val detail = extractErrorDetail(body)
+                        buildString {
+                            append("$errorLabel request failed: HTTP ${response.code}")
+                            if (response.message.isNotBlank()) append(" ${response.message}")
+                            if (detail.isNotBlank()) append(". $detail")
+                        }
+                    }
+                }
                 parser(JSONObject(body))?.trim()?.takeIf { it.isNotBlank() }
+                    ?: errorLabel?.let { "$it returned an empty response." }
             }
         } catch (_: IOException) {
-            null
+            errorLabel?.let { "$it request failed. Check your network connection and API key." }
         } catch (_: org.json.JSONException) {
-            null
+            errorLabel?.let { "$it returned a response the app could not read." }
+        }
+    }
+
+    private fun extractErrorDetail(body: String): String {
+        if (body.isBlank()) return ""
+        return try {
+            val json = JSONObject(body)
+            val error = json.optJSONObject("error")
+            error?.optString("message")?.takeIf { it.isNotBlank() }
+                ?: json.optString("message").takeIf { it.isNotBlank() }
+                ?: body.take(240)
+        } catch (_: org.json.JSONException) {
+            body.take(240)
         }
     }
 

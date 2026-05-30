@@ -316,7 +316,13 @@ class ConversationViewModel(val app: Application) : AndroidViewModel(app) {
 
             onlineOnlyModel = modelInfo
             _loadedModel.postValue(modelInfo)
-            _loadedModelStatus.postValue("OpenRouter online")
+            _loadedModelStatus.postValue(
+                if (ModelInfoProvider.getNvidiaModelId(modelInfo) != null) {
+                    "NVIDIA online"
+                } else {
+                    "OpenRouter online"
+                }
+            )
             _modelLoadingProgress.postValue(0f)
             _thinkingEnabled.postValue(false)
             _supportsThinking.postValue(false)
@@ -914,13 +920,22 @@ class ConversationViewModel(val app: Application) : AndroidViewModel(app) {
                             .isNullOrBlank()
                         if (localResponseFailed || localResponseBlank) {
                             val onlineResponse = withContext(Dispatchers.IO) {
-                                val onlineModelId = onlineOnlyModel
+                                val selectedOnlineModel = onlineOnlyModel
+                                val nvidiaModelId = selectedOnlineModel
+                                    ?.let { ModelInfoProvider.getNvidiaModelId(it) }
+                                val openRouterModelId = selectedOnlineModel
                                     ?.let { ModelInfoProvider.getOpenRouterModelId(it) }
-                                if (onlineModelId != null) {
+                                if (nvidiaModelId != null) {
+                                    onlineFallbackClient.generateNvidiaModel(
+                                        _systemPrompt.value.orEmpty(),
+                                        fallbackMessages,
+                                        nvidiaModelId
+                                    )
+                                } else if (openRouterModelId != null) {
                                     onlineFallbackClient.generateOpenRouterModel(
                                         _systemPrompt.value.orEmpty(),
                                         fallbackMessages,
-                                        onlineModelId
+                                        openRouterModelId
                                     )
                                 } else {
                                     onlineFallbackClient.generate(

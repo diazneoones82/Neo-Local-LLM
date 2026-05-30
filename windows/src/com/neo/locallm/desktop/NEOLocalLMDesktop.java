@@ -63,7 +63,8 @@ public final class NEOLocalLMDesktop extends JFrame {
     private final JTextArea chatArea = new JTextArea();
     private final JTextField inputField = new JTextField();
     private final JComboBox<ModelItem> modelCombo = new JComboBox<>();
-    private final JTextField apiKeyField = new JPasswordField();
+    private final JTextField openRouterApiKeyField = new JPasswordField();
+    private final JTextField nvidiaApiKeyField = new JPasswordField();
     private final JTextField modelFolderField = new JTextField();
     private final JLabel statusLabel = new JLabel("Ready");
     private final JProgressBar downloadProgress = new JProgressBar(0, 100);
@@ -79,28 +80,29 @@ public final class NEOLocalLMDesktop extends JFrame {
 
     private record DownloadResponse(InputStream body, long contentLength) {}
 
-    private record ModelItem(String name, String filename, String url, String onlineId, boolean online) {
+    private record ModelItem(String name, String filename, String url, String onlineId, boolean online, String provider) {
         @Override public String toString() { return name; }
     }
 
     private static final ModelItem[] LOCAL_MODELS = new ModelItem[] {
-        new ModelItem("LFM2 8B A1B", "LFM2-8B-A1B-Q4_K_M.gguf", "https://huggingface.co/LiquidAI/LFM2-8B-A1B-GGUF/resolve/main/LFM2-8B-A1B-Q4_K_M.gguf", null, false),
-        new ModelItem("Qwen 3 1.7B", "Qwen3-1.7B-Q4_K_M.gguf", "https://huggingface.co/lmstudio-community/Qwen3-1.7B-GGUF/resolve/main/Qwen3-1.7B-Q4_K_M.gguf", null, false),
-        new ModelItem("DeepSeek R1 Distill", "DeepSeek-R1-Distill-Qwen-1.5B-Q4_K_M.gguf", "https://huggingface.co/lmstudio-community/DeepSeek-R1-Distill-Qwen-1.5B-GGUF/resolve/main/DeepSeek-R1-Distill-Qwen-1.5B-Q4_K_M.gguf", null, false),
-        new ModelItem("Gemma 3 1B", "gemma-3-1b-it-Q4_K_M.gguf", "https://huggingface.co/lmstudio-community/gemma-3-1b-it-GGUF/resolve/main/gemma-3-1b-it-Q4_K_M.gguf", null, false),
-        new ModelItem("LFM2.5 1.2B Thinking", "LFM2.5-1.2B-Thinking-Q4_K_M.gguf", "https://huggingface.co/lmstudio-community/LFM2.5-1.2B-Thinking-GGUF/resolve/main/LFM2.5-1.2B-Thinking-Q4_K_M.gguf", null, false),
-        new ModelItem("LFM2.5 1.2B Thinking F16", "LFM2.5-1.2B-Thinking-F16.gguf", "https://huggingface.co/LiquidAI/LFM2.5-1.2B-Thinking-GGUF/resolve/main/LFM2.5-1.2B-Thinking-F16.gguf", null, false),
-        new ModelItem("Ministral 3 8B Instruct", "Ministral-3-8B-Instruct-2512-Q4_K_M.gguf", "https://huggingface.co/lmstudio-community/Ministral-3-8B-Instruct-2512-GGUF/resolve/main/Ministral-3-8B-Instruct-2512-Q4_K_M.gguf", null, false),
-        new ModelItem("Ministral 3 8B Reasoning", "Ministral-3-8B-Reasoning-2512-Q4_K_M.gguf", "https://huggingface.co/lmstudio-community/Ministral-3-8B-Reasoning-2512-GGUF/resolve/main/Ministral-3-8B-Reasoning-2512-Q4_K_M.gguf", null, false),
-        new ModelItem("Gemma 3n 4B", "gemma-3n-E4B-it-Q4_K_M.gguf", "https://huggingface.co/lmstudio-community/gemma-3n-E4B-it-text-GGUF/resolve/main/gemma-3n-E4B-it-Q4_K_M.gguf", null, false),
-        new ModelItem("NVIDIA Nemotron 3 Nano 4B", "NVIDIA-Nemotron3-Nano-4B-Q4_K_M.gguf", "https://huggingface.co/nvidia/NVIDIA-Nemotron-3-Nano-4B-GGUF/resolve/main/NVIDIA-Nemotron3-Nano-4B-Q4_K_M.gguf", null, false),
-        new ModelItem("Gemma2 9B", "gemma-2-9b-it-Q4_K_M.gguf", "https://huggingface.co/bartowski/gemma-2-9b-it-GGUF/resolve/main/gemma-2-9b-it-Q4_K_M.gguf", null, false),
-        new ModelItem("TinyLlama 1.1B Q5", "tinyllama-1.1b-chat-v1.0.Q5_K_M.gguf", "https://huggingface.co/pbatra/TinyLlama-1.1B-Chat-v1.0-GGUF/resolve/main/tinyllama-1.1b-chat-v1.0.Q5_K_M.gguf", null, false),
-        new ModelItem("Llama 3.2 3B Instruct Uncensored", "Llama-3.2-3B-Instruct-uncensored-Q8_0.gguf", "https://huggingface.co/bartowski/Llama-3.2-3B-Instruct-uncensored-GGUF/resolve/main/Llama-3.2-3B-Instruct-uncensored-Q8_0.gguf", null, false),
-        new ModelItem("Qwen2.5.1-Coder 7B Instruct", "Qwen2.5.1-Coder-7B-Instruct-Q6_K_L.gguf", "https://huggingface.co/bartowski/Qwen2.5.1-Coder-7B-Instruct-GGUF/resolve/main/Qwen2.5.1-Coder-7B-Instruct-Q6_K_L.gguf", null, false),
-        new ModelItem("OLMo 2 1124 7B Instruct", "OLMo-2-1124-7B-Instruct-Q6_K.gguf", "https://huggingface.co/bartowski/OLMo-2-1124-7B-Instruct-GGUF/resolve/main/OLMo-2-1124-7B-Instruct-Q6_K.gguf", null, false),
-        new ModelItem("Nemotron 3 Nano (OpenRouter)", "online-nemotron-3-nano", null, "nvidia/nemotron-3-nano-30b-a3b", true),
-        new ModelItem("Nemotron 3 Super 120B Free (OpenRouter)", "online-nemotron-3-super", null, "nvidia/nemotron-3-super-120b-a12b:free", true)
+        new ModelItem("LFM2 8B A1B", "LFM2-8B-A1B-Q4_K_M.gguf", "https://huggingface.co/LiquidAI/LFM2-8B-A1B-GGUF/resolve/main/LFM2-8B-A1B-Q4_K_M.gguf", null, false, ""),
+        new ModelItem("Qwen 3 1.7B", "Qwen3-1.7B-Q4_K_M.gguf", "https://huggingface.co/lmstudio-community/Qwen3-1.7B-GGUF/resolve/main/Qwen3-1.7B-Q4_K_M.gguf", null, false, ""),
+        new ModelItem("DeepSeek R1 Distill", "DeepSeek-R1-Distill-Qwen-1.5B-Q4_K_M.gguf", "https://huggingface.co/lmstudio-community/DeepSeek-R1-Distill-Qwen-1.5B-GGUF/resolve/main/DeepSeek-R1-Distill-Qwen-1.5B-Q4_K_M.gguf", null, false, ""),
+        new ModelItem("Gemma 3 1B", "gemma-3-1b-it-Q4_K_M.gguf", "https://huggingface.co/lmstudio-community/gemma-3-1b-it-GGUF/resolve/main/gemma-3-1b-it-Q4_K_M.gguf", null, false, ""),
+        new ModelItem("LFM2.5 1.2B Thinking", "LFM2.5-1.2B-Thinking-Q4_K_M.gguf", "https://huggingface.co/lmstudio-community/LFM2.5-1.2B-Thinking-GGUF/resolve/main/LFM2.5-1.2B-Thinking-Q4_K_M.gguf", null, false, ""),
+        new ModelItem("LFM2.5 1.2B Thinking F16", "LFM2.5-1.2B-Thinking-F16.gguf", "https://huggingface.co/LiquidAI/LFM2.5-1.2B-Thinking-GGUF/resolve/main/LFM2.5-1.2B-Thinking-F16.gguf", null, false, ""),
+        new ModelItem("Ministral 3 8B Instruct", "Ministral-3-8B-Instruct-2512-Q4_K_M.gguf", "https://huggingface.co/lmstudio-community/Ministral-3-8B-Instruct-2512-GGUF/resolve/main/Ministral-3-8B-Instruct-2512-Q4_K_M.gguf", null, false, ""),
+        new ModelItem("Ministral 3 8B Reasoning", "Ministral-3-8B-Reasoning-2512-Q4_K_M.gguf", "https://huggingface.co/lmstudio-community/Ministral-3-8B-Reasoning-2512-GGUF/resolve/main/Ministral-3-8B-Reasoning-2512-Q4_K_M.gguf", null, false, ""),
+        new ModelItem("Gemma 3n 4B", "gemma-3n-E4B-it-Q4_K_M.gguf", "https://huggingface.co/lmstudio-community/gemma-3n-E4B-it-text-GGUF/resolve/main/gemma-3n-E4B-it-Q4_K_M.gguf", null, false, ""),
+        new ModelItem("NVIDIA Nemotron 3 Nano 4B", "NVIDIA-Nemotron3-Nano-4B-Q4_K_M.gguf", "https://huggingface.co/nvidia/NVIDIA-Nemotron-3-Nano-4B-GGUF/resolve/main/NVIDIA-Nemotron3-Nano-4B-Q4_K_M.gguf", null, false, ""),
+        new ModelItem("Gemma2 9B", "gemma-2-9b-it-Q4_K_M.gguf", "https://huggingface.co/bartowski/gemma-2-9b-it-GGUF/resolve/main/gemma-2-9b-it-Q4_K_M.gguf", null, false, ""),
+        new ModelItem("TinyLlama 1.1B Q5", "tinyllama-1.1b-chat-v1.0.Q5_K_M.gguf", "https://huggingface.co/pbatra/TinyLlama-1.1B-Chat-v1.0-GGUF/resolve/main/tinyllama-1.1b-chat-v1.0.Q5_K_M.gguf", null, false, ""),
+        new ModelItem("Llama 3.2 3B Instruct Uncensored", "Llama-3.2-3B-Instruct-uncensored-Q8_0.gguf", "https://huggingface.co/bartowski/Llama-3.2-3B-Instruct-uncensored-GGUF/resolve/main/Llama-3.2-3B-Instruct-uncensored-Q8_0.gguf", null, false, ""),
+        new ModelItem("Qwen2.5.1-Coder 7B Instruct", "Qwen2.5.1-Coder-7B-Instruct-Q6_K_L.gguf", "https://huggingface.co/bartowski/Qwen2.5.1-Coder-7B-Instruct-GGUF/resolve/main/Qwen2.5.1-Coder-7B-Instruct-Q6_K_L.gguf", null, false, ""),
+        new ModelItem("OLMo 2 1124 7B Instruct", "OLMo-2-1124-7B-Instruct-Q6_K.gguf", "https://huggingface.co/bartowski/OLMo-2-1124-7B-Instruct-GGUF/resolve/main/OLMo-2-1124-7B-Instruct-Q6_K.gguf", null, false, ""),
+        new ModelItem("Nemotron 3 Nano (NVIDIA)", "online-nvidia-nemotron-3-nano", null, "nvidia/nemotron-3-nano-30b-a3b", true, "nvidia"),
+        new ModelItem("Nemotron 3 Nano (OpenRouter)", "online-nemotron-3-nano", null, "nvidia/nemotron-3-nano-30b-a3b", true, "openrouter"),
+        new ModelItem("Nemotron 3 Super 120B Free (OpenRouter)", "online-nemotron-3-super", null, "nvidia/nemotron-3-super-120b-a12b:free", true, "openrouter")
     };
 
     public static void main(String[] args) {
@@ -165,7 +167,8 @@ public final class NEOLocalLMDesktop extends JFrame {
             "",
             null,
             null,
-            false
+            false,
+            ""
         ));
         modelCombo.setRenderer(new ModelRenderer());
 
@@ -276,10 +279,14 @@ public final class NEOLocalLMDesktop extends JFrame {
     private JPanel onlinePanel() {
         JPanel panel = verticalPanel();
         panel.add(label("OpenRouter API key"));
-        apiKeyField.setPreferredSize(new Dimension(SIDE_CONTROL_WIDTH, 38));
-        apiKeyField.setMaximumSize(new Dimension(Integer.MAX_VALUE, 38));
-        panel.add(leftWrap(apiKeyField, 38));
-        panel.add(button("Save API key", e -> saveApiKey()));
+        openRouterApiKeyField.setPreferredSize(new Dimension(SIDE_CONTROL_WIDTH, 38));
+        openRouterApiKeyField.setMaximumSize(new Dimension(Integer.MAX_VALUE, 38));
+        panel.add(leftWrap(openRouterApiKeyField, 38));
+        panel.add(label("NVIDIA API key"));
+        nvidiaApiKeyField.setPreferredSize(new Dimension(SIDE_CONTROL_WIDTH, 38));
+        nvidiaApiKeyField.setMaximumSize(new Dimension(Integer.MAX_VALUE, 38));
+        panel.add(leftWrap(nvidiaApiKeyField, 38));
+        panel.add(button("Save API keys", e -> saveApiKeys()));
         return panel;
     }
 
@@ -347,15 +354,17 @@ public final class NEOLocalLMDesktop extends JFrame {
     }
 
     private void loadPrefs() {
-        apiKeyField.setText(prefs.get("openrouter_key", ""));
+        openRouterApiKeyField.setText(prefs.get("openrouter_key", ""));
+        nvidiaApiKeyField.setText(prefs.get("nvidia_key", ""));
         darkMode.setSelected(prefs.getBoolean("dark", true));
         modelFolderField.setText(compactPath(modelsDir));
         modelFolderField.setToolTipText(modelsDir.toString());
     }
 
-    private void saveApiKey() {
-        prefs.put("openrouter_key", apiKeyField.getText().trim());
-        setStatus("OpenRouter key saved");
+    private void saveApiKeys() {
+        prefs.put("openrouter_key", openRouterApiKeyField.getText().trim());
+        prefs.put("nvidia_key", nvidiaApiKeyField.getText().trim());
+        setStatus("Online API keys saved");
     }
 
     private void downloadSelected(ActionEvent event) {
@@ -460,7 +469,7 @@ public final class NEOLocalLMDesktop extends JFrame {
         chooser.setFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("GGUF models", "gguf"));
         if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
             File file = chooser.getSelectedFile();
-            loadLocal(file.toPath(), new ModelItem(file.getName().replace(".gguf", ""), file.getName(), null, null, false));
+            loadLocal(file.toPath(), new ModelItem(file.getName().replace(".gguf", ""), file.getName(), null, null, false, ""));
         }
     }
 
@@ -595,25 +604,38 @@ public final class NEOLocalLMDesktop extends JFrame {
         append("You", prompt);
         ModelItem model = loadedModel != null ? loadedModel : selectedModel();
         runAsync("Generating", () -> {
-            String response = model.online ? sendOpenRouter(model, prompt) : sendLocal(prompt);
+            String response = model.online ? sendOnline(model, prompt) : sendLocal(prompt);
             append("NEO", response);
         });
     }
 
     private String sendLocal(String prompt) throws Exception {
         if (llamaServer == null || !llamaServer.isAlive()) {
-            throw new IllegalStateException("Load a local model or choose an OpenRouter model first.");
+            throw new IllegalStateException("Load a local model or choose an online model first.");
         }
         return chatCompletions(URI.create("http://127.0.0.1:" + LLAMA_PORT + "/v1/chat/completions"), null, "local", prompt);
     }
 
-    private String sendOpenRouter(ModelItem model, String prompt) throws Exception {
-        String key = apiKeyField.getText().trim();
+    private String sendOnline(ModelItem model, String prompt) throws Exception {
+        if ("nvidia".equals(model.provider)) {
+            String key = nvidiaApiKeyField.getText().trim();
+            if (key.isEmpty()) throw new IllegalStateException("Save a NVIDIA API key first.");
+        return chatCompletions(URI.create("https://integrate.api.nvidia.com/v1/chat/completions"), key, model.onlineId, prompt, false, true);
+        }
+        String key = openRouterApiKeyField.getText().trim();
         if (key.isEmpty()) throw new IllegalStateException("Save an OpenRouter API key first.");
-        return chatCompletions(URI.create("https://openrouter.ai/api/v1/chat/completions"), key, model.onlineId, prompt);
+        return chatCompletions(URI.create("https://openrouter.ai/api/v1/chat/completions"), key, model.onlineId, prompt, true);
     }
 
     private String chatCompletions(URI uri, String key, String model, String prompt) throws Exception {
+        return chatCompletions(uri, key, model, prompt, false);
+    }
+
+    private String chatCompletions(URI uri, String key, String model, String prompt, boolean openRouterHeaders) throws Exception {
+        return chatCompletions(uri, key, model, prompt, openRouterHeaders, false);
+    }
+
+    private String chatCompletions(URI uri, String key, String model, String prompt, boolean openRouterHeaders, boolean nvidiaJsonResponse) throws Exception {
         String cacheKey = model + "\n" + prompt;
         synchronized (responseCache) {
             String cached = responseCache.get(cacheKey);
@@ -622,15 +644,19 @@ public final class NEOLocalLMDesktop extends JFrame {
         boolean local = key == null;
         String body = "{\"model\":\"" + json(model) + "\",\"messages\":[{\"role\":\"user\",\"content\":\"" + json(prompt) + "\"}]" +
             (local ? ",\"cache_prompt\":true" : "") +
+            (nvidiaJsonResponse ? ",\"stream\":false,\"max_tokens\":2048" : "") +
             "}";
         HttpRequest.Builder builder = HttpRequest.newBuilder(uri)
             .timeout(Duration.ofMinutes(10))
             .header("Content-Type", "application/json")
+            .header("Accept", "application/json")
             .POST(HttpRequest.BodyPublishers.ofString(body));
         if (key != null) {
             builder.header("Authorization", "Bearer " + key);
-            builder.header("HTTP-Referer", "https://neolocallm.local");
-            builder.header("X-OpenRouter-Title", APP_NAME);
+            if (openRouterHeaders) {
+                builder.header("HTTP-Referer", "https://neolocallm.local");
+                builder.header("X-OpenRouter-Title", APP_NAME);
+            }
         }
         HttpResponse<String> response = HTTP.send(builder.build(), HttpResponse.BodyHandlers.ofString());
         if (response.statusCode() / 100 != 2) throw new IOException("LLM request failed: " + response.body());

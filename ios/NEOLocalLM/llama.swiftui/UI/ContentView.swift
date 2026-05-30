@@ -250,6 +250,7 @@ private struct SettingsView: View {
     @Environment(\.dismiss) private var dismiss
     @AppStorage("dark_mode_enabled") private var darkModeEnabled = false
     @State private var apiKeyDraft = ""
+    @State private var nvidiaApiKeyDraft = ""
     @State private var showingModels = false
     @State private var showingHistory = false
 
@@ -268,6 +269,12 @@ private struct SettingsView: View {
                     SecureField("OpenRouter API Key", text: $apiKeyDraft)
                     Button("Save") {
                         state.saveOpenRouterKey(apiKeyDraft)
+                    }
+                }
+                Section("NVIDIA API Key") {
+                    SecureField("NVIDIA API Key", text: $nvidiaApiKeyDraft)
+                    Button("Save") {
+                        state.saveNvidiaKey(nvidiaApiKeyDraft)
                     }
                 }
                 Button("Models") {
@@ -292,6 +299,7 @@ private struct SettingsView: View {
             }
             .onAppear {
                 apiKeyDraft = state.openRouterApiKey
+                nvidiaApiKeyDraft = state.nvidiaApiKey
             }
             .sheet(isPresented: $showingModels) {
                 ModelPickerView()
