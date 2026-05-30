@@ -34,16 +34,19 @@ public final class NEOLocalLMDesktop extends JFrame {
     private static final Font UI_FONT_BOLD = new Font("Segoe UI Semibold", Font.BOLD, 13);
     private static final Font TITLE_FONT = new Font("Segoe UI Semibold", Font.BOLD, 26);
     private static final Font CHAT_FONT = new Font("Consolas", Font.PLAIN, 14);
-    private static final Color CHERRY = new Color(195, 22, 61);
-    private static final Color CHERRY_DARK = new Color(122, 16, 42);
-    private static final Color LEAF = new Color(22, 139, 91);
-    private static final Color DARK_BG = new Color(19, 21, 26);
-    private static final Color DARK_PANEL = new Color(24, 39, 35);
-    private static final Color DARK_FIELD = new Color(33, 54, 48);
-    private static final Color DARK_TEXT = new Color(245, 247, 250);
-    private static final Color DARK_MUTED = new Color(184, 211, 200);
-    private static final Color DARK_BUTTON = new Color(43, 75, 65);
-    private static final Color DARK_BORDER = new Color(89, 151, 124);
+    private static final Color CHERRY = new Color(47, 111, 159);
+    private static final Color CHERRY_DARK = new Color(31, 67, 99);
+    private static final Color LEAF = new Color(155, 208, 255);
+    private static final Color LOGO_CHERRY = new Color(195, 22, 61);
+    private static final Color LOGO_CHERRY_DARK = new Color(122, 16, 42);
+    private static final Color LOGO_LEAF = new Color(22, 139, 91);
+    private static final Color DARK_BG = new Color(16, 17, 20);
+    private static final Color DARK_PANEL = new Color(24, 27, 32);
+    private static final Color DARK_FIELD = new Color(13, 15, 19);
+    private static final Color DARK_TEXT = new Color(232, 237, 244);
+    private static final Color DARK_MUTED = new Color(154, 165, 181);
+    private static final Color DARK_BUTTON = new Color(46, 59, 79);
+    private static final Color DARK_BORDER = new Color(47, 111, 159);
     private static final Color LIGHT_BG = new Color(250, 247, 248);
     private static final Color LIGHT_PANEL = Color.WHITE;
     private static final Color LIGHT_FIELD = new Color(255, 250, 252);
@@ -812,10 +815,10 @@ public final class NEOLocalLMDesktop extends JFrame {
 
         getContentPane().setBackground(bg);
         styleTree(getContentPane(), bg, panel, field, button, fg, muted, border, dark);
-        chatArea.setBackground(dark ? new Color(16, 18, 22) : Color.WHITE);
+        chatArea.setBackground(dark ? new Color(13, 15, 19) : Color.WHITE);
         chatArea.setForeground(fg);
         chatArea.setCaretColor(CHERRY);
-        chatArea.setSelectionColor(new Color(195, 22, 61, dark ? 120 : 70));
+        chatArea.setSelectionColor(new Color(47, 111, 159, dark ? 150 : 80));
         inputField.setBackground(field);
         inputField.setForeground(fg);
         inputField.setCaretColor(CHERRY);
@@ -900,7 +903,7 @@ public final class NEOLocalLMDesktop extends JFrame {
         UIManager.put("TextField.font", UI_FONT);
         UIManager.put("TextArea.font", CHAT_FONT);
         UIManager.put("Button.foreground", LIGHT_TEXT);
-        UIManager.put("Button.select", new Color(195, 22, 61, 80));
+        UIManager.put("Button.select", new Color(61, 80, 107));
         UIManager.put("ComboBox.selectionBackground", CHERRY);
         UIManager.put("ComboBox.selectionForeground", Color.WHITE);
     }
@@ -932,12 +935,12 @@ public final class NEOLocalLMDesktop extends JFrame {
             copy.setColor(new Color(255, 156, 176));
             Polygon petal = new Polygon(new int[] {38, 53, 47}, new int[] {30, 13, 34}, 3);
             copy.fill(petal);
-            copy.setColor(LEAF);
+            copy.setColor(LOGO_LEAF);
             Polygon leaf = new Polygon(new int[] {54, 82, 68}, new int[] {24, 15, 30}, 3);
             copy.fill(leaf);
-            copy.setColor(CHERRY_DARK);
+            copy.setColor(LOGO_CHERRY_DARK);
             copy.drawLine(52, 25, 42, 50);
-            copy.setColor(CHERRY);
+            copy.setColor(LOGO_CHERRY);
             copy.fillOval(16, 42, 58, 52);
             copy.fillOval(58, 42, 48, 52);
             copy.setColor(new Color(255, 240, 244));
