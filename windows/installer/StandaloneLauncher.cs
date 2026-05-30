@@ -10,7 +10,7 @@ namespace NEOLocalLMInstaller
     internal static class StandaloneLauncher
     {
         private const string AppName = "Neo Local LLM";
-        private const string Version = "1.0.14";
+        private const string Version = "1.0.15";
 
         [STAThread]
         private static int Main()
