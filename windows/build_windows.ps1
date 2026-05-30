@@ -12,7 +12,7 @@ $LibDir = Join-Path $BuildDir "lib"
 $JarPath = Join-Path $LibDir "neo-local-lm-desktop.jar"
 $MainClass = "com.neo.locallm.desktop.NEOLocalLMDesktop"
 $AppName = "Neo Local LLM"
-$AppVersion = "1.0.16"
+$AppVersion = "1.0.17"
 $PackageDir = Join-Path $BuildDir "package-$AppVersion"
 $IconPath = Join-Path $BuildDir "cherry.ico"
 

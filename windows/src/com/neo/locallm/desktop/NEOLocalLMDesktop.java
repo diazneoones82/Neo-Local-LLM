@@ -492,30 +492,89 @@ public final class NEOLocalLMDesktop extends JFrame {
         unloadLocal();
         runAsync("Starting local runtime", () -> {
             Path exe = runtimeExe().orElseThrow();
-            List<String> command = new ArrayList<>();
-            command.add(exe.toString());
-            command.add("-m"); command.add(modelPath.toString());
-            command.add("--host"); command.add("127.0.0.1");
-            command.add("--port"); command.add(String.valueOf(LLAMA_PORT));
-            int threads = Math.max(2, Runtime.getRuntime().availableProcessors() - 1);
-            command.add("--threads"); command.add(String.valueOf(threads));
-            command.add("--threads-batch"); command.add(String.valueOf(threads));
-            command.add("--n-gpu-layers"); command.add("999");
-            command.add("--ctx-size"); command.add("4096");
-            command.add("--batch-size"); command.add("1024");
-            command.add("--ubatch-size"); command.add("512");
-            command.add("--parallel"); command.add("1");
-            command.add("--no-mmap");
-            command.add("--mlock");
-            ProcessBuilder pb = new ProcessBuilder(command);
-            pb.directory(exe.getParent().toFile());
-            pb.redirectErrorStream(true);
+            List<String> command = optimizedServerCommand(exe, modelPath);
+            ProcessBuilder pb = optimizedProcessBuilder(exe, command);
             llamaServer = pb.start();
             raiseProcessPriority(llamaServer);
             loadedModel = model;
-            Thread.sleep(2500);
-            appendSystem("Loaded local model: " + model.name);
+            Thread.sleep(3500);
+            if (!llamaServer.isAlive()) {
+                String output = new String(llamaServer.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
+                throw new IOException("llama.cpp exited while loading. " + output.trim());
+            }
+            appendSystem("Loaded local model with max GPU offload + RAM preload: " + model.name);
         });
+    }
+
+    private List<String> optimizedServerCommand(Path exe, Path modelPath) {
+        String help = llamaServerHelp(exe);
+        int cpuCount = Runtime.getRuntime().availableProcessors();
+        int threads = Math.max(2, Math.min(cpuCount, cpuCount <= 8 ? cpuCount : cpuCount - 2));
+
+        List<String> command = new ArrayList<>();
+        command.add(exe.toString());
+        command.add("-m"); command.add(modelPath.toString());
+        command.add("--host"); command.add("127.0.0.1");
+        command.add("--port"); command.add(String.valueOf(LLAMA_PORT));
+        command.add("--threads"); command.add(String.valueOf(threads));
+        command.add("--threads-batch"); command.add(String.valueOf(threads));
+        command.add("--n-gpu-layers"); command.add("999");
+        addIfSupported(command, help, "--split-mode", "layer");
+        addIfSupported(command, help, "--main-gpu", "0");
+        command.add("--ctx-size"); command.add("4096");
+        command.add("--batch-size"); command.add("2048");
+        command.add("--ubatch-size"); command.add("512");
+        command.add("--parallel"); command.add("1");
+        addIfSupported(command, help, "--cont-batching");
+        addIfSupported(command, help, "--flash-attn");
+        addIfSupported(command, help, "--cache-type-k", "q8_0");
+        addIfSupported(command, help, "--cache-type-v", "q8_0");
+        addIfSupported(command, help, "--no-mmap");
+        addIfSupported(command, help, "--mlock");
+        return command;
+    }
+
+    private ProcessBuilder optimizedProcessBuilder(Path exe, List<String> command) {
+        ProcessBuilder pb = new ProcessBuilder(command);
+        pb.directory(exe.getParent().toFile());
+        pb.redirectErrorStream(true);
+        Map<String, String> env = pb.environment();
+        String threads = commandValue(command, "--threads").orElse("4");
+        env.put("OMP_NUM_THREADS", threads);
+        return pb;
+    }
+
+    private String llamaServerHelp(Path exe) {
+        try {
+            Process process = new ProcessBuilder(exe.toString(), "--help")
+                .directory(exe.getParent().toFile())
+                .redirectErrorStream(true)
+                .start();
+            String output = new String(process.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
+            process.waitFor();
+            return output;
+        } catch (Exception ignored) {
+            return "";
+        }
+    }
+
+    private void addIfSupported(List<String> command, String help, String flag, String value) {
+        if (help.isBlank() || help.contains(flag)) {
+            command.add(flag);
+            command.add(value);
+        }
+    }
+
+    private void addIfSupported(List<String> command, String help, String flag) {
+        if (help.isBlank() || help.contains(flag)) {
+            command.add(flag);
+        }
+    }
+
+    private Optional<String> commandValue(List<String> command, String flag) {
+        int index = command.indexOf(flag);
+        if (index < 0 || index + 1 >= command.size()) return Optional.empty();
+        return Optional.of(command.get(index + 1));
     }
 
     private void raiseProcessPriority(Process process) {
