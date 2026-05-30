@@ -84,6 +84,7 @@ public final class NEOLocalLMDesktop extends JFrame {
     }
 
     private static final ModelItem[] LOCAL_MODELS = new ModelItem[] {
+        new ModelItem("LFM2 8B A1B", "LFM2-8B-A1B-Q4_K_M.gguf", "https://huggingface.co/LiquidAI/LFM2-8B-A1B-GGUF/resolve/main/LFM2-8B-A1B-Q4_K_M.gguf", null, false),
         new ModelItem("Qwen 3 1.7B", "Qwen3-1.7B-Q4_K_M.gguf", "https://huggingface.co/lmstudio-community/Qwen3-1.7B-GGUF/resolve/main/Qwen3-1.7B-Q4_K_M.gguf", null, false),
         new ModelItem("DeepSeek R1 Distill", "DeepSeek-R1-Distill-Qwen-1.5B-Q4_K_M.gguf", "https://huggingface.co/lmstudio-community/DeepSeek-R1-Distill-Qwen-1.5B-GGUF/resolve/main/DeepSeek-R1-Distill-Qwen-1.5B-Q4_K_M.gguf", null, false),
         new ModelItem("Gemma 3 1B", "gemma-3-1b-it-Q4_K_M.gguf", "https://huggingface.co/lmstudio-community/gemma-3-1b-it-GGUF/resolve/main/gemma-3-1b-it-Q4_K_M.gguf", null, false),

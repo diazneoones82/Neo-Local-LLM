@@ -35,11 +35,20 @@ object ModelInfoProvider {
      */
     val allModels: List<ModelInfo> = listOf(
         ModelInfo(
+            name = "LFM2 8B A1B",
+            filename = "LFM2-8B-A1B-Q4_K_M.gguf",
+            remoteUri = Uri.parse("https://huggingface.co/LiquidAI/LFM2-8B-A1B-GGUF/resolve/main/LFM2-8B-A1B-Q4_K_M.gguf"),
+            releaseDate = LocalDate.parse("2025-07-15"),
+            description = "Default local downloadable model - Liquid AI - 8B A1B - Q4_K_M",
+            logoRes = R.drawable.logo_liquid,
+            supportedLanguages = LFM_LANGS
+        ),
+        ModelInfo(
             name = "Qwen 3 1.7B",
             filename = "Qwen3-1.7B-Q4_K_M.gguf",
             remoteUri = Uri.parse("https://huggingface.co/lmstudio-community/Qwen3-1.7B-GGUF/resolve/main/Qwen3-1.7B-Q4_K_M.gguf"),
             releaseDate = LocalDate.parse("2025-04-29"),
-            description = "Default local reasoning model - 1.28Gb - Q4_K_M",
+            description = "Local reasoning model - 1.28Gb - Q4_K_M",
             logoRes = R.drawable.logo_qwen,
             supportedLanguages = MULTILINGUAL_BROAD
         ),

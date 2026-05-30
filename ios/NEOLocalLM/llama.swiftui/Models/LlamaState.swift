@@ -304,13 +304,22 @@ final class NEOAppState: ObservableObject {
 enum ModelCatalog {
     static let localModels: [LocalModel] = [
         LocalModel(
+            id: "lfm2-8b-a1b",
+            name: "LFM2 8B A1B",
+            filename: "LFM2-8B-A1B-Q4_K_M.gguf",
+            url: URL(string: "https://huggingface.co/LiquidAI/LFM2-8B-A1B-GGUF/resolve/main/LFM2-8B-A1B-Q4_K_M.gguf")!,
+            additionalFiles: [],
+            description: "Default local downloadable model - Liquid AI - 8B A1B - Q4_K_M",
+            isDefault: true
+        ),
+        LocalModel(
             id: "qwen3-1-7b",
             name: "Qwen 3 1.7B",
             filename: "Qwen3-1.7B-Q4_K_M.gguf",
             url: URL(string: "https://huggingface.co/lmstudio-community/Qwen3-1.7B-GGUF/resolve/main/Qwen3-1.7B-Q4_K_M.gguf")!,
             additionalFiles: [],
-            description: "Default local reasoning model - 1.28Gb - Q4_K_M",
-            isDefault: true
+            description: "Local reasoning model - 1.28Gb - Q4_K_M",
+            isDefault: false
         ),
         LocalModel(id: "deepseek-r1-distill", name: "DeepSeek R1 Distill", filename: "DeepSeek-R1-Distill-Qwen-1.5B-Q4_K_M.gguf", url: URL(string: "https://huggingface.co/lmstudio-community/DeepSeek-R1-Distill-Qwen-1.5B-GGUF/resolve/main/DeepSeek-R1-Distill-Qwen-1.5B-Q4_K_M.gguf")!, additionalFiles: [], description: "DeepSeek reasoning model - 1.12Gb - Q4_K_M", isDefault: false),
         LocalModel(id: "gemma-3-1b", name: "Gemma 3 1B", filename: "gemma-3-1b-it-Q4_K_M.gguf", url: URL(string: "https://huggingface.co/lmstudio-community/gemma-3-1b-it-GGUF/resolve/main/gemma-3-1b-it-Q4_K_M.gguf")!, additionalFiles: [], description: "Google lightweight chat model - 806Mb - Q4_K_M", isDefault: false),
