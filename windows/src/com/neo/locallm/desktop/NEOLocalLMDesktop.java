@@ -47,12 +47,12 @@ public final class NEOLocalLMDesktop extends JFrame {
     private static final Color DARK_MUTED = new Color(154, 165, 181);
     private static final Color DARK_BUTTON = new Color(46, 59, 79);
     private static final Color DARK_BORDER = new Color(47, 111, 159);
-    private static final Color LIGHT_BG = new Color(250, 247, 248);
-    private static final Color LIGHT_PANEL = Color.WHITE;
-    private static final Color LIGHT_FIELD = new Color(255, 250, 252);
-    private static final Color LIGHT_TEXT = new Color(30, 27, 32);
-    private static final Color LIGHT_MUTED = new Color(96, 85, 95);
-    private static final Color LIGHT_BUTTON = new Color(255, 236, 242);
+    private static final Color LIGHT_BG = DARK_BG;
+    private static final Color LIGHT_PANEL = DARK_PANEL;
+    private static final Color LIGHT_FIELD = DARK_FIELD;
+    private static final Color LIGHT_TEXT = DARK_TEXT;
+    private static final Color LIGHT_MUTED = DARK_MUTED;
+    private static final Color LIGHT_BUTTON = DARK_BUTTON;
     private static final HttpClient HTTP = HttpClient.newBuilder()
         .connectTimeout(Duration.ofSeconds(30))
         .followRedirects(HttpClient.Redirect.ALWAYS)
@@ -231,7 +231,7 @@ public final class NEOLocalLMDesktop extends JFrame {
         panel.setAlignmentX(Component.LEFT_ALIGNMENT);
         panel.setBorder(new CompoundBorder(
             new TitledBorder(
-                BorderFactory.createLineBorder(new Color(195, 22, 61, 120), 1, true),
+                BorderFactory.createLineBorder(new Color(CHERRY.getRed(), CHERRY.getGreen(), CHERRY.getBlue(), 150), 1, true),
                 title,
                 TitledBorder.DEFAULT_JUSTIFICATION,
                 TitledBorder.DEFAULT_POSITION,
@@ -352,7 +352,8 @@ public final class NEOLocalLMDesktop extends JFrame {
 
     private void loadPrefs() {
         huggingFaceTokenField.setText(prefs.get("huggingface_token", ""));
-        darkMode.setSelected(prefs.getBoolean("dark", true));
+        darkMode.setSelected(true);
+        prefs.putBoolean("dark", true);
         modelFolderField.setText(compactPath(modelsDir));
         modelFolderField.setToolTipText(modelsDir.toString());
     }
@@ -815,7 +816,7 @@ public final class NEOLocalLMDesktop extends JFrame {
 
         getContentPane().setBackground(bg);
         styleTree(getContentPane(), bg, panel, field, button, fg, muted, border, dark);
-        chatArea.setBackground(dark ? new Color(13, 15, 19) : Color.WHITE);
+        chatArea.setBackground(new Color(13, 15, 19));
         chatArea.setForeground(fg);
         chatArea.setCaretColor(CHERRY);
         chatArea.setSelectionColor(new Color(47, 111, 159, dark ? 150 : 80));
@@ -861,7 +862,7 @@ public final class NEOLocalLMDesktop extends JFrame {
         if (component instanceof JButton button) {
             boolean accent = Boolean.TRUE.equals(button.getClientProperty("accent"));
             button.setBackground(accent ? CHERRY : field);
-            button.setForeground(accent ? (dark ? Color.WHITE : Color.BLACK) : fg);
+            button.setForeground(accent ? Color.WHITE : fg);
             button.setOpaque(true);
             button.setContentAreaFilled(true);
             button.setRolloverEnabled(true);
