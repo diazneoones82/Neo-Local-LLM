@@ -34,19 +34,19 @@ public final class NEOLocalLMDesktop extends JFrame {
     private static final Font UI_FONT_BOLD = new Font("Segoe UI Semibold", Font.BOLD, 13);
     private static final Font TITLE_FONT = new Font("Segoe UI Semibold", Font.BOLD, 26);
     private static final Font CHAT_FONT = new Font("Consolas", Font.PLAIN, 14);
-    private static final Color CHERRY = new Color(47, 111, 159);
-    private static final Color CHERRY_DARK = new Color(31, 67, 99);
-    private static final Color LEAF = new Color(155, 208, 255);
+    private static final Color CHERRY = new Color(118, 102, 138);
+    private static final Color CHERRY_DARK = new Color(74, 63, 88);
+    private static final Color LEAF = new Color(176, 168, 192);
     private static final Color LOGO_CHERRY = new Color(195, 22, 61);
     private static final Color LOGO_CHERRY_DARK = new Color(122, 16, 42);
     private static final Color LOGO_LEAF = new Color(22, 139, 91);
-    private static final Color DARK_BG = new Color(16, 17, 20);
-    private static final Color DARK_PANEL = new Color(24, 27, 32);
-    private static final Color DARK_FIELD = new Color(13, 15, 19);
-    private static final Color DARK_TEXT = new Color(232, 237, 244);
-    private static final Color DARK_MUTED = new Color(154, 165, 181);
-    private static final Color DARK_BUTTON = new Color(46, 59, 79);
-    private static final Color DARK_BORDER = new Color(47, 111, 159);
+    private static final Color DARK_BG = new Color(18, 18, 18);
+    private static final Color DARK_PANEL = new Color(34, 27, 40);
+    private static final Color DARK_FIELD = new Color(31, 31, 31);
+    private static final Color DARK_TEXT = new Color(238, 238, 238);
+    private static final Color DARK_MUTED = new Color(170, 164, 176);
+    private static final Color DARK_BUTTON = new Color(52, 45, 60);
+    private static final Color DARK_BORDER = new Color(72, 63, 82);
     private static final Color LIGHT_BG = DARK_BG;
     private static final Color LIGHT_PANEL = DARK_PANEL;
     private static final Color LIGHT_FIELD = DARK_FIELD;
@@ -231,7 +231,7 @@ public final class NEOLocalLMDesktop extends JFrame {
         panel.setAlignmentX(Component.LEFT_ALIGNMENT);
         panel.setBorder(new CompoundBorder(
             new TitledBorder(
-                BorderFactory.createLineBorder(new Color(CHERRY.getRed(), CHERRY.getGreen(), CHERRY.getBlue(), 150), 1, true),
+                BorderFactory.createLineBorder(new Color(DARK_BORDER.getRed(), DARK_BORDER.getGreen(), DARK_BORDER.getBlue(), 150), 1, true),
                 title,
                 TitledBorder.DEFAULT_JUSTIFICATION,
                 TitledBorder.DEFAULT_POSITION,
@@ -816,10 +816,10 @@ public final class NEOLocalLMDesktop extends JFrame {
 
         getContentPane().setBackground(bg);
         styleTree(getContentPane(), bg, panel, field, button, fg, muted, border, dark);
-        chatArea.setBackground(new Color(13, 15, 19));
+        chatArea.setBackground(new Color(22, 22, 22));
         chatArea.setForeground(fg);
         chatArea.setCaretColor(CHERRY);
-        chatArea.setSelectionColor(new Color(47, 111, 159, dark ? 150 : 80));
+        chatArea.setSelectionColor(new Color(85, 75, 98, dark ? 170 : 90));
         inputField.setBackground(field);
         inputField.setForeground(fg);
         inputField.setCaretColor(CHERRY);
@@ -904,7 +904,7 @@ public final class NEOLocalLMDesktop extends JFrame {
         UIManager.put("TextField.font", UI_FONT);
         UIManager.put("TextArea.font", CHAT_FONT);
         UIManager.put("Button.foreground", LIGHT_TEXT);
-        UIManager.put("Button.select", new Color(61, 80, 107));
+        UIManager.put("Button.select", new Color(72, 63, 82));
         UIManager.put("ComboBox.selectionBackground", CHERRY);
         UIManager.put("ComboBox.selectionForeground", Color.WHITE);
     }
