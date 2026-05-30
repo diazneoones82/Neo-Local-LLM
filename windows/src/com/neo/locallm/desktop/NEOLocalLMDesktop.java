@@ -47,6 +47,9 @@ public final class NEOLocalLMDesktop extends JFrame {
     private static final Color DARK_MUTED = new Color(170, 164, 176);
     private static final Color DARK_BUTTON = new Color(52, 45, 60);
     private static final Color DARK_BORDER = new Color(72, 63, 82);
+    private static final Color CONTROL_BG = new Color(218, 218, 224);
+    private static final Color CONTROL_FG = new Color(22, 22, 24);
+    private static final Color CONTROL_BORDER = new Color(176, 176, 186);
     private static final Color LIGHT_BG = DARK_BG;
     private static final Color LIGHT_PANEL = DARK_PANEL;
     private static final Color LIGHT_FIELD = DARK_FIELD;
@@ -229,14 +232,16 @@ public final class NEOLocalLMDesktop extends JFrame {
     private JPanel section(String title, JComponent content) {
         JPanel panel = new JPanel(new BorderLayout());
         panel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        TitledBorder titleBorder = new TitledBorder(
+            BorderFactory.createLineBorder(new Color(DARK_BORDER.getRed(), DARK_BORDER.getGreen(), DARK_BORDER.getBlue(), 150), 1, true),
+            title,
+            TitledBorder.DEFAULT_JUSTIFICATION,
+            TitledBorder.DEFAULT_POSITION,
+            UI_FONT_BOLD
+        );
+        titleBorder.setTitleColor(DARK_TEXT);
         panel.setBorder(new CompoundBorder(
-            new TitledBorder(
-                BorderFactory.createLineBorder(new Color(DARK_BORDER.getRed(), DARK_BORDER.getGreen(), DARK_BORDER.getBlue(), 150), 1, true),
-                title,
-                TitledBorder.DEFAULT_JUSTIFICATION,
-                TitledBorder.DEFAULT_POSITION,
-                UI_FONT_BOLD
-            ),
+            titleBorder,
                 new EmptyBorder(8, 6, 8, 6)
         ));
         panel.add(content, BorderLayout.CENTER);
@@ -853,25 +858,26 @@ public final class NEOLocalLMDesktop extends JFrame {
             ));
         }
         if (component instanceof JComboBox<?> comboBox) {
-            comboBox.setBackground(field);
-            comboBox.setForeground(fg);
+            comboBox.setBackground(CONTROL_BG);
+            comboBox.setForeground(CONTROL_FG);
             comboBox.setFont(UI_FONT_BOLD);
             comboBox.setOpaque(true);
-            comboBox.setBorder(BorderFactory.createLineBorder(new Color(border.getRed(), border.getGreen(), border.getBlue(), 145), 1, true));
+            comboBox.setBorder(BorderFactory.createLineBorder(CONTROL_BORDER, 1, true));
         }
         if (component instanceof JButton button) {
             boolean accent = Boolean.TRUE.equals(button.getClientProperty("accent"));
-            button.setBackground(accent ? CHERRY : field);
+            button.setBackground(accent ? CHERRY : CONTROL_BG);
             button.setForeground(accent ? Color.WHITE : fg);
             button.setOpaque(true);
             button.setContentAreaFilled(true);
             button.setRolloverEnabled(true);
             button.setBorder(new CompoundBorder(
-                BorderFactory.createLineBorder(accent ? CHERRY_DARK : new Color(border.getRed(), border.getGreen(), border.getBlue(), 135), 1, true),
+                BorderFactory.createLineBorder(accent ? CHERRY_DARK : CONTROL_BORDER, 1, true),
                 new EmptyBorder(8, 10, 8, 10)
             ));
             if (!accent) {
-                button.setBackground(buttonColor);
+                button.setBackground(CONTROL_BG);
+                button.setForeground(CONTROL_FG);
             }
         }
         if (component instanceof JCheckBox checkBox) {
@@ -903,10 +909,22 @@ public final class NEOLocalLMDesktop extends JFrame {
         UIManager.put("Label.font", UI_FONT);
         UIManager.put("TextField.font", UI_FONT);
         UIManager.put("TextArea.font", CHAT_FONT);
-        UIManager.put("Button.foreground", LIGHT_TEXT);
+        UIManager.put("Button.background", CONTROL_BG);
+        UIManager.put("Button.foreground", CONTROL_FG);
         UIManager.put("Button.select", new Color(72, 63, 82));
+        UIManager.put("ComboBox.background", CONTROL_BG);
+        UIManager.put("ComboBox.foreground", CONTROL_FG);
+        UIManager.put("ComboBox.buttonBackground", CONTROL_BG);
+        UIManager.put("ComboBox.buttonForeground", CONTROL_FG);
         UIManager.put("ComboBox.selectionBackground", CHERRY);
         UIManager.put("ComboBox.selectionForeground", Color.WHITE);
+        UIManager.put("List.background", CONTROL_BG);
+        UIManager.put("List.foreground", CONTROL_FG);
+        UIManager.put("List.selectionBackground", CHERRY);
+        UIManager.put("List.selectionForeground", Color.WHITE);
+        UIManager.put("PopupMenu.background", CONTROL_BG);
+        UIManager.put("MenuItem.background", CONTROL_BG);
+        UIManager.put("MenuItem.foreground", CONTROL_FG);
     }
 
     private static Image createCherryIconImage(int size) {
@@ -995,6 +1013,9 @@ public final class NEOLocalLMDesktop extends JFrame {
             if (isSelected) {
                 label.setBackground(CHERRY);
                 label.setForeground(Color.WHITE);
+            } else {
+                label.setBackground(CONTROL_BG);
+                label.setForeground(CONTROL_FG);
             }
             return label;
         }
