@@ -133,8 +133,10 @@ class OnlineFallbackClient(
 
     private fun isRetryableOpenRouterError(message: String): Boolean {
         val lower = message.lowercase()
-        return lower.contains("http 429") ||
+        return lower.contains("http 404") ||
+            lower.contains("http 429") ||
             lower.contains("rate limit") ||
+            lower.contains("not found") ||
             lower.contains("provider returned error") ||
             lower.contains("temporarily unavailable") ||
             lower.contains("overloaded")
