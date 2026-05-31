@@ -20,6 +20,12 @@ class OnlineFallbackClient(
         .build()
 ) {
     private val jsonMediaType = "application/json; charset=utf-8".toMediaType()
+    private val openRouterFallbackModels = listOf(
+        "stepfun/step-3.5-flash:free",
+        "google/gemma-4-26b-a4b-it:free",
+        "poolside/laguna-m.1:free",
+        "nvidia/nemotron-3-super-120b-a12b:free"
+    )
 
     suspend fun generate(systemPrompt: String, messages: List<Message>): String? {
         return tryGemini(systemPrompt, messages) ?: tryOpenAi(systemPrompt, messages)
@@ -38,7 +44,27 @@ class OnlineFallbackClient(
         messages: List<Message>,
         modelId: String
     ): String? {
-        return tryOpenRouter(systemPrompt, messages, modelId)
+        val apiKey = onlinePreferences?.openRouterApiKey.orEmpty()
+        if (apiKey.isBlank()) {
+            return "OpenRouter API key is missing. Save it in Settings, then try again."
+        }
+
+        val candidates = (listOf(modelId) + openRouterFallbackModels)
+            .distinct()
+        var lastError: String? = null
+        for (candidate in candidates) {
+            val response = tryOpenRouter(systemPrompt, messages, candidate, apiKey)
+            if (response.isNullOrBlank()) continue
+            if (isRetryableOpenRouterError(response)) {
+                lastError = response
+                continue
+            }
+            return response
+        }
+
+        return lastError?.let {
+            "OpenRouter free models are currently rate limited or busy. Try again later, choose a local model, or use a different online provider."
+        }
     }
 
     private fun tryHuggingFace(
@@ -77,13 +103,9 @@ class OnlineFallbackClient(
     private fun tryOpenRouter(
         systemPrompt: String,
         messages: List<Message>,
-        model: String
+        model: String,
+        apiKey: String
     ): String? {
-        val apiKey = onlinePreferences?.openRouterApiKey.orEmpty()
-        if (apiKey.isBlank()) {
-            return "OpenRouter API key is missing. Save it in Settings, then try again."
-        }
-
         val body = JSONObject()
             .put("model", model)
             .put("messages", openAiCompatibleMessages(systemPrompt, messages))
@@ -107,6 +129,15 @@ class OnlineFallbackClient(
                 ?.optJSONObject("message")
                 ?.optString("content")
         }
+    }
+
+    private fun isRetryableOpenRouterError(message: String): Boolean {
+        val lower = message.lowercase()
+        return lower.contains("http 429") ||
+            lower.contains("rate limit") ||
+            lower.contains("provider returned error") ||
+            lower.contains("temporarily unavailable") ||
+            lower.contains("overloaded")
     }
 
     private fun tryGemini(systemPrompt: String, messages: List<Message>): String? {
