@@ -116,6 +116,14 @@ public final class NEOLocalLMDesktop extends JFrame {
         new ModelItem("DeepSeek V4 Flash (OpenRouter)", "online-or-deepseek-v4-flash-free", null, "deepseek/deepseek-v4-flash:free", true, "openrouter")
     };
 
+    private static final String[] OPENROUTER_FALLBACK_MODELS = new String[] {
+        "stepfun/step-3.5-flash:free",
+        "deepseek/deepseek-v4-flash:free",
+        "google/gemma-4-26b-a4b-it:free",
+        "poolside/laguna-m.1:free",
+        "nvidia/nemotron-3-super-120b-a12b:free"
+    };
+
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             setupLookAndFeel();
@@ -693,11 +701,48 @@ public final class NEOLocalLMDesktop extends JFrame {
         if ("openrouter".equals(model.provider)) {
             String key = openRouterApiKeyField.getText().trim();
             if (key.isEmpty()) throw new IllegalStateException("Save an OpenRouter API key first.");
-            return chatCompletions(URI.create("https://openrouter.ai/api/v1/chat/completions"), key, model.onlineId, prompt, true);
+            return sendOpenRouterWithFallbacks(model.onlineId, key, prompt);
         }
         String key = huggingFaceTokenField.getText().trim();
         if (key.isEmpty()) throw new IllegalStateException("Save a Hugging Face token first.");
         return chatCompletions(URI.create("https://router.huggingface.co/v1/chat/completions"), key, model.onlineId, prompt, true);
+    }
+
+    private String sendOpenRouterWithFallbacks(String selectedModel, String key, String prompt) throws Exception {
+        List<String> candidates = new ArrayList<>();
+        candidates.add(selectedModel);
+        for (String fallback : OPENROUTER_FALLBACK_MODELS) {
+            if (!candidates.contains(fallback)) candidates.add(fallback);
+        }
+
+        IOException lastRetryableError = null;
+        URI endpoint = URI.create("https://openrouter.ai/api/v1/chat/completions");
+        for (String candidate : candidates) {
+            try {
+                return chatCompletions(endpoint, key, candidate, prompt, true);
+            } catch (IOException e) {
+                if (!isRetryableOpenRouterError(e.getMessage())) throw e;
+                lastRetryableError = e;
+            }
+        }
+
+        throw new IOException(
+            "OpenRouter free models are currently rate limited or unavailable. Try again later, choose another online provider, or load a local model.",
+            lastRetryableError
+        );
+    }
+
+    private boolean isRetryableOpenRouterError(String message) {
+        if (message == null) return false;
+        String lower = message.toLowerCase(java.util.Locale.ROOT);
+        return lower.contains("http 404") ||
+            lower.contains("http 429") ||
+            lower.contains("not found") ||
+            lower.contains("no endpoints found") ||
+            lower.contains("rate limit") ||
+            lower.contains("provider returned error") ||
+            lower.contains("temporarily unavailable") ||
+            lower.contains("overloaded");
     }
 
     private String chatCompletions(URI uri, String key, String model, String prompt) throws Exception {
