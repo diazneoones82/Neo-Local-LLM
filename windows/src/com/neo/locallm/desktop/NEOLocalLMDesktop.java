@@ -548,7 +548,7 @@ public final class NEOLocalLMDesktop extends JFrame {
         command.add("--ubatch-size"); command.add("512");
         command.add("--parallel"); command.add("1");
         addIfSupported(command, help, "--cont-batching");
-        addIfSupported(command, help, "--flash-attn");
+        addIfSupported(command, help, "--flash-attn", "auto");
         addIfSupported(command, help, "--cache-type-k", "q8_0");
         addIfSupported(command, help, "--cache-type-v", "q8_0");
         addIfSupported(command, help, "--no-mmap");
