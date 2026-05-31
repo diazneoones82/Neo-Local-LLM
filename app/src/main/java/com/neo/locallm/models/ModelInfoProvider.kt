@@ -62,6 +62,15 @@ object ModelInfoProvider {
             supportedLanguages = DEEPSEEK_LANGS
         ),
         ModelInfo(
+            name = "DeepSeek V4 Flash MTP",
+            filename = "DeepSeek-V4-Flash-MTP-Q4K-Q8_0-F32.gguf",
+            remoteUri = Uri.parse("https://huggingface.co/antirez/deepseek-v4-gguf/resolve/main/DeepSeek-V4-Flash-MTP-Q4K-Q8_0-F32.gguf"),
+            releaseDate = LocalDate.parse("2026-05-07"),
+            description = "Antirez DeepSeek V4 Flash MTP GGUF - 3.81Gb - Q4K/Q8_0/F32",
+            logoRes = R.drawable.logo_deepseek,
+            supportedLanguages = DEEPSEEK_LANGS
+        ),
+        ModelInfo(
             name = "Gemma 3 1B",
             filename = "gemma-3-1b-it-Q4_K_M.gguf",
             remoteUri = Uri.parse("https://huggingface.co/lmstudio-community/gemma-3-1b-it-GGUF/resolve/main/gemma-3-1b-it-Q4_K_M.gguf"),

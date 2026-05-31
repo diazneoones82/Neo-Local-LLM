@@ -94,6 +94,7 @@ public final class NEOLocalLMDesktop extends JFrame {
         new ModelItem("LFM2 8B A1B", "LFM2-8B-A1B-Q4_K_M.gguf", "https://huggingface.co/LiquidAI/LFM2-8B-A1B-GGUF/resolve/main/LFM2-8B-A1B-Q4_K_M.gguf", null, false, ""),
         new ModelItem("Qwen 3 1.7B", "Qwen3-1.7B-Q4_K_M.gguf", "https://huggingface.co/lmstudio-community/Qwen3-1.7B-GGUF/resolve/main/Qwen3-1.7B-Q4_K_M.gguf", null, false, ""),
         new ModelItem("DeepSeek R1 Distill", "DeepSeek-R1-Distill-Qwen-1.5B-Q4_K_M.gguf", "https://huggingface.co/lmstudio-community/DeepSeek-R1-Distill-Qwen-1.5B-GGUF/resolve/main/DeepSeek-R1-Distill-Qwen-1.5B-Q4_K_M.gguf", null, false, ""),
+        new ModelItem("DeepSeek V4 Flash MTP", "DeepSeek-V4-Flash-MTP-Q4K-Q8_0-F32.gguf", "https://huggingface.co/antirez/deepseek-v4-gguf/resolve/main/DeepSeek-V4-Flash-MTP-Q4K-Q8_0-F32.gguf", null, false, ""),
         new ModelItem("Gemma 3 1B", "gemma-3-1b-it-Q4_K_M.gguf", "https://huggingface.co/lmstudio-community/gemma-3-1b-it-GGUF/resolve/main/gemma-3-1b-it-Q4_K_M.gguf", null, false, ""),
         new ModelItem("LFM2.5 1.2B Thinking", "LFM2.5-1.2B-Thinking-Q4_K_M.gguf", "https://huggingface.co/lmstudio-community/LFM2.5-1.2B-Thinking-GGUF/resolve/main/LFM2.5-1.2B-Thinking-Q4_K_M.gguf", null, false, ""),
         new ModelItem("LFM2.5 1.2B Thinking F16", "LFM2.5-1.2B-Thinking-F16.gguf", "https://huggingface.co/LiquidAI/LFM2.5-1.2B-Thinking-GGUF/resolve/main/LFM2.5-1.2B-Thinking-F16.gguf", null, false, ""),
