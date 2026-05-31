@@ -188,6 +188,23 @@ object ModelInfoProvider {
         additionalFiles = listOf(ModelFilePart("huggingface-model-id", Uri.parse(modelId)))
     )
 
+    private fun openRouterModel(
+        name: String,
+        filename: String,
+        logoRes: Int,
+        modelId: String
+    ): ModelInfo = ModelInfo(
+        name = name,
+        filename = "online-openrouter-$filename",
+        remoteUri = null,
+        releaseDate = null,
+        description = "OpenRouter online model - API key required",
+        logoRes = logoRes,
+        supportedLanguages = MULTILINGUAL_BROAD,
+        isOnline = true,
+        additionalFiles = listOf(ModelFilePart("openrouter-model-id", Uri.parse(modelId)))
+    )
+
     val huggingFaceGemma4: ModelInfo = huggingFaceModel(
         name = "Gemma 4 31B IT (Hugging Face)",
         filename = "gemma-4-31b-it",
@@ -202,9 +219,41 @@ object ModelInfoProvider {
         modelId = "deepseek-ai/DeepSeek-V4-Flash"
     )
 
+    val openRouterGemma426BFree: ModelInfo = openRouterModel(
+        name = "Gemma 4 26B A4B IT (OpenRouter)",
+        filename = "gemma-4-26b-a4b-it-free",
+        logoRes = R.drawable.logo_google,
+        modelId = "google/gemma-4-26b-a4b-it:free"
+    )
+
+    val openRouterLagunaM1Free: ModelInfo = openRouterModel(
+        name = "Laguna M.1 (OpenRouter)",
+        filename = "laguna-m-1-free",
+        logoRes = R.drawable.penrose_triangle,
+        modelId = "poolside/laguna-m.1:free"
+    )
+
+    val openRouterNemotron3SuperFree: ModelInfo = openRouterModel(
+        name = "Nemotron 3 Super 120B A12B (OpenRouter)",
+        filename = "nemotron-3-super-120b-a12b-free",
+        logoRes = R.drawable.logo_nvidia,
+        modelId = "nvidia/nemotron-3-super-120b-a12b:free"
+    )
+
+    val openRouterStep35FlashFree: ModelInfo = openRouterModel(
+        name = "Step 3.5 Flash (OpenRouter)",
+        filename = "step-3-5-flash-free",
+        logoRes = R.drawable.penrose_triangle,
+        modelId = "stepfun/step-3.5-flash:free"
+    )
+
     val onlineModels: List<ModelInfo> = listOf(
         huggingFaceGemma4,
-        huggingFaceDeepSeekV4Flash
+        huggingFaceDeepSeekV4Flash,
+        openRouterGemma426BFree,
+        openRouterLagunaM1Free,
+        openRouterNemotron3SuperFree,
+        openRouterStep35FlashFree
     )
 
     val defaultModel: ModelInfo = allModels.first()
@@ -229,6 +278,11 @@ object ModelInfoProvider {
 
     fun getHuggingFaceModelId(model: ModelInfo): String? =
         model.additionalFiles.firstOrNull { it.filename == "huggingface-model-id" }
+            ?.remoteUri
+            ?.toString()
+
+    fun getOpenRouterModelId(model: ModelInfo): String? =
+        model.additionalFiles.firstOrNull { it.filename == "openrouter-model-id" }
             ?.remoteUri
             ?.toString()
     

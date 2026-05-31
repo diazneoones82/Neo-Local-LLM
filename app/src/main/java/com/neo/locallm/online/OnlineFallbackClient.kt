@@ -33,6 +33,14 @@ class OnlineFallbackClient(
         return tryHuggingFace(systemPrompt, messages, modelId)
     }
 
+    suspend fun generateOpenRouterModel(
+        systemPrompt: String,
+        messages: List<Message>,
+        modelId: String
+    ): String? {
+        return tryOpenRouter(systemPrompt, messages, modelId)
+    }
+
     private fun tryHuggingFace(
         systemPrompt: String,
         messages: List<Message>,
@@ -59,6 +67,41 @@ class OnlineFallbackClient(
             .build()
 
         return executeTextRequest(request, "Hugging Face") { json ->
+            json.optJSONArray("choices")
+                ?.optJSONObject(0)
+                ?.optJSONObject("message")
+                ?.optString("content")
+        }
+    }
+
+    private fun tryOpenRouter(
+        systemPrompt: String,
+        messages: List<Message>,
+        model: String
+    ): String? {
+        val apiKey = onlinePreferences?.openRouterApiKey.orEmpty()
+        if (apiKey.isBlank()) {
+            return "OpenRouter API key is missing. Save it in Settings, then try again."
+        }
+
+        val body = JSONObject()
+            .put("model", model)
+            .put("messages", openAiCompatibleMessages(systemPrompt, messages))
+            .put("temperature", 0.6)
+            .put("top_p", 0.95)
+            .put("max_tokens", 2048)
+            .put("stream", false)
+
+        val request = Request.Builder()
+            .url("https://openrouter.ai/api/v1/chat/completions")
+            .addHeader("Accept", "application/json")
+            .addHeader("Authorization", "Bearer $apiKey")
+            .addHeader("HTTP-Referer", "https://github.com/diazneoones82/Neo-Local-LLM")
+            .addHeader("X-Title", "Neo Local LLM")
+            .post(body.toString().toRequestBody(jsonMediaType))
+            .build()
+
+        return executeTextRequest(request, "OpenRouter") { json ->
             json.optJSONArray("choices")
                 ?.optJSONObject(0)
                 ?.optJSONObject("message")

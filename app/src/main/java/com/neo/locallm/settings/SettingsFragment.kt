@@ -190,6 +190,9 @@ class SettingsFragment : Fragment() {
                 var huggingFaceToken by remember {
                     mutableStateOf(onlinePreferences.huggingFaceToken)
                 }
+                var openRouterApiKey by remember {
+                    mutableStateOf(onlinePreferences.openRouterApiKey)
+                }
                 val themePreferences = remember { ThemePreferences(requireContext()) }
                 var darkModeEnabled by remember {
                     mutableStateOf(themePreferences.darkModeEnabled)
@@ -229,6 +232,16 @@ class SettingsFragment : Fragment() {
                         Toast.makeText(
                             requireContext(),
                             R.string.huggingface_token_saved,
+                            Toast.LENGTH_SHORT,
+                        ).show()
+                    },
+                    openRouterApiKey = openRouterApiKey,
+                    onOpenRouterApiKeySave = { apiKey ->
+                        openRouterApiKey = apiKey
+                        onlinePreferences.openRouterApiKey = apiKey
+                        Toast.makeText(
+                            requireContext(),
+                            R.string.openrouter_api_key_saved,
                             Toast.LENGTH_SHORT,
                         ).show()
                     },

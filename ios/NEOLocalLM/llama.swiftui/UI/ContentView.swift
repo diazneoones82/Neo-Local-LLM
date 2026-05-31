@@ -100,7 +100,7 @@ struct ContentView: View {
                                     .foregroundStyle(.tint)
                                 Text("NEO Local LM")
                                     .font(.title.bold())
-                                Text("Download Qwen 3 1.7B, load it locally, or select a Hugging Face model from the picker.")
+                                Text("Download Qwen 3 1.7B, load it locally, or select an online model from the picker.")
                                     .font(.body)
                                     .foregroundStyle(.secondary)
                                     .multilineTextAlignment(.center)
@@ -250,6 +250,7 @@ private struct SettingsView: View {
     @Environment(\.dismiss) private var dismiss
     @AppStorage("dark_mode_enabled") private var darkModeEnabled = false
     @State private var huggingFaceTokenDraft = ""
+    @State private var openRouterApiKeyDraft = ""
     @State private var showingModels = false
     @State private var showingHistory = false
 
@@ -268,6 +269,12 @@ private struct SettingsView: View {
                     SecureField("Hugging Face Token", text: $huggingFaceTokenDraft)
                     Button("Save") {
                         state.saveHuggingFaceToken(huggingFaceTokenDraft)
+                    }
+                }
+                Section("OpenRouter API Key") {
+                    SecureField("OpenRouter API Key", text: $openRouterApiKeyDraft)
+                    Button("Save") {
+                        state.saveOpenRouterApiKey(openRouterApiKeyDraft)
                     }
                 }
                 Button("Models") {
@@ -292,6 +299,7 @@ private struct SettingsView: View {
             }
             .onAppear {
                 huggingFaceTokenDraft = state.huggingFaceToken
+                openRouterApiKeyDraft = state.openRouterApiKey
             }
             .sheet(isPresented: $showingModels) {
                 ModelPickerView()
@@ -358,7 +366,7 @@ private struct OnboardingView: View {
     private let slides = [
         ("Download a local model", "Open Settings, choose Models, then download Qwen 3 1.7B or another GGUF model.", "arrow.down.circle"),
         ("Load and chat locally", "Select a downloaded model from the top bar. Once loaded, messages are generated with llama.cpp on device.", "cpu"),
-        ("Use online only when needed", "Add your Hugging Face token to use hosted online models, or as fallback when local generation fails.", "cloud")
+        ("Use online only when needed", "Add your Hugging Face token or OpenRouter API key to use hosted online models, or as fallback when local generation fails.", "cloud")
     ]
 
     var body: some View {

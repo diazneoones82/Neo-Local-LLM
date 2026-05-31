@@ -70,6 +70,7 @@ public final class NEOLocalLMDesktop extends JFrame {
     private final JTextField inputField = new JTextField();
     private final JComboBox<ModelItem> modelCombo = new JComboBox<>();
     private final JTextField huggingFaceTokenField = new JPasswordField();
+    private final JTextField openRouterApiKeyField = new JPasswordField();
     private final JTextField modelFolderField = new JTextField();
     private final JLabel statusLabel = new JLabel("Ready");
     private final JProgressBar downloadProgress = new JProgressBar(0, 100);
@@ -106,7 +107,11 @@ public final class NEOLocalLMDesktop extends JFrame {
         new ModelItem("Qwen2.5.1-Coder 7B Instruct", "Qwen2.5.1-Coder-7B-Instruct-Q6_K_L.gguf", "https://huggingface.co/bartowski/Qwen2.5.1-Coder-7B-Instruct-GGUF/resolve/main/Qwen2.5.1-Coder-7B-Instruct-Q6_K_L.gguf", null, false, ""),
         new ModelItem("OLMo 2 1124 7B Instruct", "OLMo-2-1124-7B-Instruct-Q6_K.gguf", "https://huggingface.co/bartowski/OLMo-2-1124-7B-Instruct-GGUF/resolve/main/OLMo-2-1124-7B-Instruct-Q6_K.gguf", null, false, ""),
         new ModelItem("Gemma 4 31B IT (Hugging Face)", "online-hf-gemma-4-31b-it", null, "google/gemma-4-31B-it", true, "huggingface"),
-        new ModelItem("DeepSeek V4 Flash (Hugging Face)", "online-hf-deepseek-v4-flash", null, "deepseek-ai/DeepSeek-V4-Flash", true, "huggingface")
+        new ModelItem("DeepSeek V4 Flash (Hugging Face)", "online-hf-deepseek-v4-flash", null, "deepseek-ai/DeepSeek-V4-Flash", true, "huggingface"),
+        new ModelItem("Gemma 4 26B A4B IT (OpenRouter)", "online-or-gemma-4-26b-a4b-it-free", null, "google/gemma-4-26b-a4b-it:free", true, "openrouter"),
+        new ModelItem("Laguna M.1 (OpenRouter)", "online-or-laguna-m-1-free", null, "poolside/laguna-m.1:free", true, "openrouter"),
+        new ModelItem("Nemotron 3 Super 120B A12B (OpenRouter)", "online-or-nemotron-3-super-120b-a12b-free", null, "nvidia/nemotron-3-super-120b-a12b:free", true, "openrouter"),
+        new ModelItem("Step 3.5 Flash (OpenRouter)", "online-or-step-3-5-flash-free", null, "stepfun/step-3.5-flash:free", true, "openrouter")
     };
 
     public static void main(String[] args) {
@@ -288,7 +293,11 @@ public final class NEOLocalLMDesktop extends JFrame {
         huggingFaceTokenField.setPreferredSize(new Dimension(SIDE_CONTROL_WIDTH, 38));
         huggingFaceTokenField.setMaximumSize(new Dimension(Integer.MAX_VALUE, 38));
         panel.add(leftWrap(huggingFaceTokenField, 38));
-        panel.add(button("Save token", e -> saveApiKeys()));
+        panel.add(label("OpenRouter API key"));
+        openRouterApiKeyField.setPreferredSize(new Dimension(SIDE_CONTROL_WIDTH, 38));
+        openRouterApiKeyField.setMaximumSize(new Dimension(Integer.MAX_VALUE, 38));
+        panel.add(leftWrap(openRouterApiKeyField, 38));
+        panel.add(button("Save online keys", e -> saveApiKeys()));
         return panel;
     }
 
@@ -357,6 +366,7 @@ public final class NEOLocalLMDesktop extends JFrame {
 
     private void loadPrefs() {
         huggingFaceTokenField.setText(prefs.get("huggingface_token", ""));
+        openRouterApiKeyField.setText(prefs.get("openrouter_api_key", ""));
         darkMode.setSelected(true);
         prefs.putBoolean("dark", true);
         modelFolderField.setText(compactPath(modelsDir));
@@ -365,7 +375,8 @@ public final class NEOLocalLMDesktop extends JFrame {
 
     private void saveApiKeys() {
         prefs.put("huggingface_token", huggingFaceTokenField.getText().trim());
-        setStatus("Hugging Face token saved");
+        prefs.put("openrouter_api_key", openRouterApiKeyField.getText().trim());
+        setStatus("Online API keys saved");
     }
 
     private void downloadSelected(ActionEvent event) {
@@ -677,6 +688,11 @@ public final class NEOLocalLMDesktop extends JFrame {
     }
 
     private String sendOnline(ModelItem model, String prompt) throws Exception {
+        if ("openrouter".equals(model.provider)) {
+            String key = openRouterApiKeyField.getText().trim();
+            if (key.isEmpty()) throw new IllegalStateException("Save an OpenRouter API key first.");
+            return chatCompletions(URI.create("https://openrouter.ai/api/v1/chat/completions"), key, model.onlineId, prompt, true);
+        }
         String key = huggingFaceTokenField.getText().trim();
         if (key.isEmpty()) throw new IllegalStateException("Save a Hugging Face token first.");
         return chatCompletions(URI.create("https://router.huggingface.co/v1/chat/completions"), key, model.onlineId, prompt, true);
@@ -704,6 +720,10 @@ public final class NEOLocalLMDesktop extends JFrame {
             .POST(HttpRequest.BodyPublishers.ofString(body));
         if (key != null) {
             builder.header("Authorization", "Bearer " + key);
+            if (uri.getHost() != null && uri.getHost().contains("openrouter.ai")) {
+                builder.header("HTTP-Referer", "https://github.com/diazneoones82/Neo-Local-LLM");
+                builder.header("X-Title", APP_NAME);
+            }
         }
         HttpResponse<String> response = HTTP.send(builder.build(), HttpResponse.BodyHandlers.ofString());
         if (response.statusCode() / 100 != 2) throw new IOException("LLM request failed: " + response.body());

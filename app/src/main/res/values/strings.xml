@@ -129,6 +129,9 @@
     <string name="huggingface_token" translatable="false">Hugging Face Token</string>
     <string name="huggingface_token_subtitle">Used only when you select a Hugging Face online model.</string>
     <string name="huggingface_token_saved">Hugging Face token saved.</string>
+    <string name="openrouter_api_key" translatable="false">OpenRouter API Key</string>
+    <string name="openrouter_api_key_subtitle">Used only when you select an OpenRouter online model.</string>
+    <string name="openrouter_api_key_saved">OpenRouter API key saved.</string>
     <string name="dark_mode">Dark mode</string>
     <string name="dark_mode_subtitle">Switch between glossy light and dark themes.</string>
     <string name="conversation_history">Conversation History</string>

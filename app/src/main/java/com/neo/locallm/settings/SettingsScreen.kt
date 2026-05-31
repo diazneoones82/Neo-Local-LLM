@@ -63,6 +63,8 @@ fun SettingsScreen(
     onConversationHistoryClick: () -> Unit,
     huggingFaceToken: String = "",
     onHuggingFaceTokenSave: (String) -> Unit = {},
+    openRouterApiKey: String = "",
+    onOpenRouterApiKeySave: (String) -> Unit = {},
     darkModeEnabled: Boolean = false,
     onDarkModeChange: (Boolean) -> Unit = {},
     biometricPinEnabled: Boolean = false,
@@ -119,6 +121,8 @@ fun SettingsScreen(
                         onConversationHistoryClick = onConversationHistoryClick,
                         huggingFaceToken = huggingFaceToken,
                         onHuggingFaceTokenSave = onHuggingFaceTokenSave,
+                        openRouterApiKey = openRouterApiKey,
+                        onOpenRouterApiKeySave = onOpenRouterApiKeySave,
                         darkModeEnabled = darkModeEnabled,
                         onDarkModeChange = onDarkModeChange,
                         biometricPinEnabled = biometricPinEnabled,
@@ -172,6 +176,8 @@ fun SettingsScreen(
                 onConversationHistoryClick = onConversationHistoryClick,
                 huggingFaceToken = huggingFaceToken,
                 onHuggingFaceTokenSave = onHuggingFaceTokenSave,
+                openRouterApiKey = openRouterApiKey,
+                onOpenRouterApiKeySave = onOpenRouterApiKeySave,
                 darkModeEnabled = darkModeEnabled,
                 onDarkModeChange = onDarkModeChange,
                 biometricPinEnabled = biometricPinEnabled,
@@ -192,6 +198,8 @@ private fun SettingsList(
     onConversationHistoryClick: () -> Unit,
     huggingFaceToken: String,
     onHuggingFaceTokenSave: (String) -> Unit,
+    openRouterApiKey: String,
+    onOpenRouterApiKeySave: (String) -> Unit,
     darkModeEnabled: Boolean,
     onDarkModeChange: (Boolean) -> Unit,
     biometricPinEnabled: Boolean,
@@ -199,6 +207,7 @@ private fun SettingsList(
     modifier: Modifier = Modifier
 ) {
     var tokenDraft by remember(huggingFaceToken) { mutableStateOf(huggingFaceToken) }
+    var openRouterDraft by remember(openRouterApiKey) { mutableStateOf(openRouterApiKey) }
 
     Column(modifier = modifier.verticalScroll(rememberScrollState())) {
         ToggleRow(
@@ -251,6 +260,38 @@ private fun SettingsList(
                 )
                 Button(
                     onClick = { onHuggingFaceTokenSave(tokenDraft) },
+                    modifier = Modifier.align(Alignment.End)
+                ) {
+                    Text(stringResource(R.string.save))
+                }
+            }
+        }
+
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            verticalAlignment = Alignment.Top
+        ) {
+            Icon(
+                imageVector = Icons.Outlined.VpnKey,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier.padding(top = 18.dp)
+            )
+            Spacer(Modifier.width(16.dp))
+            Column(Modifier.weight(1f)) {
+                OutlinedTextField(
+                    value = openRouterDraft,
+                    onValueChange = { openRouterDraft = it },
+                    label = { Text(stringResource(R.string.openrouter_api_key)) },
+                    supportingText = { Text(stringResource(R.string.openrouter_api_key_subtitle)) },
+                    singleLine = true,
+                    visualTransformation = PasswordVisualTransformation(),
+                    modifier = Modifier.fillMaxWidth()
+                )
+                Button(
+                    onClick = { onOpenRouterApiKeySave(openRouterDraft) },
                     modifier = Modifier.align(Alignment.End)
                 ) {
                     Text(stringResource(R.string.save))

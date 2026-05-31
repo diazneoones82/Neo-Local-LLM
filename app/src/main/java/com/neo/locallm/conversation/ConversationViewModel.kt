@@ -316,7 +316,12 @@ class ConversationViewModel(val app: Application) : AndroidViewModel(app) {
 
             onlineOnlyModel = modelInfo
             _loadedModel.postValue(modelInfo)
-            _loadedModelStatus.postValue("Hugging Face online")
+            val provider = when {
+                ModelInfoProvider.getOpenRouterModelId(modelInfo) != null -> "OpenRouter online"
+                ModelInfoProvider.getHuggingFaceModelId(modelInfo) != null -> "Hugging Face online"
+                else -> "Online"
+            }
+            _loadedModelStatus.postValue(provider)
             _modelLoadingProgress.postValue(0f)
             _thinkingEnabled.postValue(false)
             _supportsThinking.postValue(false)
@@ -917,11 +922,19 @@ class ConversationViewModel(val app: Application) : AndroidViewModel(app) {
                                 val selectedOnlineModel = onlineOnlyModel
                                 val huggingFaceModelId = selectedOnlineModel
                                     ?.let { ModelInfoProvider.getHuggingFaceModelId(it) }
+                                val openRouterModelId = selectedOnlineModel
+                                    ?.let { ModelInfoProvider.getOpenRouterModelId(it) }
                                 if (huggingFaceModelId != null) {
                                     onlineFallbackClient.generateHuggingFaceModel(
                                         _systemPrompt.value.orEmpty(),
                                         fallbackMessages,
                                         huggingFaceModelId
+                                    )
+                                } else if (openRouterModelId != null) {
+                                    onlineFallbackClient.generateOpenRouterModel(
+                                        _systemPrompt.value.orEmpty(),
+                                        fallbackMessages,
+                                        openRouterModelId
                                     )
                                 } else {
                                     onlineFallbackClient.generate(
