@@ -22,6 +22,7 @@ class OnlineFallbackClient(
     private val jsonMediaType = "application/json; charset=utf-8".toMediaType()
     private val openRouterFallbackModels = listOf(
         "stepfun/step-3.5-flash:free",
+        "deepseek/deepseek-v4-flash:free",
         "google/gemma-4-26b-a4b-it:free",
         "poolside/laguna-m.1:free",
         "nvidia/nemotron-3-super-120b-a12b:free"

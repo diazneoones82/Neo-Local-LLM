@@ -111,7 +111,8 @@ public final class NEOLocalLMDesktop extends JFrame {
         new ModelItem("Gemma 4 26B A4B IT (OpenRouter)", "online-or-gemma-4-26b-a4b-it-free", null, "google/gemma-4-26b-a4b-it:free", true, "openrouter"),
         new ModelItem("Laguna M.1 (OpenRouter)", "online-or-laguna-m-1-free", null, "poolside/laguna-m.1:free", true, "openrouter"),
         new ModelItem("Nemotron 3 Super 120B A12B (OpenRouter)", "online-or-nemotron-3-super-120b-a12b-free", null, "nvidia/nemotron-3-super-120b-a12b:free", true, "openrouter"),
-        new ModelItem("Step 3.5 Flash (OpenRouter)", "online-or-step-3-5-flash-free", null, "stepfun/step-3.5-flash:free", true, "openrouter")
+        new ModelItem("Step 3.5 Flash (OpenRouter)", "online-or-step-3-5-flash-free", null, "stepfun/step-3.5-flash:free", true, "openrouter"),
+        new ModelItem("DeepSeek V4 Flash (OpenRouter)", "online-or-deepseek-v4-flash-free", null, "deepseek/deepseek-v4-flash:free", true, "openrouter")
     };
 
     public static void main(String[] args) {

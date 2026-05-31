@@ -365,7 +365,8 @@ enum ModelCatalog {
         OnlineModel(id: "or-gemma-4-26b-a4b-it-free", name: "Gemma 4 26B A4B IT (OpenRouter)", modelId: "google/gemma-4-26b-a4b-it:free", provider: "openrouter", description: "OpenRouter online model - API key required"),
         OnlineModel(id: "or-laguna-m-1-free", name: "Laguna M.1 (OpenRouter)", modelId: "poolside/laguna-m.1:free", provider: "openrouter", description: "OpenRouter online model - API key required"),
         OnlineModel(id: "or-nemotron-3-super-120b-a12b-free", name: "Nemotron 3 Super 120B A12B (OpenRouter)", modelId: "nvidia/nemotron-3-super-120b-a12b:free", provider: "openrouter", description: "OpenRouter online model - API key required"),
-        OnlineModel(id: "or-step-3-5-flash-free", name: "Step 3.5 Flash (OpenRouter)", modelId: "stepfun/step-3.5-flash:free", provider: "openrouter", description: "OpenRouter online model - API key required")
+        OnlineModel(id: "or-step-3-5-flash-free", name: "Step 3.5 Flash (OpenRouter)", modelId: "stepfun/step-3.5-flash:free", provider: "openrouter", description: "OpenRouter online model - API key required"),
+        OnlineModel(id: "or-deepseek-v4-flash-free", name: "DeepSeek V4 Flash (OpenRouter)", modelId: "deepseek/deepseek-v4-flash:free", provider: "openrouter", description: "OpenRouter online model - API key required")
     ]
 
     static let fallbackOnlineModel = onlineModels[0]

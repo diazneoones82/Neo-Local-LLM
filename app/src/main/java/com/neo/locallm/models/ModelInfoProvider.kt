@@ -247,13 +247,21 @@ object ModelInfoProvider {
         modelId = "stepfun/step-3.5-flash:free"
     )
 
+    val openRouterDeepSeekV4FlashFree: ModelInfo = openRouterModel(
+        name = "DeepSeek V4 Flash (OpenRouter)",
+        filename = "deepseek-v4-flash-free",
+        logoRes = R.drawable.logo_deepseek,
+        modelId = "deepseek/deepseek-v4-flash:free"
+    )
+
     val onlineModels: List<ModelInfo> = listOf(
         huggingFaceGemma4,
         huggingFaceDeepSeekV4Flash,
         openRouterGemma426BFree,
         openRouterLagunaM1Free,
         openRouterNemotron3SuperFree,
-        openRouterStep35FlashFree
+        openRouterStep35FlashFree,
+        openRouterDeepSeekV4FlashFree
     )
 
     val defaultModel: ModelInfo = allModels.first()
