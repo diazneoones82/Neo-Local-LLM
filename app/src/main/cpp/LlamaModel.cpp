@@ -10,6 +10,7 @@
 #include "chat.h"
 
 #include "console.h"
+#include "ggml-backend.h"
 #include "log.h"
 
 #include <cassert>
@@ -26,11 +27,57 @@
 #include <utility>
 #include <vector>
 #include <mutex>
+#include <algorithm>
 
 #include <csignal>
 #include <unistd.h>
 #include <android/log.h>
 #include <fcntl.h>
+
+namespace {
+std::vector<ggml_backend_dev_t> preferred_offload_devices() {
+    std::vector<ggml_backend_dev_t> htp_devices;
+    std::vector<ggml_backend_dev_t> gpu_devices;
+
+    for (size_t i = 0; i < ggml_backend_dev_count(); ++i) {
+        ggml_backend_dev_t dev = ggml_backend_dev_get(i);
+        const char *name = ggml_backend_dev_name(dev);
+        const enum ggml_backend_dev_type type = ggml_backend_dev_type(dev);
+
+        if (name != nullptr && std::strncmp(name, "HTP", 3) == 0) {
+            htp_devices.push_back(dev);
+        } else if (type == GGML_BACKEND_DEVICE_TYPE_GPU || type == GGML_BACKEND_DEVICE_TYPE_IGPU) {
+            gpu_devices.push_back(dev);
+        }
+    }
+
+    std::sort(htp_devices.begin(), htp_devices.end(), [](ggml_backend_dev_t a, ggml_backend_dev_t b) {
+        return std::strcmp(ggml_backend_dev_name(a), ggml_backend_dev_name(b)) < 0;
+    });
+
+    if (!htp_devices.empty()) {
+        LOG_INF("Using Hexagon HTP devices for local model offload:");
+        for (auto *dev : htp_devices) {
+            LOG_INF(" %s", ggml_backend_dev_name(dev));
+        }
+        LOG_INF("\n");
+        htp_devices.push_back(nullptr);
+        return htp_devices;
+    }
+
+    if (!gpu_devices.empty()) {
+        LOG_INF("Using GPU devices for local model offload:");
+        for (auto *dev : gpu_devices) {
+            LOG_INF(" %s", ggml_backend_dev_name(dev));
+        }
+        LOG_INF("\n");
+        gpu_devices.push_back(nullptr);
+        return gpu_devices;
+    }
+
+    return {};
+}
+}
 
 void LlamaModel::loadModel(const std::string &modelPath,
                            int32_t n_gpu_layers,
@@ -39,7 +86,12 @@ void LlamaModel::loadModel(const std::string &modelPath,
 
     // initialize the model
     llama_model_params model_params = llama_model_default_params();
+    std::vector<ggml_backend_dev_t> devices = preferred_offload_devices();
+    if (!devices.empty()) {
+        model_params.devices = devices.data();
+    }
     model_params.n_gpu_layers = n_gpu_layers;
+    model_params.split_mode = LLAMA_SPLIT_MODE_LAYER;
     model_params.use_mmap = false;
     model_params.use_mlock = true;
     model_params.progress_callback = progress_callback;

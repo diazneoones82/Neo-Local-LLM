@@ -114,6 +114,27 @@ android {
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"),
                     "proguard-rules.pro")
         }
+
+        create("snapdragonNpuRelease") {
+            initWith(getByName("release"))
+            matchingFallbacks += listOf("release")
+            applicationIdSuffix = ".npu"
+            versionNameSuffix = "-snapdragon-npu"
+            ndk {
+                abiFilters.clear()
+                abiFilters += "arm64-v8a"
+            }
+            externalNativeBuild {
+                cmake {
+                    val hexagonSdkRoot = System.getenv("HEXAGON_SDK_ROOT").orEmpty()
+                    val hexagonToolsRoot = System.getenv("HEXAGON_TOOLS_ROOT").orEmpty()
+                    arguments += "-DGGML_HEXAGON=ON"
+                    arguments += "-DGGML_HEXAGON_FP32_QUANTIZE_GROUP_SIZE=128"
+                    arguments += "-DHEXAGON_SDK_ROOT=$hexagonSdkRoot"
+                    arguments += "-DHEXAGON_TOOLS_ROOT=$hexagonToolsRoot"
+                }
+            }
+        }
     }
 
     compileOptions {
