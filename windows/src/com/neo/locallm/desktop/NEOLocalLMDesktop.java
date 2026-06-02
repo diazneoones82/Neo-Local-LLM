@@ -85,6 +85,14 @@ public final class NEOLocalLMDesktop extends JFrame {
     private ModelItem loadedModel;
 
     private record DownloadResponse(InputStream body, long contentLength) {}
+    private record RuntimeProfile(
+        String label,
+        String gpuLayers,
+        String batchSize,
+        String microBatchSize,
+        boolean preloadRam,
+        boolean lockRam
+    ) {}
 
     private record ModelItem(String name, String filename, String url, String onlineId, boolean online, String provider) {
         @Override public String toString() { return name; }
@@ -522,22 +530,52 @@ public final class NEOLocalLMDesktop extends JFrame {
         unloadLocal();
         runAsync("Starting local runtime", () -> {
             Path exe = runtimeExe().orElseThrow();
-            List<String> command = optimizedServerCommand(exe, modelPath);
-            ProcessBuilder pb = optimizedProcessBuilder(exe, command);
-            llamaServer = pb.start();
-            raiseProcessPriority(llamaServer);
-            loadedModel = model;
-            Thread.sleep(3500);
-            if (!llamaServer.isAlive()) {
-                String output = new String(llamaServer.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
-                throw new IOException("llama.cpp exited while loading. " + output.trim());
+            String help = llamaServerHelp(exe);
+            IOException lastError = null;
+
+            for (RuntimeProfile profile : runtimeProfiles()) {
+                setStatus("Loading " + profile.label() + "...");
+                List<String> command = optimizedServerCommand(exe, modelPath, help, profile);
+                ProcessBuilder pb = optimizedProcessBuilder(exe, command);
+                Process process = pb.start();
+                llamaServer = process;
+                raiseProcessPriority(process);
+                loadedModel = model;
+                Thread.sleep(3500);
+                if (process.isAlive()) {
+                    appendSystem("Loaded local model using " + profile.label() + ": " + model.name);
+                    return;
+                }
+
+                String output = new String(process.getInputStream().readAllBytes(), StandardCharsets.UTF_8).trim();
+                lastError = new IOException("llama.cpp exited while loading with " + profile.label() + ". " + output);
+                appendSystem("Runtime profile failed: " + profile.label() + ". Trying next profile...");
+                llamaServer = null;
+                loadedModel = null;
             }
-            appendSystem("Loaded local model with max GPU offload + RAM preload: " + model.name);
+
+            throw new IOException(
+                "llama.cpp exited while loading after trying max GPU, balanced GPU, light GPU, and CPU/RAM profiles. " +
+                    (lastError == null ? "" : lastError.getMessage())
+            );
         });
     }
 
-    private List<String> optimizedServerCommand(Path exe, Path modelPath) {
-        String help = llamaServerHelp(exe);
+    private List<RuntimeProfile> runtimeProfiles() {
+        return List.of(
+            new RuntimeProfile("max GPU + RAM preload", "999", "2048", "512", true, true),
+            new RuntimeProfile("balanced GPU + RAM preload", "64", "1024", "256", true, false),
+            new RuntimeProfile("light GPU + RAM preload", "32", "512", "128", true, false),
+            new RuntimeProfile("CPU/RAM safe mode", "0", "512", "128", false, false)
+        );
+    }
+
+    private List<String> optimizedServerCommand(
+        Path exe,
+        Path modelPath,
+        String help,
+        RuntimeProfile profile
+    ) {
         int cpuCount = Runtime.getRuntime().availableProcessors();
         int threads = Math.max(2, Math.min(cpuCount, cpuCount <= 8 ? cpuCount : cpuCount - 2));
 
@@ -548,19 +586,19 @@ public final class NEOLocalLMDesktop extends JFrame {
         command.add("--port"); command.add(String.valueOf(LLAMA_PORT));
         command.add("--threads"); command.add(String.valueOf(threads));
         command.add("--threads-batch"); command.add(String.valueOf(threads));
-        command.add("--n-gpu-layers"); command.add("999");
+        command.add("--n-gpu-layers"); command.add(profile.gpuLayers());
         addIfSupported(command, help, "--split-mode", "layer");
         addIfSupported(command, help, "--main-gpu", "0");
         command.add("--ctx-size"); command.add("4096");
-        command.add("--batch-size"); command.add("2048");
-        command.add("--ubatch-size"); command.add("512");
+        command.add("--batch-size"); command.add(profile.batchSize());
+        command.add("--ubatch-size"); command.add(profile.microBatchSize());
         command.add("--parallel"); command.add("1");
         addIfSupported(command, help, "--cont-batching");
         addIfSupported(command, help, "--flash-attn", "auto");
         addIfSupported(command, help, "--cache-type-k", "q8_0");
         addIfSupported(command, help, "--cache-type-v", "q8_0");
-        addIfSupported(command, help, "--no-mmap");
-        addIfSupported(command, help, "--mlock");
+        if (profile.preloadRam()) addIfSupported(command, help, "--no-mmap");
+        if (profile.lockRam()) addIfSupported(command, help, "--mlock");
         return command;
     }
 
