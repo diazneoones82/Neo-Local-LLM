@@ -24,6 +24,10 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.prefs.Preferences;
 
 public final class NEOLocalLMDesktop extends JFrame {
@@ -56,6 +60,9 @@ public final class NEOLocalLMDesktop extends JFrame {
     private static final Color LIGHT_TEXT = DARK_TEXT;
     private static final Color LIGHT_MUTED = DARK_MUTED;
     private static final Color LIGHT_BUTTON = DARK_BUTTON;
+    private static final int DOWNLOAD_BUFFER_SIZE = 1024 * 1024;
+    private static final int DOWNLOAD_PARALLEL_PARTS = 4;
+    private static final long DOWNLOAD_PARALLEL_MIN_BYTES = 64L * 1024L * 1024L;
     private static final HttpClient HTTP = HttpClient.newBuilder()
         .connectTimeout(Duration.ofSeconds(30))
         .followRedirects(HttpClient.Redirect.ALWAYS)
@@ -85,6 +92,7 @@ public final class NEOLocalLMDesktop extends JFrame {
     private ModelItem loadedModel;
 
     private record DownloadResponse(InputStream body, long contentLength) {}
+    private record DownloadProbe(long contentLength, boolean supportsRanges) {}
     private record RuntimeProfile(
         String label,
         String gpuLayers,
@@ -411,15 +419,20 @@ public final class NEOLocalLMDesktop extends JFrame {
         runAsync("Downloading " + model.name, () -> {
             Files.createDirectories(modelsDir);
             Path partial = target.resolveSibling(target.getFileName() + ".part");
-            DownloadResponse download = openDownloadStream(URI.create(model.url));
-            try (InputStream in = download.body();
-                 OutputStream out = new BufferedOutputStream(Files.newOutputStream(
-                     partial,
-                     StandardOpenOption.CREATE,
-                     StandardOpenOption.TRUNCATE_EXISTING,
-                     StandardOpenOption.WRITE
-                 ))) {
-                copyWithProgress(in, out, download.contentLength());
+            URI uri = URI.create(model.url);
+            try {
+                if (!downloadInParallel(uri, partial)) {
+                    DownloadResponse download = openDownloadStream(uri);
+                    try (InputStream in = download.body();
+                         OutputStream out = new BufferedOutputStream(Files.newOutputStream(
+                             partial,
+                             StandardOpenOption.CREATE,
+                             StandardOpenOption.TRUNCATE_EXISTING,
+                             StandardOpenOption.WRITE
+                         ))) {
+                        copyWithProgress(in, out, download.contentLength());
+                    }
+                }
                 Files.move(partial, target, StandardCopyOption.REPLACE_EXISTING, StandardCopyOption.ATOMIC_MOVE);
                 appendSystem("Downloaded " + model.name + " to " + target);
             } finally {
@@ -427,6 +440,131 @@ public final class NEOLocalLMDesktop extends JFrame {
                 setDownloadProgress(-1, 0, 0);
             }
         });
+    }
+
+    private boolean downloadInParallel(URI uri, Path target) throws IOException, InterruptedException {
+        DownloadProbe probe = probeDownload(uri);
+        if (!probe.supportsRanges() || probe.contentLength() < DOWNLOAD_PARALLEL_MIN_BYTES) {
+            return false;
+        }
+
+        int parts = (int) Math.min(DOWNLOAD_PARALLEL_PARTS, Math.max(2L, probe.contentLength() / DOWNLOAD_PARALLEL_MIN_BYTES));
+        long partSize = (probe.contentLength() + parts - 1) / parts;
+        AtomicLong downloaded = new AtomicLong();
+        ExecutorService executor = Executors.newFixedThreadPool(parts);
+        List<Future<?>> futures = new ArrayList<>();
+
+        try (RandomAccessFile file = new RandomAccessFile(target.toFile(), "rw")) {
+            file.setLength(probe.contentLength());
+        }
+
+        setDownloadProgress(0, 0, probe.contentLength());
+        try {
+            for (int part = 0; part < parts; part++) {
+                long start = part * partSize;
+                long end = Math.min(probe.contentLength() - 1, start + partSize - 1);
+                futures.add(executor.submit(() -> {
+                    downloadRange(uri, target, start, end, downloaded);
+                    return null;
+                }));
+            }
+
+            boolean done;
+            do {
+                Thread.sleep(200);
+                long copied = downloaded.get();
+                setDownloadProgress((int) ((copied * 100) / probe.contentLength()), copied, probe.contentLength());
+                done = futures.stream().allMatch(Future::isDone);
+            } while (!done);
+
+            for (Future<?> future : futures) {
+                try {
+                    future.get();
+                } catch (Exception e) {
+                    throw new IOException("parallel download failed", e);
+                }
+            }
+            setDownloadProgress(100, probe.contentLength(), probe.contentLength());
+            return true;
+        } catch (IOException e) {
+            Files.deleteIfExists(target);
+            return false;
+        } finally {
+            executor.shutdownNow();
+        }
+    }
+
+    private DownloadProbe probeDownload(URI uri) {
+        try {
+            HttpRequest request = HttpRequest.newBuilder(uri)
+                .timeout(Duration.ofSeconds(45))
+                .header("User-Agent", APP_NAME)
+                .header("Range", "bytes=0-0")
+                .GET()
+                .build();
+            HttpResponse<InputStream> response = HTTP.send(request, HttpResponse.BodyHandlers.ofInputStream());
+            try (InputStream ignored = response.body()) {
+                if (response.statusCode() == 206) {
+                    long length = response.headers()
+                        .firstValue("content-range")
+                        .map(NEOLocalLMDesktop::parseContentRangeLength)
+                        .orElse(-1L);
+                    return new DownloadProbe(length, length > 0);
+                }
+                if (response.statusCode() / 100 != 2) {
+                    return new DownloadProbe(-1L, false);
+                }
+                long length = response.headers().firstValueAsLong("content-length").orElse(-1L);
+                boolean ranges = response.headers()
+                    .firstValue("accept-ranges")
+                    .map(value -> value.toLowerCase(java.util.Locale.ROOT).contains("bytes"))
+                    .orElse(false);
+                return new DownloadProbe(length, ranges);
+            }
+        } catch (Exception ignored) {
+            return new DownloadProbe(-1L, false);
+        }
+    }
+
+    private static long parseContentRangeLength(String value) {
+        int slash = value.lastIndexOf('/');
+        if (slash < 0 || slash == value.length() - 1) return -1L;
+        try {
+            return Long.parseLong(value.substring(slash + 1).trim());
+        } catch (NumberFormatException ignored) {
+            return -1L;
+        }
+    }
+
+    private void downloadRange(URI uri, Path target, long start, long end, AtomicLong downloaded) throws IOException {
+        HttpRequest request = HttpRequest.newBuilder(uri)
+            .timeout(Duration.ofHours(3))
+            .header("User-Agent", APP_NAME)
+            .header("Range", "bytes=" + start + "-" + end)
+            .GET()
+            .build();
+        try {
+            HttpResponse<InputStream> response = HTTP.send(request, HttpResponse.BodyHandlers.ofInputStream());
+            if (response.statusCode() != 206) {
+                try (InputStream ignored = response.body()) {
+                    throw new IOException("range request returned HTTP " + response.statusCode());
+                }
+            }
+            try (InputStream input = response.body();
+                 RandomAccessFile file = new RandomAccessFile(target.toFile(), "rw")) {
+                file.seek(start);
+                byte[] buffer = new byte[DOWNLOAD_BUFFER_SIZE];
+                while (true) {
+                    int read = input.read(buffer);
+                    if (read < 0) break;
+                    file.write(buffer, 0, read);
+                    downloaded.addAndGet(read);
+                }
+            }
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new IOException("download interrupted", e);
+        }
     }
 
     private DownloadResponse openDownloadStream(URI uri) throws IOException, InterruptedException {
@@ -459,7 +597,7 @@ public final class NEOLocalLMDesktop extends JFrame {
     }
 
     private void copyWithProgress(InputStream in, OutputStream out, long totalBytes) throws IOException {
-        byte[] buffer = new byte[1024 * 1024];
+        byte[] buffer = new byte[DOWNLOAD_BUFFER_SIZE];
         long copied = 0L;
         long lastUiUpdate = 0L;
         setDownloadProgress(0, copied, totalBytes);

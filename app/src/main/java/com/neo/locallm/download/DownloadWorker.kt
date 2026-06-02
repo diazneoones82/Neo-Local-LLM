@@ -9,12 +9,21 @@ import androidx.work.CoroutineWorker
 import androidx.work.Data
 import androidx.work.ForegroundInfo
 import androidx.work.WorkerParameters
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.delay
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
+import java.io.RandomAccessFile
 import java.util.concurrent.TimeUnit
+import java.util.concurrent.atomic.AtomicLong
+import kotlin.math.max
+import kotlin.math.min
 
 class DownloadWorker(
     context: Context,
@@ -43,7 +52,10 @@ class DownloadWorker(
 
         private const val PROGRESS_UPDATE_INTERVAL_MS = 500L
         private const val SPEED_WINDOW_MS = 3000L
-        private const val BUFFER_SIZE = 64 * 1024
+        private const val BUFFER_SIZE = 1024 * 1024
+        private const val SAF_COPY_BUFFER_SIZE = 1024 * 1024
+        private const val PARALLEL_DOWNLOAD_SEGMENTS = 4
+        private const val PARALLEL_MIN_BYTES = 64L * 1024L * 1024L
     }
 
     private val notificationManager = DownloadNotificationManager(applicationContext)
@@ -170,6 +182,25 @@ class DownloadWorker(
             Log.d(TAG, "Resuming download from byte $existingBytes")
         }
 
+        if (!append) {
+            val probe = probeDownload(url)
+            if (probe.supportsRanges && probe.contentLength >= PARALLEL_MIN_BYTES) {
+                try {
+                    return downloadFileParallel(
+                        url = url,
+                        tempFile = tempFile,
+                        totalBytes = probe.contentLength,
+                        modelName = modelName,
+                        workName = workName,
+                        notificationId = notificationId
+                    )
+                } catch (e: IOException) {
+                    Log.w(TAG, "Parallel download failed, falling back to single stream: ${e.message}")
+                    tempFile.delete()
+                }
+            }
+        }
+
         val requestBuilder = Request.Builder().url(url)
         if (append) {
             requestBuilder.header("Range", "bytes=$existingBytes-")
@@ -259,6 +290,124 @@ class DownloadWorker(
         return true
     }
 
+    private fun probeDownload(url: String): DownloadProbe {
+        return try {
+            val request = Request.Builder()
+                .url(url)
+                .header("Range", "bytes=0-0")
+                .build()
+            client.newCall(request).execute().use { response ->
+                if (response.code == 206) {
+                    val contentLength = response.header("Content-Range")?.let(::parseContentRangeLength) ?: -1L
+                    return DownloadProbe(contentLength, contentLength > 0)
+                }
+                if (!response.isSuccessful) {
+                    return DownloadProbe(-1L, false)
+                }
+                val contentLength = response.header("Content-Length")?.toLongOrNull() ?: -1L
+                val supportsRanges = response.header("Accept-Ranges")
+                    ?.contains("bytes", ignoreCase = true) == true
+                DownloadProbe(contentLength, supportsRanges)
+            }
+        } catch (e: Exception) {
+            Log.w(TAG, "Could not probe download: ${e.message}")
+            DownloadProbe(-1L, false)
+        }
+    }
+
+    private fun parseContentRangeLength(value: String): Long {
+        val slash = value.lastIndexOf('/')
+        if (slash < 0 || slash == value.length - 1) return -1L
+        return value.substring(slash + 1).trim().toLongOrNull() ?: -1L
+    }
+
+    private suspend fun downloadFileParallel(
+        url: String,
+        tempFile: File,
+        totalBytes: Long,
+        modelName: String,
+        workName: String,
+        notificationId: Int
+    ): Boolean = coroutineScope {
+        RandomAccessFile(tempFile, "rw").use { file ->
+            file.setLength(totalBytes)
+        }
+
+        val segments = min(PARALLEL_DOWNLOAD_SEGMENTS, max(2, (totalBytes / PARALLEL_MIN_BYTES).toInt()))
+        val partSize = (totalBytes + segments - 1) / segments
+        val downloaded = AtomicLong(0L)
+        val jobs = (0 until segments).map { part ->
+            val start = part * partSize
+            val end = min(totalBytes - 1, start + partSize - 1)
+            async(Dispatchers.IO) {
+                downloadRange(url, tempFile, start, end, downloaded)
+            }
+        }
+
+        var lastBytes = 0L
+        var lastUpdate = System.currentTimeMillis()
+        while (jobs.any { !it.isCompleted }) {
+            if (isStopped) {
+                jobs.forEach { it.cancel() }
+                return@coroutineScope false
+            }
+
+            delay(PROGRESS_UPDATE_INTERVAL_MS)
+            val now = System.currentTimeMillis()
+            val bytes = downloaded.get()
+            val elapsedMs = now - lastUpdate
+            val speed = if (elapsedMs > 0) ((bytes - lastBytes) * 1000L) / elapsedMs else 0L
+            val progress = bytes.toFloat() / totalBytes
+            val eta = if (speed > 0) (totalBytes - bytes) / speed else -1L
+            reportStatus(modelName, progress, "Downloading with ${segments} connections...", bytes, totalBytes, speed, eta)
+            notificationManager.showNotification(
+                notificationId,
+                notificationManager.buildProgressNotification(
+                    modelName, progress, bytes, totalBytes, speed, eta, workName
+                )
+            )
+            lastBytes = bytes
+            lastUpdate = now
+        }
+
+        jobs.awaitAll()
+        reportStatus(modelName, 1f, "Download complete", totalBytes, totalBytes, 0, 0)
+        true
+    }
+
+    private fun downloadRange(
+        url: String,
+        tempFile: File,
+        start: Long,
+        end: Long,
+        downloaded: AtomicLong
+    ) {
+        val request = Request.Builder()
+            .url(url)
+            .header("Range", "bytes=$start-$end")
+            .build()
+
+        client.newCall(request).execute().use { response ->
+            if (response.code != 206) {
+                throw IOException("Range request returned HTTP ${response.code}")
+            }
+            val body = response.body ?: throw IOException("Empty range response")
+            body.byteStream().use { input ->
+                RandomAccessFile(tempFile, "rw").use { file ->
+                    file.seek(start)
+                    val buffer = ByteArray(BUFFER_SIZE)
+                    while (true) {
+                        if (isStopped) throw IOException("Download stopped")
+                        val read = input.read(buffer)
+                        if (read == -1) break
+                        file.write(buffer, 0, read)
+                        downloaded.addAndGet(read.toLong())
+                    }
+                }
+            }
+        }
+    }
+
     private suspend fun reportStatus(
         modelName: String,
         progress: Float,
@@ -290,12 +439,14 @@ class DownloadWorker(
 
         applicationContext.contentResolver.openOutputStream(destFile.uri)?.use { outputStream ->
             tempFile.inputStream().use { inputStream ->
-                inputStream.copyTo(outputStream, bufferSize = 8192)
+                inputStream.copyTo(outputStream, bufferSize = SAF_COPY_BUFFER_SIZE)
             }
         } ?: return false
 
         return true
     }
+
+    private data class DownloadProbe(val contentLength: Long, val supportsRanges: Boolean)
 
     private fun failure(message: String): Result {
         return Result.failure(

@@ -94,8 +94,8 @@ void LlamaGenerationSession::init(llama_model *model, const struct common_chat_t
     const int cpu_count = std::max(1, (int) sysconf(_SC_NPROCESSORS_ONLN));
     int n_threads = cpu_count <= 4
                     ? cpu_count
-                    : std::min(8, cpu_count - 1);
-    LOGi("Using %d threads", n_threads);
+                    : std::min(10, std::max(4, cpu_count - 1));
+    LOGi("Using %d threads from %d online cores", n_threads, cpu_count);
 
     int n_ctx_train = llama_model_n_ctx_train(model);
     int n_ctx = std::min(params.n_ctx, n_ctx_train);
